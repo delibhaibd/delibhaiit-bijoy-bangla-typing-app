@@ -422,20 +422,20 @@ export default function TypingBoard() {
                                     <span className="stat-label">স্ট্যাটাস</span>
                                     <span className="stat-value">
                                         {(() => {
-                                            const PAGE_SIZE = 14;
+                                            const PAGE_SIZE = currentCategoryId === 'practice' ? lessonData.length : 14;
                                             const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
                                             const effectiveIndex = hasError ? errorIndex : currentIndex;
                                             const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
-                                            return `পেজ ${currentPage}/${totalPages}`;
+                                            return currentCategoryId === 'practice' ? `বাক্য অনুশীলন` : `পেজ ${currentPage}/${totalPages}`;
                                         })()}
                                     </span>
                                 </div>
                             )}
                         </div>
 
-                        <div className="text-display" key={Math.floor((hasError ? errorIndex : currentIndex) / 14)}>
+                        <div className={`text-display ${currentCategoryId === 'practice' ? 'practice-mode' : ''}`} key={Math.floor((hasError ? errorIndex : currentIndex) / (currentCategoryId === 'practice' ? lessonData.length : 14))}>
                             {(() => {
-                                const PAGE_SIZE = 14;
+                                const PAGE_SIZE = currentCategoryId === 'practice' ? lessonData.length : 14;
                                 const effectiveIndex = hasError ? errorIndex : currentIndex;
                                 const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
                                 const startIndex = pageIndex * PAGE_SIZE;
@@ -458,7 +458,7 @@ export default function TypingBoard() {
                                     if (actualIndex === wrongIndex) className += ' wrong';
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                    const displayChar = item.bn === ' ' ? '⎵' : item.bn;
+                                    const displayChar = item.bn === ' ' ? '\u00A0' : item.bn;
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
