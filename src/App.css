@@ -705,8 +705,8 @@ main {
   background: linear-gradient(90deg, 
     #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
   background-size: 200% 100%;
-  animation: rgb-wave 4s linear infinite;
-  opacity: 0.15; /* Subtle underglow for the whole board */
+  animation: rgb-wave 8s linear infinite;
+  opacity: 0.08; /* Much softer underglow for the whole board */
   z-index: -1;
   pointer-events: none;
 }
@@ -806,34 +806,28 @@ main {
   border-top-color: #d0d0d0 !important;
 }
 
-/* Intense RGB glow when active */
+/* Subtle RGB underglow when active */
 .key-active::after {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -2px;
   background: linear-gradient(90deg, 
     #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
   background-size: 200% 100%;
-  animation: rgb-wave 2s linear infinite;
+  animation: rgb-wave 3s linear infinite;
   border-radius: 10px;
   z-index: -1;
-  filter: blur(8px);
-  opacity: 0.8;
+  filter: blur(6px);
+  opacity: 0.5; /* Made it more subtle */
 }
 
-/* Make the active text glow with RGB as well */
+/* Normal text, no RGB on the text itself */
 .key-active span {
-  background: linear-gradient(90deg, 
-    #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-  background-size: 200% 100%;
-  animation: rgb-wave 2s linear infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 15px rgba(255,255,255,0.3);
+  text-shadow: 0 0 10px rgba(255,255,255,0.2);
 }
 
 [data-theme='light'] .key-active span {
-  text-shadow: 0 0 8px rgba(0,0,0,0.2);
+  text-shadow: 0 0 4px rgba(0,0,0,0.1);
 }
 
 /* Error Key */
