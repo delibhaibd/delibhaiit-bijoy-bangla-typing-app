@@ -476,7 +476,7 @@ export default function TypingBoard() {
                                     return (
                                         <div key={actualIndex} className={className}>
                                             <span className="bn-char">{displayChar}</span>
-                                            {!item.isRandom && (
+                                            {!item.isRandom && currentCategoryId !== 'practice' && (
                                                 <span className="qwerty-hint">{displayHint}</span>
                                             )}
                                         </div>
@@ -489,7 +489,7 @@ export default function TypingBoard() {
                             <VirtualKeyboard 
                                 expectedKey={currentExpectedKey} 
                                 wrongKey={hasError ? currentKey : null}
-                                isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts'}
+                                isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
                                 feedbackKey={feedbackKey}
                             />
                         </div>
