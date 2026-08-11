@@ -447,7 +447,7 @@ export default function TypingBoard() {
                             <VirtualKeyboard 
                                 expectedKey={currentExpectedKey} 
                                 wrongKey={hasError ? currentKey : null}
-                                isRandomMode={expectedItem?.isRandom}
+                                isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts'}
                                 feedbackKey={feedbackKey}
                             />
                         </div>
