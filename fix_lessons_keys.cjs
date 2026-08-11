@@ -38,15 +38,15 @@ function convertCluster(cluster) {
             postMods.push(charMap[c]);
         } else if (c === 'য়' && j > 0 && clusterChars[j-1] !== '্') {
             coreKeys.push(charMap[c]);
-        } else if (c === 'য' && j > 0 && clusterChars[j-1] === '্') {
+        } else if (c === 'য' && j > 0 && clusterChars[j-1] === '্' && !(j === 2 && clusterChars[0] === 'র' && clusterChars[1] === '্')) {
             coreKeys.pop(); // remove 'g'
             coreKeys.push('Z');
-        } else if (c === 'র' && j > 0 && clusterChars[j-1] === '্') {
+        } else if (c === 'র' && j > 0 && clusterChars[j-1] === '্' && !(j === 2 && clusterChars[0] === 'র' && clusterChars[1] === '্')) {
             coreKeys.pop(); // remove 'g'
             coreKeys.push('z');
         } else if (c === '্' && j < clusterChars.length - 1 && clusterChars[j+1] === 'র') {
              coreKeys.push('g');
-        } else if (c === 'র' && j < clusterChars.length - 1 && clusterChars[j+1] === '্') {
+        } else if (c === 'র' && j === 0 && j < clusterChars.length - 1 && clusterChars[j+1] === '্') {
             refMods.push('A');
             j++; // skip hasanta
         } else {
