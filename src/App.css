@@ -1246,19 +1246,38 @@ body[data-theme="light"] .form-group input {
     padding: 8px 12px;
   }
 
-  /* Keyboard Mobile Scroll */
+  /* Keyboard Mobile Fit */
   .virtual-keyboard {
     width: 100%;
-    overflow-x: auto;
-    padding: 1rem 0.5rem;
-    border-radius: 12px;
-    -webkit-overflow-scrolling: touch;
+    padding: 0.5rem;
+    border-radius: 8px;
+    gap: 3px;
   }
 
   .keyboard-row {
-    min-width: 800px;
-    justify-content: flex-start;
+    width: 100%;
+    justify-content: space-between;
+    gap: 2px;
   }
+  
+  .key {
+    height: 38px;
+    font-size: 0.8rem;
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    width: auto;
+    border-radius: 4px;
+    border-bottom-width: 1px;
+  }
+
+  .flex-1 { flex: 1; width: auto; }
+  .flex-1-25 { flex: 1.25; width: auto; }
+  .flex-1-5 { flex: 1.5; width: auto; }
+  .flex-1-75 { flex: 1.75; width: auto; }
+  .flex-2 { flex: 2; width: auto; }
+  .flex-2-25 { flex: 2.25; width: auto; }
+  .flex-6 { flex: 6; width: auto; }
   
   /* Hide hands on mobile as they block view and scroll */
   .hands-container {
@@ -1316,12 +1335,8 @@ body[data-theme="light"] .form-group input {
 }
 
 @media (max-width: 480px) {
-  .keyboard-row {
-    min-width: 700px; /* Compress keyboard slightly more for tiny screens */
-  }
-  
   .key {
-    height: 45px;
-    font-size: 0.85rem;
+    height: 32px;
+    font-size: 0.65rem;
   }
 }
