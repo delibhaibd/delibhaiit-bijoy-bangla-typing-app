@@ -1285,6 +1285,34 @@ body[data-theme="light"] .form-group input {
     width: 100%;
     justify-content: center;
   }
+
+  /* Sub Lesson List Mobile Fixes */
+  .sub-lesson-list {
+    padding: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+  }
+
+  .lesson-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .lesson-card-title-area {
+    width: 100%;
+  }
+
+  .lesson-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .lesson-stats {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
