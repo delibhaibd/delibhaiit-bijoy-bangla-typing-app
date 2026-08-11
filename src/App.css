@@ -341,6 +341,15 @@ main {
   word-spacing: normal;
 }
 
+/* Practice mode needs smaller boxes to fit long sentences */
+.practice-mode .char-box {
+  padding: 8px 12px;
+}
+
+.practice-mode .bn-char {
+  font-size: 1.6rem;
+}
+
 .char-box.error-box {
   background: rgba(239, 68, 68, 0.15);
   border-color: var(--danger);

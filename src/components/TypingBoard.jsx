@@ -206,8 +206,11 @@ export default function TypingBoard() {
             if (e.key === 'Backspace') {
                 if (hasError) {
                     setHasError(false);
-                    setCurrentIndex(errorIndex);
-                    setSubIndex(0); // Restart the current multi-key character
+                    setErrorIndex(-1);
+                    // Do NOT reset subIndex. The user just re-types the current key.
+                } else if (subIndex > 0) {
+                    // Allow undoing correct keys within the current cluster
+                    setSubIndex(prev => prev - 1);
                 }
                 return;
             }
@@ -249,8 +252,7 @@ export default function TypingBoard() {
                 playErrorSound();
                 setHasError(true);
                 setErrorIndex(currentIndex);
-                setCurrentIndex(prev => prev + 1); // Advance cursor
-                setSubIndex(0);
+                // Do NOT advance currentIndex or reset subIndex on error!
                 
                 setFeedbackKey({ key: e.key, status: 'wrong' });
                 setTimeout(() => setFeedbackKey(null), 200);
@@ -463,10 +465,19 @@ export default function TypingBoard() {
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
-                                    let style = {};
+                                    let boxStyle = {};
+                                    let charStyle = {};
                                     if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
-                                        const pct = (subIndex / expectedKeys.length) * 100;
-                                        style.background = `linear-gradient(to right, rgba(16, 185, 129, 0.4) ${pct}%, rgba(99, 102, 241, 0.3) ${pct}%)`;
+                                        if (!hasError) {
+                                            const pct = (subIndex / expectedKeys.length) * 100;
+                                            charStyle = {
+                                                backgroundImage: `linear-gradient(to right, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent',
+                                                backgroundClip: 'text',
+                                                color: 'transparent'
+                                            };
+                                        }
                                     }
 
                                     const displayHint = expectedKeys.map((k, idx) => {
@@ -480,10 +491,10 @@ export default function TypingBoard() {
                                         );
                                     });
 
-                                    return (
-                                        <div key={actualIndex} className={className} style={style}>
-                                            <span className="bn-char">{displayChar}</span>
-                                            {!item.isRandom && currentCategoryId !== 'practice' && (
+                                     return (
+                                        <div key={actualIndex} className={className} style={boxStyle}>
+                                            <span className="bn-char" style={charStyle}>{displayChar}</span>
+                                            {!item.isRandom && !isPracticeMode && (
                                                 <span className="qwerty-hint">{displayHint}</span>
                                             )}
                                         </div>
