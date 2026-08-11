@@ -52,7 +52,23 @@ export default function TypingBoard() {
 
     const currentCategory = categories.find(c => c.id === currentCategoryId);
     const currentSubLesson = currentCategory?.subLessons.find(sl => sl.id === currentSubLessonId);
-    const lessonData = currentSubLesson ? currentSubLesson.sequence : [];
+    const rawLessonData = currentSubLesson ? currentSubLesson.sequence : [];
+
+    const lessonData = React.useMemo(() => {
+        if (currentCategoryId !== 'conjuncts') return rawLessonData;
+
+        const counts = {};
+        return rawLessonData.map(item => {
+            if (item.bn === ' ') return item;
+            counts[item.bn] = (counts[item.bn] || 0) + 1;
+            
+            if (counts[item.bn] <= 2) {
+                return { ...item, isRandom: false };
+            } else {
+                return { ...item, isRandom: true };
+            }
+        });
+    }, [rawLessonData, currentCategoryId]);
 
     // Save completed lessons
     useEffect(() => {
