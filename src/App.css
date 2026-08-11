@@ -1475,7 +1475,7 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 
-.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; }
+.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; white-space: pre-wrap; word-break: break-word; }
 .text-display.practice-mode .char-box { display: inline; padding: 0; border: none; background: transparent; border-radius: 0; margin: 0; box-shadow: none; }
 .text-display.practice-mode .char-box.active { background: rgba(99, 102, 241, 0.3); transform: none; box-shadow: none; border-bottom: 2px solid var(--primary); }
 .text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }

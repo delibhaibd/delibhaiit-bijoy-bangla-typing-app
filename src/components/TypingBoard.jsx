@@ -458,7 +458,8 @@ export default function TypingBoard() {
                                     if (actualIndex === wrongIndex) className += ' wrong';
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                    const displayChar = item.bn === ' ' ? '\u00A0' : item.bn;
+                                    const isPracticeMode = currentCategoryId === 'practice';
+                                    const displayChar = item.bn === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : item.bn;
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
