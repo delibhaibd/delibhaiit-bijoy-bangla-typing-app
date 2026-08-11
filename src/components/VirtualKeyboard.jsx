@@ -38,10 +38,10 @@ const KEYBOARD_ROWS = [
     ]
 ];
 
-export default function VirtualKeyboard({ expectedKey, wrongKey }) {
-    let targetKey = expectedKey;
+export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey }) {
     let requiresShift = false;
-    
+    let targetKey = expectedKey;
+
     if (targetKey && targetKey.length === 1 && targetKey >= 'A' && targetKey <= 'Z') {
         requiresShift = true;
         targetKey = targetKey.toLowerCase();
@@ -71,6 +71,12 @@ export default function VirtualKeyboard({ expectedKey, wrongKey }) {
     const isLeftHandKey = targetFinger && targetFinger.startsWith('l-');
 
     const isActive = (key) => {
+        if (isRandomMode) {
+            if (feedbackKey && feedbackKey.status === 'correct' && feedbackKey.key.toLowerCase() === key.toLowerCase()) return true;
+            if (feedbackKey && feedbackKey.status === 'correct' && feedbackKey.key === ' ' && key === ' ') return true;
+            return false;
+        }
+
         if (!expectedKey) return false;
         
         if (requiresShift) {
@@ -85,6 +91,12 @@ export default function VirtualKeyboard({ expectedKey, wrongKey }) {
     };
 
     const isError = (key) => {
+        if (isRandomMode) {
+            if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key.toLowerCase() === key.toLowerCase()) return true;
+            if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key === ' ' && key === ' ') return true;
+            return false;
+        }
+
         if (!normalizedWrongKey) return false;
         if (key.toLowerCase() === normalizedWrongKey.toLowerCase()) return true;
         if (wrongKey === ' ' && key === ' ') return true;

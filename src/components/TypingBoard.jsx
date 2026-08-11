@@ -43,6 +43,7 @@ export default function TypingBoard() {
     const [correctKeystrokes, setCorrectKeystrokes] = useState(0);
     const [hasError, setHasError] = useState(false);
     const [errorIndex, setErrorIndex] = useState(-1);
+    const [feedbackKey, setFeedbackKey] = useState(null);
     const [completed, setCompleted] = useState(false);
     const [timeSpent, setTimeSpent] = useState('0:00');
     const [timeLeft, setTimeLeft] = useState(60);
@@ -213,6 +214,9 @@ export default function TypingBoard() {
                 playCorrectSound();
                 setCorrectKeystrokes(prev => prev + 1);
                 
+                setFeedbackKey({ key: e.key, status: 'correct' });
+                setTimeout(() => setFeedbackKey(null), 200);
+                
                 if (subIndex + 1 < expectedKeys.length) {
                     setSubIndex(prev => prev + 1);
                     setWrongIndex(-1);
@@ -231,6 +235,9 @@ export default function TypingBoard() {
                 setErrorIndex(currentIndex);
                 setCurrentIndex(prev => prev + 1); // Advance cursor
                 setSubIndex(0);
+                
+                setFeedbackKey({ key: e.key, status: 'wrong' });
+                setTimeout(() => setFeedbackKey(null), 200);
             }
         };
 
@@ -440,6 +447,8 @@ export default function TypingBoard() {
                             <VirtualKeyboard 
                                 expectedKey={currentExpectedKey} 
                                 wrongKey={hasError ? currentKey : null}
+                                isRandomMode={expectedItem?.isRandom}
+                                feedbackKey={feedbackKey}
                             />
                         </div>
 
