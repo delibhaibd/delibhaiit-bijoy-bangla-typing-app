@@ -112,7 +112,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                             key={btnIndex} 
                             className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
                         >
-                            {btn.label}
+                            <span>{btn.label}</span>
                         </div>
                     ))}
                 </div>
