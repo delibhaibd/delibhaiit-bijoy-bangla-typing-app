@@ -255,6 +255,25 @@ export default function TypingBoard() {
         return key;
     };
 
+    const getBnHint = (key) => {
+        const bijoyToBanglaMap = {
+            'j': 'ক', 'J': 'খ', 'o': 'গ', 'O': 'ঘ', 'q': 'ঙ',
+            'y': 'চ', 'Y': 'ছ', 'u': 'জ', 'U': 'ঝ', 'I': 'ঞ',
+            't': 'ট', 'T': 'ঠ', 'e': 'ড', 'E': 'ঢ', 'B': 'ণ',
+            'k': 'ত', 'K': 'থ', 'l': 'দ', 'L': 'ধ', 'b': 'ন',
+            'r': 'প', 'R': 'ফ', 'h': 'ব', 'H': 'ভ', 'm': 'ম',
+            'w': 'য', 'v': 'র', 'V': 'ল', 'M': 'শ', 'N': 'ষ',
+            'n': 'স', 'i': 'হ', 'p': 'ড়', 'P': 'ঢ়', 'W': 'য়',
+            '\\': 'ৎ', 'Q': 'ং', '|': 'ঃ', '&': 'ঁ',
+            'g': '্', 'G': '।',
+            'F': 'অ', 'f': 'া', 'd': 'ি', 'D': 'ী',
+            's': 'ু', 'S': 'ূ', 'a': 'ৃ',
+            'c': 'ে', 'C': 'ৈ', 'x': 'ও', 'X': 'ৗ',
+            'Z': '্য', 'z': '্র'
+        };
+        return bijoyToBanglaMap[key] || key;
+    };
+
     const expectedItem = lessonData[currentIndex];
     const expectedKeys = expectedItem ? (expectedItem.keys || [expectedItem.key]) : [];
     let currentExpectedKey = expectedKeys[subIndex];
@@ -425,12 +444,15 @@ export default function TypingBoard() {
 
                                     const displayChar = item.bn === ' ' ? '⎵' : item.bn;
                                     const expectedKeys = item.keys || [item.key];
+                                    const isConjunct = currentCategoryId === 'conjuncts';
+                                    
                                     const displayHint = expectedKeys.map((k, idx) => {
                                         const isPressed = actualIndex === currentIndex && idx < subIndex;
+                                        const hintText = isConjunct ? getBnHint(k) : getHint(k);
                                         return (
                                             <React.Fragment key={idx}>
-                                                <span className={isPressed ? 'pressed-key' : ''}>{getHint(k)}</span>
-                                                {idx < expectedKeys.length - 1 && ' + '}
+                                                <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
+                                                {idx < expectedKeys.length - 1 && (isConjunct ? ' ' : ' + ')}
                                             </React.Fragment>
                                         );
                                     });
