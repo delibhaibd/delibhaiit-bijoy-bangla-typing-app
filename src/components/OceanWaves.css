@@ -1,0 +1,72 @@
+.ocean {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15vh; /* Perfect height for the waves at the bottom */
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.waves {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 15vh;
+  min-height: 80px;
+  max-height: 150px;
+}
+
+/* 
+  Parallax smooth animation for the gentle wave paths. 
+  This creates a highly realistic, soft, and buttery fluid effect.
+*/
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+}
+
+/* Beautiful soft Cyan / Ocean Blue tones for Dark Theme - Low Opacity */
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 11s;
+  fill: rgba(56, 189, 248, 0.05); /* Soft cyan */
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -4s;
+  animation-duration: 14s;
+  fill: rgba(56, 189, 248, 0.1);
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -6s;
+  animation-duration: 17s;
+  fill: rgba(56, 189, 248, 0.15);
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -8s;
+  animation-duration: 22s;
+  fill: rgba(56, 189, 248, 0.2);
+}
+
+/* Vibrant tropical Blue tones for Light Theme - Low Opacity */
+body[data-theme="light"] .parallax > use:nth-child(1) { 
+  fill: rgba(14, 165, 233, 0.08); 
+}
+body[data-theme="light"] .parallax > use:nth-child(2) { 
+  fill: rgba(14, 165, 233, 0.15); 
+}
+body[data-theme="light"] .parallax > use:nth-child(3) { 
+  fill: rgba(14, 165, 233, 0.2); 
+}
+body[data-theme="light"] .parallax > use:nth-child(4) { 
+  fill: rgba(14, 165, 233, 0.3); 
+}
+
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
+}

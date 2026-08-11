@@ -1,0 +1,167 @@
+.sound-settings-container {
+    position: relative;
+    display: inline-block;
+    z-index: 100;
+}
+
+.sound-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sound-toggle-btn {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sound-toggle-btn:hover {
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+}
+
+.sound-settings-btn {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sound-settings-btn:hover {
+    background: var(--surface-hover);
+    transform: translateY(-2px);
+}
+
+.sound-popover {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    width: 240px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: popIn 0.2s ease-out;
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.popover-header {
+    background: var(--primary);
+    color: white;
+    padding: 10px 15px;
+}
+
+.popover-header h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.popover-content {
+    padding: 15px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.setting-row:last-child {
+    margin-bottom: 0;
+}
+
+.volume-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.volume-slider {
+    width: 100%;
+    cursor: pointer;
+}
+
+/* Toggle Switch CSS */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+body[data-theme="dark"] .slider {
+    background-color: #555;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

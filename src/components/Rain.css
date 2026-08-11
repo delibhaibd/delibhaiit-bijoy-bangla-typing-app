@@ -1,0 +1,35 @@
+.rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Behind text, in front of background */
+    pointer-events: none;
+}
+
+.raindrop {
+    position: absolute;
+    top: -50px;
+    width: 1px; /* Very thin for a delicate drizzle */
+    height: 25px; /* Shorter drops for drizzle */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
+    animation: fall linear infinite;
+    will-change: transform;
+}
+
+/* Make drops darker in light mode to be visible */
+[data-theme='light'] .raindrop {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0vh) translateX(0);
+    }
+    100% {
+        /* Slight angle for a gentle breeze */
+        transform: translateY(120vh) translateX(-15px);
+    }
+}

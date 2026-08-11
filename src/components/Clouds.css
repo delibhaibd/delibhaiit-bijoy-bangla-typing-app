@@ -1,0 +1,84 @@
+.clouds-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    overflow: hidden;
+    z-index: 1; /* Above background but behind everything else */
+    pointer-events: none;
+}
+
+.cloud-wrapper {
+    position: absolute;
+    color: #ffffff; /* Sets the SVG fill */
+    opacity: 0.12; /* Crisp but subtle */
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.15)); /* Premium depth */
+    animation: floatCloud linear infinite;
+    will-change: transform;
+}
+
+.cloud-wrapper svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Cloud 1 */
+.cloud-1 {
+    width: 350px;
+    top: 5%;
+    left: -400px;
+    animation-duration: 120s;
+    animation-delay: 0s;
+}
+
+/* Cloud 2 */
+.cloud-2 {
+    width: 250px;
+    top: 20%;
+    left: -300px;
+    animation-duration: 150s;
+    animation-delay: -50s;
+    opacity: 0.08;
+    /* Custom scale variable for animation if needed, but we can just use normal sizing */
+}
+
+/* Cloud 3 */
+.cloud-3 {
+    width: 450px;
+    top: 10%;
+    left: -500px;
+    animation-duration: 180s;
+    animation-delay: -100s;
+    opacity: 0.1;
+}
+
+/* Cloud 4 */
+.cloud-4 {
+    width: 200px;
+    top: 35%;
+    left: -250px;
+    animation-duration: 140s;
+    animation-delay: -30s;
+    opacity: 0.09;
+}
+
+/* Cloud 5 */
+.cloud-5 {
+    width: 550px;
+    top: 25%;
+    left: -600px;
+    animation-duration: 200s;
+    animation-delay: -150s;
+    opacity: 0.06;
+}
+
+@keyframes floatCloud {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(130vw);
+    }
+}
