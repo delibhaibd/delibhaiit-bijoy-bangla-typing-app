@@ -1420,12 +1420,13 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 .text-display.practice-mode .char-box {
-  padding: 0 1px;
+  padding: 0;
+  margin: 0;
   background: transparent;
   border: none;
   border-radius: 2px;
   box-shadow: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
 }
