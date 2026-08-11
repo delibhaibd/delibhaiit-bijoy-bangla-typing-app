@@ -463,6 +463,12 @@ export default function TypingBoard() {
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
+                                    let style = {};
+                                    if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
+                                        const pct = (subIndex / expectedKeys.length) * 100;
+                                        style.background = `linear-gradient(to right, rgba(16, 185, 129, 0.4) ${pct}%, rgba(99, 102, 241, 0.3) ${pct}%)`;
+                                    }
+
                                     const displayHint = expectedKeys.map((k, idx) => {
                                         const isPressed = actualIndex === currentIndex && idx < subIndex;
                                         const hintText = isConjunct ? getBnHint(k) : getHint(k);
@@ -475,7 +481,7 @@ export default function TypingBoard() {
                                     });
 
                                     return (
-                                        <div key={actualIndex} className={className}>
+                                        <div key={actualIndex} className={className} style={style}>
                                             <span className="bn-char">{displayChar}</span>
                                             {!item.isRandom && currentCategoryId !== 'practice' && (
                                                 <span className="qwerty-hint">{displayHint}</span>
