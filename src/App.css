@@ -705,7 +705,7 @@ main {
     #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff0000);
   background-size: 200% 100%;
   animation: rgb-wave 6s linear infinite;
-  opacity: 0.9;
+  opacity: 0.4; /* Reduced brightness */
   filter: blur(10px);
   z-index: 0;
   pointer-events: none;
