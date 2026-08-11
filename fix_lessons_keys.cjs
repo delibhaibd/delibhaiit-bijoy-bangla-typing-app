@@ -20,6 +20,7 @@ function convertCluster(cluster) {
     let preMods = [];
     let postMods = [];
     let coreKeys = [];
+    let refMods = [];
     
     let j = 0;
     let clusterChars = [...cluster];
@@ -46,7 +47,7 @@ function convertCluster(cluster) {
         } else if (c === '্' && j < clusterChars.length - 1 && clusterChars[j+1] === 'র') {
              coreKeys.push('g');
         } else if (c === 'র' && j < clusterChars.length - 1 && clusterChars[j+1] === '্') {
-            preMods.push('A');
+            refMods.push('A');
             j++; // skip hasanta
         } else {
             let mapped = charMap[c];
@@ -61,7 +62,7 @@ function convertCluster(cluster) {
         j++;
     }
     
-    return [...preMods, ...coreKeys, ...postMods];
+    return [...preMods, ...coreKeys, ...refMods, ...postMods];
 }
 
 // Regex to find { keys: [...], bn: "..." } or bn: '...'
