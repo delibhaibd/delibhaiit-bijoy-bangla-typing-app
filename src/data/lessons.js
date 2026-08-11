@@ -49,9 +49,9 @@ export const categories = [
         id: 'practice',
         title: 'অনুশীলন কাজ',
         subLessons: [
-            { id: 'prac-1', title: 'আমি, আমার, নাম', sequence: generateBlockSequence([{ keys: ['g', 'f', 'd', 'm'], bn: 'আিম' }, { keys: ['g', 'f', 'm', 'f', 'v'], bn: 'আমার' }, { keys: ['b', 'f', 'm'], bn: 'নাম' }], 15, 15) },
-            { id: 'prac-2', title: 'কাজ, নিয়ম, কেন', sequence: generateBlockSequence([{ keys: ['j', 'f', 'u'], bn: 'কাজ' }, { keys: ['d', 'b', 'w', 'm'], bn: 'িনয়ম' }, { keys: ['c', 'j', 'b'], bn: 'েকন' }], 15, 15) },
-            { id: 'prac-3', title: 'দেশ, বাংলা, রূঢ়া', sequence: generateBlockSequence([{ keys: ['c', 'l', 'M'], bn: 'েদশ' }, { keys: ['h', 'f', 'Q', 'V', 'f'], bn: 'বাংলা' }, { keys: ['v', 'S', 'P', 'f'], bn: 'রূঢ়া' }], 15, 15) }
+            { id: 'prac-1', title: 'আমি, আমার, নাম', sequence: generateBlockSequence([{ keys: ['g', 'f', 'd', 'm'], bn: 'আমি' }, { keys: ['g', 'f', 'm', 'f', 'v'], bn: 'আমার' }, { keys: ['b', 'f', 'm'], bn: 'নাম' }], 15, 15) },
+            { id: 'prac-2', title: 'কাজ, নিয়ম, কেন', sequence: generateBlockSequence([{ keys: ['j', 'f', 'u'], bn: 'কাজ' }, { keys: ['d', 'b', 'w', 'm'], bn: 'নিয়ম' }, { keys: ['c', 'j', 'b'], bn: 'কেন' }], 15, 15) },
+            { id: 'prac-3', title: 'দেশ, বাংলা, রূঢ়া', sequence: generateBlockSequence([{ keys: ['c', 'l', 'M'], bn: 'দেশ' }, { keys: ['h', 'f', 'Q', 'V', 'f'], bn: 'বাংলা' }, { keys: ['v', 'S', 'P', 'f'], bn: 'রূঢ়া' }], 15, 15) }
         ]
     }
 ];
