@@ -334,9 +334,11 @@ main {
 }
 
 .bn-char {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: normal;
-  font-family: 'Tiro Bangla', serif;
+  font-family: 'SolaimanLipi', 'Siyam Rupali', 'Vrinda', 'Tiro Bangla', serif;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 
 .char-box.error-box {
@@ -1407,13 +1409,10 @@ body[data-theme="light"] .back-btn:hover {
 
 /* Practice Mode Continuous Typing Styles */
 .text-display.practice-mode {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-  gap: 0px;
-  line-height: 1.8;
-  padding: 20px;
+  display: block;
+  text-align: left;
+  line-height: 2.2;
+  padding: 20px 30px;
   background: rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   border: 1px solid var(--glass-border);
