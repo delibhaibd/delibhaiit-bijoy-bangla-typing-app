@@ -285,6 +285,7 @@ export default function TypingBoard() {
                     ))}
                 </div>
                 
+                {/* 
                 <div className="sidebar-auth-section" style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
                     {user ? (
                         <div className="user-profile">
@@ -297,6 +298,7 @@ export default function TypingBoard() {
                         </button>
                     )}
                 </div>
+                */}
             </aside>
             )}
             
