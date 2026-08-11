@@ -1473,3 +1473,12 @@ body[data-theme="light"] .back-btn:hover {
   color: #ffffff;
   opacity: 1;
 }
+
+
+.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; }
+.text-display.practice-mode .char-box { display: inline; padding: 0; border: none; background: transparent; border-radius: 0; margin: 0; box-shadow: none; }
+.text-display.practice-mode .char-box.active { background: rgba(99, 102, 241, 0.3); transform: none; box-shadow: none; border-bottom: 2px solid var(--primary); }
+.text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }
+.text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.3); border-bottom: 2px solid var(--danger); }
+.text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.3); }
+.text-display.practice-mode .bn-char { font-size: 2.2rem; }
