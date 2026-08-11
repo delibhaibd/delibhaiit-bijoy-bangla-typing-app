@@ -270,7 +270,8 @@ export default function TypingBoard() {
 
     return (
         <div className="typing-layout-wrapper">
-            <aside className="sidebar">
+            {!currentSubLessonId && (
+                <aside className="sidebar">
                 <div className="sidebar-title">মেনু</div>
                 <div className="sidebar-buttons">
                     {categories.map(cat => (
@@ -297,6 +298,7 @@ export default function TypingBoard() {
                     )}
                 </div>
             </aside>
+            )}
             
             <div className="typing-board-container">
                 {!currentSubLessonId ? (
