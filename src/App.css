@@ -341,6 +341,11 @@ main {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+[data-theme='light'] .char-box {
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+
 .bn-char {
   font-size: 2.2rem;
   font-weight: normal;
