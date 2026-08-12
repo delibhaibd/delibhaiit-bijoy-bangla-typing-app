@@ -1692,3 +1692,49 @@ body[data-theme="light"] .back-btn:hover {
 [data-theme='light'] .text-display.practice-mode .char-box.wrong .bn-char {
   color: #b91c1c;
 }
+
+/* Light mode overrides for completion modal */
+[data-theme='light'] .completion-modal-overlay {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme='light'] .completion-modal-premium {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1), 0 0 40px rgba(99, 102, 241, 0.05);
+}
+
+[data-theme='light'] .completion-modal-premium h3 {
+  background: -webkit-linear-gradient(45deg, #2563eb, #9333ea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme='light'] .premium-stars-container .star {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .premium-stat-card {
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .premium-stat-card:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .btn-secondary {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--text-main);
+}
+
+[data-theme='light'] .btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='light'] .shortcut-hint {
+  background: rgba(0, 0, 0, 0.08);
+  color: var(--text-main);
+}
