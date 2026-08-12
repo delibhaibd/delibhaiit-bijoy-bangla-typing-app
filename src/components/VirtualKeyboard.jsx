@@ -3,30 +3,30 @@ import { getFingerForKey } from '../utils/fingerMapping';
 
 const KEYBOARD_ROWS = [
     [
-        { key: '`', label: '`' }, { key: '1', label: '1' }, { key: '2', label: '2' }, { key: '3', label: '3' },
-        { key: '4', label: '4' }, { key: '5', label: '5' }, { key: '6', label: '6' }, { key: '7', label: '7' },
-        { key: '8', label: '8' }, { key: '9', label: '9' }, { key: '0', label: '0' }, { key: '-', label: '-' },
-        { key: '=', label: '=' }, { key: 'Backspace', label: 'Bksp', width: 'flex-1-5' }
+        { key: '`', label: '`', ar: 'ذ', arShift: 'ّ' }, { key: '1', label: '1', ar: '١', arShift: '!' }, { key: '2', label: '2', ar: '٢', arShift: '@' }, { key: '3', label: '3', ar: '٣', arShift: '#' },
+        { key: '4', label: '4', ar: '٤', arShift: '$' }, { key: '5', label: '5', ar: '٥', arShift: '%' }, { key: '6', label: '6', ar: '٦', arShift: '^' }, { key: '7', label: '7', ar: '٧', arShift: '&' },
+        { key: '8', label: '8', ar: '٨', arShift: '*' }, { key: '9', label: '9', ar: '٩', arShift: ')' }, { key: '0', label: '0', ar: '٠', arShift: '(' }, { key: '-', label: '-', ar: '-', arShift: '_' },
+        { key: '=', label: '=', ar: '=', arShift: '+' }, { key: 'Backspace', label: 'Bksp', width: 'flex-1-5' }
     ],
     [
         { key: 'Tab', label: 'Tab', width: 'flex-1-5' },
-        { key: 'q', label: 'Q' }, { key: 'w', label: 'W' }, { key: 'e', label: 'E' }, { key: 'r', label: 'R' },
-        { key: 't', label: 'T' }, { key: 'y', label: 'Y' }, { key: 'u', label: 'U' }, { key: 'i', label: 'I' },
-        { key: 'o', label: 'O' }, { key: 'p', label: 'P' }, { key: '[', label: '[' }, { key: ']', label: ']' },
-        { key: '\\', label: '\\', width: 'flex-1' }
+        { key: 'q', label: 'Q', ar: 'ض', arShift: 'َ' }, { key: 'w', label: 'W', ar: 'ص', arShift: 'ً' }, { key: 'e', label: 'E', ar: 'ث', arShift: 'ُ' }, { key: 'r', label: 'R', ar: 'ق', arShift: 'ٌ' },
+        { key: 't', label: 'T', ar: 'ف', arShift: 'لإ' }, { key: 'y', label: 'Y', ar: 'غ', arShift: 'إ' }, { key: 'u', label: 'U', ar: 'ع', arShift: '`' }, { key: 'i', label: 'I', ar: 'ه', arShift: '÷' },
+        { key: 'o', label: 'O', ar: 'خ', arShift: '×' }, { key: 'p', label: 'P', ar: 'ح', arShift: '؛' }, { key: '[', label: '[', ar: 'ج', arShift: '<' }, { key: ']', label: ']', ar: 'د', arShift: '>' },
+        { key: '\\', label: '\\', ar: '\\', arShift: '|', width: 'flex-1' }
     ],
     [
         { key: 'CapsLock', label: 'Caps', width: 'flex-1-75' },
-        { key: 'a', label: 'A' }, { key: 's', label: 'S' }, { key: 'd', label: 'D' }, { key: 'f', label: 'F' },
-        { key: 'g', label: 'G' }, { key: 'h', label: 'H' }, { key: 'j', label: 'J' }, { key: 'k', label: 'K' },
-        { key: 'l', label: 'L' }, { key: ';', label: ';' }, { key: "'", label: "'" },
+        { key: 'a', label: 'A', ar: 'ش', arShift: 'ِ' }, { key: 's', label: 'S', ar: 'س', arShift: 'ٍ' }, { key: 'd', label: 'D', ar: 'ي', arShift: ']' }, { key: 'f', label: 'F', ar: 'ب', arShift: '[' },
+        { key: 'g', label: 'G', ar: 'ل', arShift: 'لأ' }, { key: 'h', label: 'H', ar: 'ا', arShift: 'أ' }, { key: 'j', label: 'J', ar: 'ت', arShift: 'ـ' }, { key: 'k', label: 'K', ar: 'ن', arShift: '،' },
+        { key: 'l', label: 'L', ar: 'م', arShift: '/' }, { key: ';', label: ';', ar: 'ك', arShift: ':' }, { key: "'", label: "'", ar: 'ط', arShift: '"' },
         { key: 'Enter', label: 'Enter', width: 'flex-2' }
     ],
     [
         { key: 'LShift', label: 'Shift', width: 'flex-2-25' },
-        { key: 'z', label: 'Z' }, { key: 'x', label: 'X' }, { key: 'c', label: 'C' }, { key: 'v', label: 'V' },
-        { key: 'b', label: 'B' }, { key: 'n', label: 'N' }, { key: 'm', label: 'M' }, { key: ',', label: ',' },
-        { key: '.', label: '.' }, { key: '/', label: '/' },
+        { key: 'z', label: 'Z', ar: 'ظ', arShift: '~' }, { key: 'x', label: 'X', ar: 'ز', arShift: 'ْ' }, { key: 'c', label: 'C', ar: 'و', arShift: '}' }, { key: 'v', label: 'V', ar: 'ة', arShift: '{' },
+        { key: 'b', label: 'B', ar: 'ى', arShift: 'لآ' }, { key: 'n', label: 'N', ar: 'لا', arShift: 'آ' }, { key: 'm', label: 'M', ar: 'ر', arShift: '\'' }, { key: ',', label: ',', ar: 'ؤ', arShift: ',' },
+        { key: '.', label: '.', ar: 'ء', arShift: '.' }, { key: '/', label: '/', ar: 'ئ', arShift: '؟' },
         { key: 'RShift', label: 'Shift', width: 'flex-2-25' }
     ],
     [
@@ -38,7 +38,7 @@ const KEYBOARD_ROWS = [
     ]
 ];
 
-export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false }) {
+export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn' }) {
     let requiresShift = false;
     let targetKey = expectedKey;
 
@@ -149,7 +149,13 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                                     key={btnIndex} 
                                     className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
                                 >
-                                    <span>{btn.label}</span>
+                                    {typingMode === 'ar' && btn.ar ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
+                                        </div>
+                                    ) : (
+                                        <span>{btn.label}</span>
+                                    )}
                                 </div>
                             ))}
                         </div>

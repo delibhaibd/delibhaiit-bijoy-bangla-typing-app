@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { categories } from '../data/lessons';
 import { englishCategories } from '../data/englishLessons';
+import { arabicCategories } from '../data/arabicLessons';
 import { useSound } from '../hooks/useSound';
 import { getFingerForKey } from '../utils/fingerMapping';
 import VirtualKeyboard from './VirtualKeyboard';
@@ -13,7 +14,7 @@ export default function TypingBoard() {
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const [typingMode, setTypingMode] = useState('bn');
-    const activeCategories = typingMode === 'bn' ? categories : englishCategories;
+    const activeCategories = typingMode === 'bn' ? categories : (typingMode === 'ar' ? arabicCategories : englishCategories);
     const [currentCategoryId, setCurrentCategoryId] = useState(activeCategories[0].id);
     const [currentSubLessonId, setCurrentSubLessonId] = useState(null);
     const [completedLessons, setCompletedLessons] = useState({});
@@ -345,6 +346,27 @@ export default function TypingBoard() {
         return bijoyToBanglaMap[key] || key;
     };
 
+    const getArHint = (key) => {
+        const arMap = {
+            '`': 'ذ', '~': 'ّ', '1': '١', '!': '!', '2': '٢', '@': '@', '3': '٣', '#': '#',
+            '4': '٤', '$': '$', '5': '٥', '%': '%', '6': '٦', '^': '^', '7': '٧', '&': '&',
+            '8': '٨', '*': '*', '9': '٩', '(': '(', '0': '٠', ')': ')', '-': '-', '_': '_',
+            '=': '=', '+': '+',
+            'q': 'ض', 'Q': 'َ', 'w': 'ص', 'W': 'ً', 'e': 'ث', 'E': 'ُ', 'r': 'ق', 'R': 'ٌ',
+            't': 'ف', 'T': 'لإ', 'y': 'غ', 'Y': 'إ', 'u': 'ع', 'U': '`', 'i': 'ه', 'I': '÷',
+            'o': 'خ', 'O': '×', 'p': 'ح', 'P': '؛', '[': 'ج', '{': '<', ']': 'د', '}': '>',
+            '\\': '\\', '|': '|',
+            'a': 'ش', 'A': 'ِ', 's': 'س', 'S': 'ٍ', 'd': 'ي', 'D': ']', 'f': 'ب', 'F': '[',
+            'g': 'ل', 'G': 'لأ', 'h': 'ا', 'H': 'أ', 'j': 'ت', 'J': 'ـ', 'k': 'ن', 'K': '،',
+            'l': 'م', 'L': '/', ';': 'ك', ':': ':', "'": 'ط', '"': '"',
+            'z': 'ظ', 'Z': '~', 'x': 'ز', 'X': 'ْ', 'c': 'و', 'C': '}', 'v': 'ة', 'V': '{',
+            'b': 'ى', 'B': 'لآ', 'n': 'لا', 'N': 'آ', 'm': 'ر', 'M': '\'', ',': 'ؤ', '<': ',',
+            '.': 'ء', '>': '.', '/': 'ئ', '?': '؟',
+            ' ': 'Space'
+        };
+        return arMap[key] || key;
+    };
+
     const expectedItem = lessonData[currentIndex];
     const expectedKeys = expectedItem ? (expectedItem.keys || [expectedItem.key]) : [];
     let currentExpectedKey = expectedKeys[subIndex];
@@ -381,12 +403,19 @@ export default function TypingBoard() {
                             onChange={(e) => {
                                 const mode = e.target.value;
                                 setTypingMode(mode);
-                                setCurrentCategoryId(mode === 'bn' ? categories[0].id : englishCategories[0].id);
+                                setCurrentCategoryId(
+                                    mode === 'bn' 
+                                        ? categories[0].id 
+                                        : mode === 'ar' 
+                                            ? arabicCategories[0].id 
+                                            : englishCategories[0].id
+                                );
                                 setCurrentSubLessonId(null);
                             }}
                         >
                             <option value="bn">বাংলা টাইপিং (Bengali)</option>
                             <option value="en">ইংরেজি টাইপিং (English)</option>
+                            <option value="ar">আরবি টাইপিং (Arabic)</option>
                         </select>
                         <div style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--primary)', fontSize: '0.8rem' }}>
                             ▼
@@ -526,7 +555,10 @@ export default function TypingBoard() {
                             )}
                         </div>
 
-                        <div className={`text-display ${currentCategoryId === 'practice' ? 'practice-mode' : ''}`}>
+                        <div 
+                            className={`text-display ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs') ? 'practice-mode' : ''}`}
+                            dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
+                        >
                             {(() => {
                                 let startIndex = 0;
                                 let endIndex = 14;
@@ -560,7 +592,7 @@ export default function TypingBoard() {
                                     if (actualIndex === wrongIndex) className += ' wrong';
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                    const isPracticeMode = currentCategoryId === 'practice';
+                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs';
                                     const char = item.char || item.bn;
                                     const displayChar = char === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : char;
                                     const expectedKeys = item.keys || [item.key];
@@ -583,7 +615,12 @@ export default function TypingBoard() {
 
                                     const displayHint = expectedKeys.map((k, idx) => {
                                         const isPressed = actualIndex === currentIndex && idx < subIndex;
-                                        const hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                        let hintText = '';
+                                        if (typingMode === 'ar' && ['arabic-words', 'arabic-sentences', 'arabic-surahs', 'arabic-harakat'].includes(currentCategoryId)) {
+                                            hintText = getArHint(k);
+                                        } else {
+                                            hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                        }
                                         return (
                                             <React.Fragment key={idx}>
                                                 <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
@@ -595,7 +632,7 @@ export default function TypingBoard() {
                                      return (
                                         <div key={actualIndex} className={className} style={boxStyle}>
                                             <span className="bn-char" style={charStyle}>{displayChar}</span>
-                                            {!item.isRandom && !isPracticeMode && typingMode !== 'en' && (
+                                            {!item.isRandom && !isPracticeMode && typingMode !== 'en' && currentCategoryId !== 'arabic-sentences' && currentCategoryId !== 'arabic-surahs' && (
                                                 <span className="qwerty-hint">{displayHint}</span>
                                             )}
                                         </div>
@@ -611,6 +648,7 @@ export default function TypingBoard() {
                                 isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
                                 feedbackKey={feedbackKey}
                                 isNumpadMode={currentSubLessonId === 'en-adv-4'}
+                                typingMode={typingMode === 'ar' && (currentCategoryId === 'arabic-symbols' || currentCategoryId === 'arabic-surahs') ? 'en' : typingMode}
                             />
                         </div>
 
