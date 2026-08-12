@@ -1677,3 +1677,17 @@ body[data-theme="light"] .back-btn:hover {
   color: #1d4ed8;
   font-weight: 700;
 }
+
+[data-theme='light'] .text-display.practice-mode .char-box .bn-char {
+  color: #64748b;
+  opacity: 1;
+}
+
+[data-theme='light'] .text-display.practice-mode .char-box.correct .bn-char {
+  color: #15803d;
+}
+
+[data-theme='light'] .text-display.practice-mode .char-box.error-box .bn-char,
+[data-theme='light'] .text-display.practice-mode .char-box.wrong .bn-char {
+  color: #b91c1c;
+}
