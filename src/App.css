@@ -784,8 +784,8 @@ main {
 
 /* Active/Pressed Key */
 .key-active {
-  background: #0a1a0a !important;
-  color: #00ff40 !important;
+  background: #059669 !important; /* Solid green fill */
+  color: #ffffff !important; /* White text for contrast */
   
   /* Pressing down */
   transform: translateY(5px);
@@ -801,8 +801,8 @@ main {
 }
 
 [data-theme='light'] .key-active {
-  background: #f0fdf4 !important;
-  color: #166534 !important;
+  background: #10b981 !important; /* Solid emerald green fill */
+  color: #ffffff !important; /* White text */
   transform: translateY(5px);
   box-shadow: 
     inset 0 1px 2px rgba(0,0,0,0.05),
