@@ -129,9 +129,9 @@ export const arabicCategories = [
                 id: 'ar-harakat-practice',
                 title: 'শব্দের সাথে হরকত (Words with Harakat)',
                 sequence: generateBlockSequence([
-                    { keys: ["f"], char: 'ب' }, { keys: ["Q"], char: 'َ' }, { keys: ["j"], char: 'ت' }, { keys: ["A"], char: 'ِ' }, { keys: ["f"], char: 'ب' }, { keys: ["R"], char: 'ٌ' },
-                    { keys: ["s"], char: 'س' }, { keys: ["E"], char: 'ُ' }, { keys: ["a"], char: 'ش' }, { keys: ["X"], char: 'ْ' }, { keys: ["f"], char: 'ب' }, { keys: ["W"], char: 'ً' },
-                    { keys: ["h"], char: 'ا' }, { keys: ["A"], char: 'ِ' }, { keys: ["l"], char: 'م' }, { keys: ["Q"], char: 'َ' }, { keys: ["j"], char: 'ت' }, { keys: ["S"], char: 'ٍ' }
+                    { keys: ["f", "Q", "j", "A", "f", "R"], char: 'بَتِبٌ' },
+                    { keys: ["s", "E", "a", "X", "f", "W"], char: 'سُشْبً' },
+                    { keys: ["h", "A", "l", "Q", "j", "S"], char: 'اِمَتٍ' }
                 ], 10, 15)
             }
         ]
@@ -144,14 +144,14 @@ export const arabicCategories = [
                 id: 'ar-words-1', 
                 title: 'ধাপ ১: ২ অক্ষরের শব্দ (2-letter words)', 
                 sequence: generateBlockSequence([
-                    { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' },
-                    { keys: ["h"], char: 'ا' }, { keys: ["l"], char: 'م' },
-                    { keys: ["h"], char: 'ا' }, { keys: ["o"], char: 'خ' },
+                    { keys: ["h", "f"], char: 'اب' },
+                    { keys: ["h", "l"], char: 'ام' },
+                    { keys: ["h", "o"], char: 'اخ' },
                     { keys: ["d", "]"], char: 'يد' },
                     { keys: ["]", "l"], char: 'دم' },
-                    { keys: ["t"], char: 'ف' }, { keys: ["l"], char: 'م' },
-                    { keys: ["l"], char: 'م' }, { keys: ["k"], char: 'ن' },
-                    { keys: ["u"], char: 'ع' }, { keys: ["k"], char: 'ن' }
+                    { keys: ["t", "l"], char: 'فم' },
+                    { keys: ["l", "k"], char: 'من' },
+                    { keys: ["u", "k"], char: 'عن' }
                 ], 10, 15) 
             },
             { 
@@ -159,26 +159,26 @@ export const arabicCategories = [
                 title: 'ধাপ ২: ৩ অক্ষরের শব্দ (3-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "s", "]"], char: 'اسد' },
-                    { keys: ["f"], char: 'ب' }, { keys: ["k"], char: 'ن' }, { keys: ["j"], char: 'ت' },
+                    { keys: ["f", "k", "j"], char: 'بنت' },
                     { keys: ["c", "g", "]"], char: 'ولد' },
-                    { keys: ["r"], char: 'ق' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' },
-                    { keys: ["u"], char: 'ع' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' },
-                    { keys: ["u"], char: 'ع' }, { keys: ["d"], char: 'ي' }, { keys: ["k"], char: 'ن' },
-                    { keys: ["f"], char: 'ب' }, { keys: ["d"], char: 'ي' }, { keys: ["j"], char: 'ت' },
-                    { keys: ["a"], char: 'ش' }, { keys: ["l"], char: 'م' }, { keys: ["s"], char: 'س' }
+                    { keys: ["r", "g", "l"], char: 'قلم' },
+                    { keys: ["u", "g", "l"], char: 'علم' },
+                    { keys: ["u", "d", "k"], char: 'عين' },
+                    { keys: ["f", "d", "j"], char: 'بيت' },
+                    { keys: ["a", "l", "s"], char: 'شمس' }
                 ], 10, 15) 
             },
             { 
                 id: 'ar-words-3', 
                 title: 'ধাপ ৩: ৪ অক্ষরের শব্দ (4-letter words)', 
                 sequence: generateBlockSequence([
-                    { keys: [";"], char: 'ك' }, { keys: ["j"], char: 'ت' }, { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' },
-                    { keys: ["l"], char: 'م' }, { keys: [";"], char: 'ك' }, { keys: ["j"], char: 'ت' }, { keys: ["f"], char: 'ب' },
+                    { keys: [";", "j", "h", "f"], char: 'كتاب' },
+                    { keys: ["l", ";", "j", "f"], char: 'مكتب' },
                     { keys: ["l", "s", "[", "]"], char: 'مسجد' },
-                    { keys: ["l"], char: 'م' }, { keys: ["s"], char: 'س' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' },
-                    { keys: ["m"], char: 'ر' }, { keys: ["s"], char: 'س' }, { keys: ["c"], char: 'و' }, { keys: ["g"], char: 'ل' },
-                    { keys: ["u"], char: 'ع' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' },
-                    { keys: ["r"], char: 'ق' }, { keys: ["m"], char: 'ر' }, { keys: ["h"], char: 'ا' }, { keys: ["k"], char: 'ن' }
+                    { keys: ["l", "s", "g", "l"], char: 'مسلم' },
+                    { keys: ["m", "s", "c", "g"], char: 'رسول' },
+                    { keys: ["u", "h", "g", "l"], char: 'عالم' },
+                    { keys: ["r", "m", "h", "k"], char: 'قران' }
                 ], 10, 15) 
             },
             { 
@@ -186,11 +186,11 @@ export const arabicCategories = [
                 title: 'ধাপ ৪: ৫ অক্ষরের শব্দ (5-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: ["l", "]", "m", "s", "v"], char: 'مدرسة' },
-                    { keys: ["h"], char: 'ا' }, { keys: ["s"], char: 'س' }, { keys: ["j"], char: 'ت' }, { keys: ["h"], char: 'ا' }, { keys: ["`"], char: 'ذ' },
+                    { keys: ["h", "s", "j", "h", "`"], char: 'استاذ' },
                     { keys: ["l", "i", "k", "]", "s"], char: 'مهندس' },
-                    { keys: ["["], char: 'ج' }, { keys: ["h"], char: 'ا' }, { keys: ["l"], char: 'م' }, { keys: ["u"], char: 'ع' }, { keys: ["v"], char: 'ة' },
+                    { keys: ["[", "h", "l", "u", "v"], char: 'جامعة' },
                     { keys: ["p", "]", "d", "r", "v"], char: 'حديقة' },
-                    { keys: ["'"], char: 'ط' }, { keys: ["f"], char: 'ب' }, { keys: ["d"], char: 'ي' }, { keys: ["f"], char: 'ب' }, { keys: ["v"], char: 'ة' },
+                    { keys: ["'", "f", "d", "f", "v"], char: 'طبيبة' },
                     { keys: ["w", "]", "d", "r", "v"], char: 'صديقة' }
                 ], 10, 15) 
             },
@@ -210,13 +210,13 @@ export const arabicCategories = [
                 id: 'ar-words-6', 
                 title: 'ধাপ ৬: হরকত যুক্ত শব্দ (Words with Harakat)', 
                 sequence: generateBlockSequence([
-                    { keys: [";"], char: 'ك' }, { keys: ["E"], char: 'ُ' }, { keys: ["j"], char: 'ت' }, { keys: ["A"], char: 'ِ' }, { keys: ["f"], char: 'ب' }, { keys: ["Q"], char: 'َ' },
-                    { keys: ["m"], char: 'ر' }, { keys: ["E"], char: 'ُ' }, { keys: ["s"], char: 'س' }, { keys: ["E"], char: 'ُ' }, { keys: ["g"], char: 'ل' }, { keys: ["R"], char: 'ٌ' },
-                    { keys: ["r"], char: 'ق' }, { keys: ["Q"], char: 'َ' }, { keys: ["g"], char: 'ل' }, { keys: ["Q"], char: 'َ' }, { keys: ["l"], char: 'م' }, { keys: ["R"], char: 'ٌ' },
-                    { keys: ["f"], char: 'ب' }, { keys: ["Q"], char: 'َ' }, { keys: ["d"], char: 'ي' }, { keys: ["X"], char: 'ْ' }, { keys: ["j"], char: 'ت' }, { keys: ["R"], char: 'ٌ' },
-                    { keys: ["a"], char: 'ش' }, { keys: ["Q"], char: 'َ' }, { keys: ["l"], char: 'م' }, { keys: ["X"], char: 'ْ' }, { keys: ["s"], char: 'س' }, { keys: ["R"], char: 'ٌ' },
+                    { keys: [";", "E", "j", "A", "f", "Q"], char: 'كُتِبَ' },
+                    { keys: ["m", "E", "s", "E", "g", "R"], char: 'رُسُلٌ' },
+                    { keys: ["r", "Q", "g", "Q", "l", "R"], char: 'قَلَمٌ' },
+                    { keys: ["f", "Q", "d", "X", "j", "R"], char: 'بَيْتٌ' },
+                    { keys: ["a", "Q", "l", "X", "s", "R"], char: 'شَمْسٌ' },
                     { keys: ["p", "Q", "l", "X", "]", "R"], char: 'حَمْدٌ' },
-                    { keys: ["l"], char: 'م' }, { keys: ["E"], char: 'ُ' }, { keys: ["s"], char: 'س' }, { keys: ["X"], char: 'ْ' }, { keys: ["g"], char: 'ل' }, { keys: ["A"], char: 'ِ' }, { keys: ["l"], char: 'م' }, { keys: ["R"], char: 'ٌ' },
+                    { keys: ["l", "E", "s", "X", "g", "A", "l", "R"], char: 'مُسْلِمٌ' },
                     { keys: ["l", "Q", "s", "X", "[", "A", "]", "R"], char: 'مَسْجِدٌ' }
                 ], 5, 10) 
             }
@@ -230,9 +230,15 @@ export const arabicCategories = [
                 id: 'ar-sen-1', 
                 title: 'ধাপ ১: ২ শব্দের বাক্য (2-word sentences)', 
                 sequence: generateBlockSequence([
-                    { keys: ["h"], char: 'ا' }, { keys: ["k"], char: 'ن' }, { keys: ["h"], char: 'ا' }, { keys: [" "], char: ' ' }, { keys: ["'"], char: 'ط' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["f"], char: 'ب' },
-                    { keys: ["i"], char: 'ه' }, { keys: ["`"], char: 'ذ' }, { keys: ["h"], char: 'ا' }, { keys: [" "], char: ' ' }, { keys: [";"], char: 'ك' }, { keys: ["j"], char: 'ت' }, { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' },
-                    { keys: ["f"], char: 'ب' }, { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' }, { keys: [" "], char: ' ' }, { keys: [";"], char: 'ك' }, { keys: ["f"], char: 'ب' }, { keys: ["d"], char: 'ي' }, { keys: ["m"], char: 'ر' }
+                    { keys: ["h", "k", "h"], char: 'انا' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["'", "h", "g", "f"], char: 'طالب' },
+                    { keys: ["i", "`", "h"], char: 'هذا' },
+                    { keys: [" "], char: ' ' },
+                    { keys: [";", "j", "h", "f"], char: 'كتاب' },
+                    { keys: ["f", "h", "f"], char: 'باب' },
+                    { keys: [" "], char: ' ' },
+                    { keys: [";", "f", "d", "m"], char: 'كبير' }
                 ], 5, 10) 
             },
             { 
@@ -240,22 +246,32 @@ export const arabicCategories = [
                 title: 'ধাপ ২: ৩ শব্দের বাক্য (3-word sentences)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "k", "h", " ", "h", "]", "m", "s", " ", "h", "g", "u", "m", "f", "d", "v"], char: 'انا ادرس العربية' },
-                    { keys: ["i"], char: 'ه' }, { keys: ["`"], char: 'ذ' }, { keys: ["h"], char: 'ا' }, { keys: [" "], char: ' ' }, { keys: ["r"], char: 'ق' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' }, { keys: [" "], char: ' ' }, { keys: ["["], char: 'ج' }, { keys: ["l"], char: 'م' }, { keys: ["d"], char: 'ي' }, { keys: ["g"], char: 'ل' }
+                    { keys: ["i", "`", "h"], char: 'هذا' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["r", "g", "l"], char: 'قلم' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["[", "l", "d", "g"], char: 'جميل' }
                 ], 5, 10) 
             },
             { 
                 id: 'ar-sen-3', 
                 title: 'ধাপ ৩: হরকত যুক্ত বাক্য (Sentences with Harakat)', 
                 sequence: generateBlockSequence([
-                    { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' }, { keys: ["d"], char: 'ي' }, { keys: ["X"], char: 'ْ' }, { keys: ["t"], char: 'ف' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["p"], char: 'ح' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["E"], char: 'ُ' }, { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' },
-                    { keys: ["h"], char: 'ا' }, { keys: ["Q"], char: 'َ' }, { keys: ["k"], char: 'ن' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: [" "], char: ' ' }, { keys: ["f"], char: 'ب' }, { keys: ["A"], char: 'ِ' }, { keys: ["o"], char: 'خ' }, { keys: ["Q"], char: 'َ' }, { keys: ["d"], char: 'ي' }, { keys: ["X"], char: 'ْ' }, { keys: ["m"], char: 'ر' }, { keys: ["S"], char: 'ٍ' } 
+                    { keys: [";", "Q", "d", "X", "t", "Q"], char: 'كَيْفَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["p", "Q", "h", "g", "E", ";", "Q"], char: 'حَالُكَ' },
+                    { keys: ["h", "Q", "k", "Q", "h"], char: 'اَنَا' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["f", "A", "o", "Q", "d", "X", "m", "S"], char: 'بِخَيْرٍ' } 
                 ], 5, 10) 
             },
             { 
                 id: 'ar-sen-4', 
                 title: 'ধাপ ৪: ইসলামী বাক্য (Islamic Sentences)', 
                 sequence: generateBlockSequence([
-                    { keys: ["f"], char: 'ب' }, { keys: ["A"], char: 'ِ' }, { keys: ["s"], char: 'س' }, { keys: ["X"], char: 'ْ' }, { keys: ["l"], char: 'م' }, { keys: ["A"], char: 'ِ' }, { keys: [" "], char: ' ' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["g"], char: 'ل' }, { keys: ["i"], char: 'ه' }, { keys: ["A"], char: 'ِ' },
+                    { keys: ["f", "A", "s", "X", "l", "A"], char: 'بِسْمِ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["h", "g", "g", "i", "A"], char: 'اللهِ' },
                     { keys: ["h", "Q", "g", "X", "p", "Q", "l", "X", "]", "E", " ", "g", "A", "g", "g", "i", "A"], char: 'اَلْحَمْدُ للهِ' }
                 ], 5, 10) 
             }
@@ -315,9 +331,29 @@ export const arabicCategories = [
                 id: 'ar-surah-kawthar', 
                 title: 'সূরা আল-কাওসার (Surah Al-Kawthar)', 
                 sequence: [
-                    { keys: ["Y"], char: 'إ' }, { keys: ["A"], char: 'ِ' }, { keys: ["k"], char: 'ن' }, { keys: ["~"], char: 'ّ' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: [" "], char: ' ' }, { keys: ["H"], char: 'أ' }, { keys: ["Q"], char: 'َ' }, { keys: ["u"], char: 'ع' }, { keys: ["X"], char: 'ْ' }, { keys: ["'"], char: 'ط' }, { keys: ["Q"], char: 'َ' }, { keys: ["d"], char: 'ي' }, { keys: ["X"], char: 'ْ' }, { keys: ["k"], char: 'ن' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["X"], char: 'ْ' }, { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' }, { keys: ["c"], char: 'و' }, { keys: ["X"], char: 'ْ' }, { keys: ["e"], char: 'ث' }, { keys: ["Q"], char: 'َ' }, { keys: ["m"], char: 'ر' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["&"], char: '۝' },
-                    { keys: ["t"], char: 'ف' }, { keys: ["Q"], char: 'َ' }, { keys: ["w"], char: 'ص' }, { keys: ["Q"], char: 'َ' }, { keys: ["g"], char: 'ل' }, { keys: ["~"], char: 'ّ' }, { keys: ["A"], char: 'ِ' }, { keys: [" "], char: ' ' }, { keys: ["g"], char: 'ل' }, { keys: ["A"], char: 'ِ' }, { keys: ["m"], char: 'ر' }, { keys: ["Q"], char: 'َ' }, { keys: ["f"], char: 'ب' }, { keys: ["~"], char: 'ّ' }, { keys: ["A"], char: 'ِ' }, { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["c"], char: 'و' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: ["k"], char: 'ن' }, { keys: ["X"], char: 'ْ' }, { keys: ["p"], char: 'ح' }, { keys: ["Q"], char: 'َ' }, { keys: ["m"], char: 'ر' }, { keys: ["X"], char: 'ْ' }, { keys: [" "], char: ' ' }, { keys: ["&"], char: '۝' },
-                    { keys: ["Y"], char: 'إ' }, { keys: ["A"], char: 'ِ' }, { keys: ["k"], char: 'ن' }, { keys: ["~"], char: 'ّ' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["a"], char: 'ش' }, { keys: ["Q"], char: 'َ' }, { keys: ["h"], char: 'ا' }, { keys: ["k"], char: 'ن' }, { keys: ["A"], char: 'ِ' }, { keys: ["/"], char: 'ئ' }, { keys: ["Q"], char: 'َ' }, { keys: [";"], char: 'ك' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["i"], char: 'ه' }, { keys: ["E"], char: 'ُ' }, { keys: ["c"], char: 'و' }, { keys: ["Q"], char: 'َ' }, { keys: [" "], char: ' ' }, { keys: ["h"], char: 'ا' }, { keys: ["g"], char: 'ل' }, { keys: ["X"], char: 'ْ' }, { keys: ["H"], char: 'أ' }, { keys: ["Q"], char: 'َ' }, { keys: ["f"], char: 'ب' }, { keys: ["X"], char: 'ْ' }, { keys: ["j"], char: 'ت' }, { keys: ["Q"], char: 'َ' }, { keys: ["m"], char: 'ر' }, { keys: ["E"], char: 'ُ' }, { keys: [" "], char: ' ' }, { keys: ["&"], char: '۝' }
+                    { keys: ["Y", "A", "k", "~", "Q", "h"], char: 'إِنَّا' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["H", "Q", "u", "X", "'", "Q", "d", "X", "k", "Q", "h", ";", "Q"], char: 'أَعْطَيْنَاكَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["h", "g", "X", ";", "Q", "c", "X", "e", "Q", "m", "Q"], char: 'الْكَوْثَرَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["&"], char: '۝' },
+                    { keys: ["t", "Q", "w", "Q", "g", "~", "A"], char: 'فَصَلِّ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["g", "A", "m", "Q", "f", "~", "A", ";", "Q"], char: 'لِرَبِّكَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["c", "Q", "h", "k", "X", "p", "Q", "m", "X"], char: 'وَانْحَرْ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["&"], char: '۝' },
+                    { keys: ["Y", "A", "k", "~", "Q"], char: 'إِنَّ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["a", "Q", "h", "k", "A", "/", "Q", ";", "Q"], char: 'شَانِئَكَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["i", "E", "c", "Q"], char: 'هُوَ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["h", "g", "X", "H", "Q", "f", "X", "j", "Q", "m", "E"], char: 'الْأَبْتَرُ' },
+                    { keys: [" "], char: ' ' },
+                    { keys: ["&"], char: '۝' }
                 ]
             }
         ]
