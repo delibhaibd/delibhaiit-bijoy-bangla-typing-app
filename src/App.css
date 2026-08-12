@@ -725,40 +725,20 @@ main {
 .virtual-keyboard {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Gap allows light to shine through */
-  background: #111;
+  gap: 8px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 1.5rem;
   border-radius: 12px;
-  border: 1px solid #222;
+  border: 1px solid var(--glass-border);
   margin-bottom: 2rem;
   user-select: none;
-  box-shadow: 
-    0 20px 40px rgba(0,0,0,0.8),
-    inset 0 1px 1px rgba(255,255,255,0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 900px;
-}
-
-/* The RGB Backlight Plate */
-.virtual-keyboard::before {
-  content: '';
-  position: absolute;
-  top: 1.5rem; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
-  border-radius: 8px;
-  background: linear-gradient(90deg, 
-    #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff0000);
-  background-size: 200% 100%;
-  opacity: 0.4; /* Reduced brightness */
-  filter: blur(10px);
-  z-index: 0;
-  pointer-events: none;
-}
-
-[data-theme='light'] .virtual-keyboard::before {
-  opacity: 0.15; /* Much softer RGB glow in light mode */
-  filter: blur(12px);
 }
 
 /* Rows */
@@ -769,14 +749,13 @@ main {
   width: 100%;
 }
 
-/* Individual Mechanical Keys */
+/* Individual Keys (Glassmorphism matched) */
 .key {
-  /* Matte black keycap base */
-  background: #181818;
-  color: #ddd; /* Normal text color */
-  border: 1px solid #000;
-  border-top: 1px solid #2a2a2a;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15); /* Soft 3D depth */
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -789,39 +768,27 @@ main {
   width: auto;
   padding: 0;
   
-  /* Physical 3D keycap shadow */
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.05),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.9), 
-    0 5px 0 #050505, 
-    0 8px 8px rgba(0,0,0,0.8); 
-    
-  transition: transform 0.1s, box-shadow 0.1s, background 0.1s, color 0.1s;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.1s, box-shadow 0.1s, background 0.1s, border-color 0.1s;
   position: relative;
   z-index: 2;
+  backdrop-filter: blur(4px);
 }
 
 [data-theme='light'] .virtual-keyboard {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(241, 245, 249, 0.8));
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 
-    0 20px 40px rgba(15, 23, 42, 0.08),
-    inset 0 1px 2px rgba(255, 255, 255, 1),
-    inset 0 -5px 15px rgba(148, 163, 184, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.08);
 }
 
 [data-theme='light'] .key {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  color: #334155;
-  border: 1px solid #cbd5e1;
-  border-top: 1px solid #ffffff;
-  box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 1),
-    inset 0 -1px 2px rgba(148, 163, 184, 0.1),
-    0 6px 0 #94a3b8,
-    0 8px 5px rgba(148, 163, 184, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--text-main);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-bottom: 2px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 4px 6px rgba(148, 163, 184, 0.1);
 }
 
 /* Shine-through text setup */
@@ -832,34 +799,27 @@ main {
 
 /* Active/Pressed Key */
 .key-active {
-  background: linear-gradient(180deg, #1b6038 0%, #0d3820 100%) !important; /* Blended deep green */
-  color: #a7f3d0 !important; /* Soft green text */
+  background: var(--primary) !important; 
+  color: #fff !important; 
   
   /* Pressing down */
-  transform: translateY(5px);
+  transform: translateY(2px);
   
-  /* Blended physical shadow with green glow */
+  /* Blended physical shadow with theme primary glow */
   box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.8),
-    0 0 0 #050505,
-    0 0 15px rgba(16, 185, 129, 0.4) !important;
+    0 0 15px var(--primary) !important;
     
-  border-top-color: #34d399 !important;
-  border-color: #059669 !important;
+  border-bottom: 1px solid var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
 }
 
 [data-theme='light'] .key-active {
-  background: linear-gradient(180deg, #a7f3d0 0%, #6ee7b7 100%) !important; /* Soft bright green gradient */
-  color: #064e3b !important; /* Dark green text */
-  transform: translateY(5px);
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.8),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.05),
-    0 0 0 #94a3b8,
-    0 0 15px rgba(16, 185, 129, 0.3) !important;
-  border-top-color: #ffffff !important;
-  border-color: #34d399 !important;
+  background: var(--primary) !important; 
+  color: #fff !important; 
+  transform: translateY(2px);
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.4) !important;
+  border-bottom: 1px solid var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
 }
 
 /* Remove the individual RGB underglow for active key since we have global board underglow */
@@ -869,35 +829,27 @@ main {
 
 /* Normal text, no RGB on the text itself */
 .key-active span {
-  text-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
-}
-
-[data-theme='light'] .key-active span {
   text-shadow: none;
 }
 
 /* Error Key */
 .key-error {
-  background: #3a0a0a !important;
-  color: #ff8080 !important;
-  transform: translateY(5px);
-  box-shadow: 
-    inset 0 1px 1px rgba(0,0,0,0.8),
-    0 0 0 #050505,
-    0 0 15px rgba(255,0,0,0.5) !important;
-  border-color: #ff0000 !important;
+  background: var(--error) !important;
+  color: #fff !important;
+  transform: translateY(2px);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5) !important;
+  border-bottom: 1px solid #dc2626 !important;
+  border-color: #dc2626 !important;
   animation: shake 0.3s ease-in-out;
 }
 
 [data-theme='light'] .key-error {
-  background: #fef2f2 !important;
-  color: #991b1b !important;
-  transform: translateY(5px);
-  box-shadow: 
-    inset 0 1px 2px rgba(0,0,0,0.05),
-    0 0 0 #94a3b8,
-    0 0 15px rgba(239, 68, 68, 0.3) !important;
-  border-color: #ef4444 !important;
+  background: var(--error) !important;
+  color: #fff !important;
+  transform: translateY(2px);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3) !important;
+  border-bottom: 1px solid #dc2626 !important;
+  border-color: #dc2626 !important;
 }
 
 .key-error::after {
@@ -907,11 +859,6 @@ main {
 @keyframes pulse-error {
   from { opacity: 0.4; }
   to { opacity: 0.8; }
-}
-
-@keyframes rgb-wave {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
 }
 
 .flex-1 { flex: 1; width: auto; }
