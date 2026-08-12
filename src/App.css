@@ -784,32 +784,34 @@ main {
 
 /* Active/Pressed Key */
 .key-active {
-  background: #059669 !important; /* Solid green fill */
-  color: #ffffff !important; /* White text for contrast */
+  background: linear-gradient(180deg, #1b6038 0%, #0d3820 100%) !important; /* Blended deep green */
+  color: #a7f3d0 !important; /* Soft green text */
   
   /* Pressing down */
   transform: translateY(5px);
   
-  /* Remove the physical side shadow, glow white underneath to highlight the target */
+  /* Blended physical shadow with green glow */
   box-shadow: 
-    inset 0 1px 1px rgba(0,0,0,0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.8),
     0 0 0 #050505,
-    0 0 15px rgba(0, 255, 64, 0.5) !important;
+    0 0 15px rgba(16, 185, 129, 0.4) !important;
     
-  border-top-color: #00ff40 !important;
-  border-color: #00ff40 !important;
+  border-top-color: #34d399 !important;
+  border-color: #059669 !important;
 }
 
 [data-theme='light'] .key-active {
-  background: #10b981 !important; /* Solid emerald green fill */
-  color: #ffffff !important; /* White text */
+  background: linear-gradient(180deg, #a7f3d0 0%, #6ee7b7 100%) !important; /* Soft bright green gradient */
+  color: #064e3b !important; /* Dark green text */
   transform: translateY(5px);
   box-shadow: 
-    inset 0 1px 2px rgba(0,0,0,0.05),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.05),
     0 0 0 #94a3b8,
-    0 0 15px rgba(16, 185, 129, 0.4) !important;
-  border-top-color: #22c55e !important;
-  border-color: #22c55e !important;
+    0 0 15px rgba(16, 185, 129, 0.3) !important;
+  border-top-color: #ffffff !important;
+  border-color: #34d399 !important;
 }
 
 /* Remove the individual RGB underglow for active key since we have global board underglow */
@@ -819,7 +821,7 @@ main {
 
 /* Normal text, no RGB on the text itself */
 .key-active span {
-  text-shadow: 0 0 10px rgba(0, 255, 64, 0.6);
+  text-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
 }
 
 [data-theme='light'] .key-active span {
