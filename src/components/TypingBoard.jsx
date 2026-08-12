@@ -648,7 +648,7 @@ export default function TypingBoard() {
                                 isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
                                 feedbackKey={feedbackKey}
                                 isNumpadMode={currentSubLessonId === 'en-adv-4'}
-                                typingMode={typingMode === 'ar' && (currentCategoryId === 'arabic-symbols' || currentCategoryId === 'arabic-surahs') ? 'en' : typingMode}
+                                typingMode={typingMode === 'ar' ? 'en' : typingMode}
                             />
                         </div>
 
