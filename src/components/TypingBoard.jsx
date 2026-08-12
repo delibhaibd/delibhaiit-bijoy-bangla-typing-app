@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { categories } from '../data/lessons';
 import { useSound } from '../hooks/useSound';
 import { getFingerForKey } from '../utils/fingerMapping';
@@ -14,6 +14,15 @@ export default function TypingBoard() {
     const [currentCategoryId, setCurrentCategoryId] = useState(categories[0].id);
     const [currentSubLessonId, setCurrentSubLessonId] = useState(null);
     const [completedLessons, setCompletedLessons] = useState({});
+    const uiWrapperRef = useRef(null);
+
+    useEffect(() => {
+        if (currentSubLessonId && uiWrapperRef.current) {
+            setTimeout(() => {
+                uiWrapperRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }, [currentSubLessonId]);
 
     // Load completed lessons based on user
     useEffect(() => {
@@ -389,7 +398,7 @@ export default function TypingBoard() {
                         </div>
                     </div>
                 ) : (
-                    <div className="typing-ui-wrapper" style={{ width: '100%', maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
+                    <div ref={uiWrapperRef} className="typing-ui-wrapper" style={{ width: '100%', maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
                         <div className="practice-header">
                             <button className="back-btn" onClick={() => setCurrentSubLessonId(null)}>← ফিরে যান</button>
                             <h3>{currentSubLesson?.title}</h3>
