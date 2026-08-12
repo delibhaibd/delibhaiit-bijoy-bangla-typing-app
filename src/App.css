@@ -429,6 +429,29 @@ main {
   letter-spacing: 0.5px;
 }
 
+/* Light mode overrides for error alert */
+[data-theme='light'] .error-alert-box {
+  color: #7f1d1d;
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+[data-theme='light'] .error-alert-text strong {
+  color: #b91c1c;
+}
+
+[data-theme='light'] .error-alert-text span {
+  color: #991b1b;
+}
+
+[data-theme='light'] .error-alert-text kbd {
+  background: #ffffff;
+  color: #111;
+  border: 1px solid #cbd5e1;
+  border-bottom: 3px solid #94a3b8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
 @keyframes shakeAlert {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-5px); }
@@ -1632,4 +1655,25 @@ body[data-theme="light"] .back-btn:hover {
 [data-theme='light'] .text-display.practice-mode .char-box.error-box,
 [data-theme='light'] .text-display.practice-mode .char-box.wrong {
   background: rgba(239, 68, 68, 0.15);
+}
+
+[data-theme='light'] .practice-header h3 {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+[data-theme='light'] .keyboard-info,
+[data-theme='light'] .keyboard-info .instruction {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+[data-theme='light'] .stat-label {
+  color: #334155;
+  font-weight: 600;
+}
+
+[data-theme='light'] .stat-value {
+  color: #1d4ed8;
+  font-weight: 700;
 }
