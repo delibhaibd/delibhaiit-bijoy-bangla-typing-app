@@ -16,7 +16,7 @@ function shuffleArray(array) {
  */
 export function generateBlockSequence(chars, straightCount = 20, randomCount = 20) {
     const sequence = [];
-    const space = { key: ' ', bn: ' ' };
+    const space = { key: ' ', bn: ' ', char: ' ' };
 
     // 1. Straight Repetition
     for (let i = 0; i < straightCount; i++) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { categories } from '../data/lessons';
+import { englishCategories } from '../data/englishLessons';
 import { useSound } from '../hooks/useSound';
 import { getFingerForKey } from '../utils/fingerMapping';
 import VirtualKeyboard from './VirtualKeyboard';
@@ -11,7 +12,9 @@ export default function TypingBoard() {
     const { user, logout } = useAuth();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-    const [currentCategoryId, setCurrentCategoryId] = useState(categories[0].id);
+    const [typingMode, setTypingMode] = useState('bn');
+    const activeCategories = typingMode === 'bn' ? categories : englishCategories;
+    const [currentCategoryId, setCurrentCategoryId] = useState(activeCategories[0].id);
     const [currentSubLessonId, setCurrentSubLessonId] = useState(null);
     const [completedLessons, setCompletedLessons] = useState({});
     const uiWrapperRef = useRef(null);
@@ -59,7 +62,7 @@ export default function TypingBoard() {
 
     const { playCorrectSound, playErrorSound } = useSound();
 
-    const currentCategory = categories.find(c => c.id === currentCategoryId);
+    const currentCategory = activeCategories.find(c => c.id === currentCategoryId);
     const currentSubLesson = currentCategory?.subLessons.find(sl => sl.id === currentSubLessonId);
     const rawLessonData = currentSubLesson ? currentSubLesson.sequence : [];
 
@@ -68,16 +71,50 @@ export default function TypingBoard() {
 
         const counts = {};
         return rawLessonData.map(item => {
-            if (item.bn === ' ') return item;
-            counts[item.bn] = (counts[item.bn] || 0) + 1;
+            const char = item.char || item.bn;
+            if (char === ' ') return item;
+            counts[char] = (counts[char] || 0) + 1;
             
-            if (counts[item.bn] <= 2) {
+            if (counts[char] <= 2) {
                 return { ...item, isRandom: false };
             } else {
                 return { ...item, isRandom: true };
             }
         });
     }, [rawLessonData, currentCategoryId]);
+
+    const practicePageBounds = React.useMemo(() => {
+        if (currentCategoryId !== 'practice') return [];
+        const MAX_CHARS = 40;
+        const bounds = [];
+        let startIndex = 0;
+        let currentLength = 0;
+        let lastSpaceIndex = -1;
+
+        for (let i = 0; i < lessonData.length; i++) {
+            currentLength++;
+            const char = lessonData[i].bn || lessonData[i].char;
+            if (char === ' ') {
+                lastSpaceIndex = i;
+            }
+
+            if (currentLength >= MAX_CHARS && i < lessonData.length - 1) {
+                if (lastSpaceIndex !== -1 && lastSpaceIndex > startIndex) {
+                    bounds.push({ start: startIndex, end: lastSpaceIndex + 1 });
+                    startIndex = lastSpaceIndex + 1;
+                    currentLength = i - startIndex + 1;
+                } else {
+                    bounds.push({ start: startIndex, end: i + 1 });
+                    startIndex = i + 1;
+                    currentLength = 0;
+                }
+            }
+        }
+        if (startIndex < lessonData.length) {
+            bounds.push({ start: startIndex, end: lessonData.length });
+        }
+        return bounds;
+    }, [lessonData, currentCategoryId]);
 
     // Save completed lessons
     useEffect(() => {
@@ -272,6 +309,13 @@ export default function TypingBoard() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson]);
 
+    useEffect(() => {
+        const activeCharBox = document.querySelector('.char-box.active');
+        if (activeCharBox) {
+            activeCharBox.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }, [currentIndex, hasError, currentSubLessonId]);
+
     const getHint = (key) => {
         if (key === ' ') return 'Space';
         if (key.length === 1 && key !== key.toLowerCase() && /[A-Z]/.test(key)) {
@@ -319,8 +363,38 @@ export default function TypingBoard() {
             {!currentSubLessonId && (
                 <aside className="sidebar">
                 <div className="sidebar-title">মেনু</div>
+                <div className="sidebar-mode-toggle" style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>টাইপিং মোড নির্বাচন করুন</label>
+                    <div style={{ position: 'relative' }}>
+                        <select 
+                            className="sidebar-btn" 
+                            style={{ 
+                                width: '100%', 
+                                appearance: 'none', 
+                                textAlign: 'left', 
+                                paddingRight: '30px',
+                                background: 'var(--surface)',
+                                cursor: 'pointer',
+                                fontSize: '1rem'
+                            }}
+                            value={typingMode}
+                            onChange={(e) => {
+                                const mode = e.target.value;
+                                setTypingMode(mode);
+                                setCurrentCategoryId(mode === 'bn' ? categories[0].id : englishCategories[0].id);
+                                setCurrentSubLessonId(null);
+                            }}
+                        >
+                            <option value="bn">বাংলা টাইপিং (Bengali)</option>
+                            <option value="en">ইংরেজি টাইপিং (English)</option>
+                        </select>
+                        <div style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--primary)', fontSize: '0.8rem' }}>
+                            ▼
+                        </div>
+                    </div>
+                </div>
                 <div className="sidebar-buttons">
-                    {categories.map(cat => (
+                    {activeCategories.map(cat => (
                         <button 
                             key={cat.id}
                             className={`sidebar-btn ${currentCategoryId === cat.id ? 'active' : ''}`}
@@ -398,7 +472,7 @@ export default function TypingBoard() {
                         </div>
                     </div>
                 ) : (
-                    <div ref={uiWrapperRef} className="typing-ui-wrapper" style={{ width: '100%', maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
+                    <div ref={uiWrapperRef} className="typing-ui-wrapper" style={{ width: '100%', maxWidth: '100%', margin: '0', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
                         <div className="practice-header">
                             <button className="back-btn" onClick={() => setCurrentSubLessonId(null)}>← ফিরে যান</button>
                             <h3>{currentSubLesson?.title}</h3>
@@ -433,24 +507,41 @@ export default function TypingBoard() {
                                     <span className="stat-label">স্ট্যাটাস</span>
                                     <span className="stat-value">
                                         {(() => {
-                                            const PAGE_SIZE = currentCategoryId === 'practice' ? lessonData.length : 14;
-                                            const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
-                                            const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                            const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
-                                            return currentCategoryId === 'practice' ? `বাক্য অনুশীলন` : `পেজ ${currentPage}/${totalPages}`;
+                                            if (currentCategoryId === 'practice') {
+                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                                const pageIndex = practicePageBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+                                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
+                                                const totalPages = practicePageBounds.length || 1;
+                                                return `অনুশীলন (${currentPage}/${totalPages})`;
+                                            } else {
+                                                const PAGE_SIZE = 14;
+                                                const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
+                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                                const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
+                                                return `পেজ ${currentPage}/${totalPages}`;
+                                            }
                                         })()}
                                     </span>
                                 </div>
                             )}
                         </div>
 
-                        <div className={`text-display ${currentCategoryId === 'practice' ? 'practice-mode' : ''}`} key={Math.floor((hasError ? errorIndex : currentIndex) / (currentCategoryId === 'practice' ? lessonData.length : 14))}>
+                        <div className={`text-display ${currentCategoryId === 'practice' ? 'practice-mode' : ''}`}>
                             {(() => {
-                                const PAGE_SIZE = currentCategoryId === 'practice' ? lessonData.length : 14;
-                                const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
-                                const startIndex = pageIndex * PAGE_SIZE;
-                                const endIndex = startIndex + PAGE_SIZE;
+                                let startIndex = 0;
+                                let endIndex = 14;
+                                if (currentCategoryId === 'practice') {
+                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                    const page = practicePageBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || practicePageBounds[0] || { start: 0, end: lessonData.length };
+                                    startIndex = page.start;
+                                    endIndex = page.end;
+                                } else {
+                                    const PAGE_SIZE = 14;
+                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                    const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
+                                    startIndex = pageIndex * PAGE_SIZE;
+                                    endIndex = startIndex + PAGE_SIZE;
+                                }
 
                                 return lessonData.slice(startIndex, endIndex).map((item, i) => {
                                     const actualIndex = startIndex + i;
@@ -470,7 +561,8 @@ export default function TypingBoard() {
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
                                     const isPracticeMode = currentCategoryId === 'practice';
-                                    const displayChar = item.bn === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : item.bn;
+                                    const char = item.char || item.bn;
+                                    const displayChar = char === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : char;
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
@@ -503,7 +595,7 @@ export default function TypingBoard() {
                                      return (
                                         <div key={actualIndex} className={className} style={boxStyle}>
                                             <span className="bn-char" style={charStyle}>{displayChar}</span>
-                                            {!item.isRandom && !isPracticeMode && (
+                                            {!item.isRandom && !isPracticeMode && typingMode !== 'en' && (
                                                 <span className="qwerty-hint">{displayHint}</span>
                                             )}
                                         </div>
@@ -518,6 +610,7 @@ export default function TypingBoard() {
                                 wrongKey={hasError ? currentKey : null}
                                 isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
                                 feedbackKey={feedbackKey}
+                                isNumpadMode={currentSubLessonId === 'en-adv-4'}
                             />
                         </div>
 

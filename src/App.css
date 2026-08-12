@@ -364,14 +364,17 @@ main {
 }
 
 .char-box.error-box {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: var(--danger);
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--error);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
 }
 
-.char-box.error-box .bn-char,
+.char-box.error-box .bn-char {
+  color: var(--error);
+}
 .char-box.error-box .qwerty-hint {
-  color: var(--danger);
+  color: var(--text-main);
 }
 
 .error-alert-box {
@@ -380,7 +383,7 @@ main {
   justify-content: center;
   gap: 15px;
   background: rgba(239, 68, 68, 0.15);
-  border: 2px solid var(--danger);
+  border: 2px solid var(--error);
   padding: 12px 25px;
   border-radius: 12px;
   color: #fff;
@@ -437,7 +440,7 @@ main {
 }
 
 [data-theme='light'] .error-alert-text strong {
-  color: #b91c1c;
+  color: var(--error);
 }
 
 [data-theme='light'] .error-alert-text span {
@@ -496,8 +499,15 @@ main {
 .char-box.wrong {
   background: rgba(239, 68, 68, 0.2);
   border-color: var(--error);
-  color: var(--error);
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
   animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+.char-box.wrong .bn-char {
+  color: var(--error);
+}
+.char-box.wrong .qwerty-hint {
+  color: var(--text-main);
 }
 
 .keyboard-info {
@@ -1596,20 +1606,24 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 .text-display.practice-mode .char-box.error-box {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.8);
   border: none;
-  box-shadow: none;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  border-radius: 4px;
 }
 
 .text-display.practice-mode .char-box.error-box .bn-char {
-  color: #fca5a5;
+  color: #ffffff;
   opacity: 1;
 }
 
 .text-display.practice-mode .char-box.wrong {
-  background: transparent;
+  background: rgba(239, 68, 68, 0.8);
   border: none;
-  border-bottom: 2px solid var(--danger);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  border-radius: 4px;
 }
 
 .text-display.practice-mode .char-box.active {
@@ -1626,12 +1640,12 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 
-.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; white-space: pre-wrap; word-break: break-word; }
+.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; white-space: pre-wrap; word-wrap: break-word; }
 .text-display.practice-mode .char-box { display: inline; padding: 0; border: none; background: transparent; border-radius: 0; margin: 0; box-shadow: none; }
 .text-display.practice-mode .char-box.active { background: rgba(99, 102, 241, 0.3); transform: none; box-shadow: none; border-bottom: 2px solid var(--primary); }
 .text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }
-.text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.3); border-bottom: 2px solid var(--danger); }
-.text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.3); }
+.text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.8); transform: none; box-shadow: none; border-bottom: 2px solid var(--error); border-radius: 4px; }
+.text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.8); }
 .text-display.practice-mode .bn-char { font-size: 2.2rem; }
 
 /* Light mode overrides for practice view */
@@ -1655,7 +1669,11 @@ body[data-theme="light"] .back-btn:hover {
 
 [data-theme='light'] .text-display.practice-mode .char-box.error-box,
 [data-theme='light'] .text-display.practice-mode .char-box.wrong {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.9);
+  border: none;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  border-radius: 4px;
 }
 
 [data-theme='light'] .practice-header h3 {
@@ -1690,7 +1708,7 @@ body[data-theme="light"] .back-btn:hover {
 
 [data-theme='light'] .text-display.practice-mode .char-box.error-box .bn-char,
 [data-theme='light'] .text-display.practice-mode .char-box.wrong .bn-char {
-  color: #b91c1c;
+  color: #ffffff;
 }
 
 /* Light mode overrides for completion modal */
@@ -1749,4 +1767,20 @@ body[data-theme="light"] .back-btn:hover {
 [data-theme='light'] .app-header p {
   color: #334155;
   font-weight: 500;
+}
+
+/* Numpad Specific Layout */
+.numpad-plus {
+  grid-column: 4;
+  grid-row: 2 / 4;
+  height: 100% !important;
+}
+.numpad-enter {
+  grid-column: 4;
+  grid-row: 4 / 6;
+  height: 100% !important;
+}
+.numpad-zero {
+  grid-column: 1 / 3;
+  width: 100% !important;
 }
