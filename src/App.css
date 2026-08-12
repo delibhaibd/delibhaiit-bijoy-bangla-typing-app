@@ -1610,3 +1610,26 @@ body[data-theme="light"] .back-btn:hover {
 .text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.3); border-bottom: 2px solid var(--danger); }
 .text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.3); }
 .text-display.practice-mode .bn-char { font-size: 2.2rem; }
+
+/* Light mode overrides for practice view */
+[data-theme='light'] .text-display.practice-mode {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+[data-theme='light'] .text-display.practice-mode .char-box.active {
+  background: var(--primary);
+  border-bottom: 2px solid var(--primary-hover);
+  border-radius: 4px;
+}
+
+[data-theme='light'] .text-display.practice-mode .char-box.active .bn-char {
+  color: #ffffff;
+}
+
+[data-theme='light'] .text-display.practice-mode .char-box.error-box,
+[data-theme='light'] .text-display.practice-mode .char-box.wrong {
+  background: rgba(239, 68, 68, 0.15);
+}
