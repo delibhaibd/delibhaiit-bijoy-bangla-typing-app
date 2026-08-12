@@ -1643,13 +1643,14 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 [data-theme='light'] .text-display.practice-mode .char-box.active {
-  background: var(--primary);
-  border-bottom: 2px solid var(--primary-hover);
+  background: rgba(99, 102, 241, 0.2);
+  border-bottom: 2px solid var(--primary);
   border-radius: 4px;
 }
 
 [data-theme='light'] .text-display.practice-mode .char-box.active .bn-char {
-  color: #ffffff;
+  color: #3730a3; /* dark indigo for high contrast */
+  font-weight: bold;
 }
 
 [data-theme='light'] .text-display.practice-mode .char-box.error-box,
