@@ -31,7 +31,7 @@ export const categories = [
         subLessons: [
             { id: 'mod-1', title: 'া, ি, ী', sequence: generateBlockSequence([{ keys: ["f"], bn: 'া' }, { keys: ["d"], bn: 'ি' }, { keys: ["D"], bn: 'ী' }], 20, 20) },
             { id: 'mod-2', title: 'ু, ূ, ৃ', sequence: generateBlockSequence([{ keys: ["s"], bn: 'ু' }, { keys: ["S"], bn: 'ূ' }, { keys: ["a"], bn: 'ৃ' }], 20, 20) },
-            { id: 'mod-3', title: 'ে, ৈ, ৗ', sequence: generateBlockSequence([{ keys: ["c"], bn: 'ে' }, { keys: ["C"], bn: 'ৈ' }, { keys: [], bn: 'ৗ' }], 20, 20) }
+            { id: 'mod-3', title: 'ে, ৈ, ৗ', sequence: generateBlockSequence([{ keys: ["c"], bn: 'ে' }, { keys: ["C"], bn: 'ৈ' }, { keys: ["X"], bn: 'ৗ' }], 20, 20) }
         ]
     },
     {
