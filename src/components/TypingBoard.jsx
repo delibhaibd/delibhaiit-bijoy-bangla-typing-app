@@ -603,8 +603,9 @@ export default function TypingBoard() {
                                     if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
                                         if (!hasError) {
                                             const pct = (subIndex / expectedKeys.length) * 100;
+                                            const gradientDir = typingMode === 'ar' ? 'to left' : 'to right';
                                             charStyle = {
-                                                backgroundImage: `linear-gradient(to right, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
+                                                backgroundImage: `linear-gradient(${gradientDir}, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
                                                 WebkitBackgroundClip: 'text',
                                                 WebkitTextFillColor: 'transparent',
                                                 backgroundClip: 'text',
