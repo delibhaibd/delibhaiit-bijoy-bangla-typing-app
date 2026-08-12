@@ -19,19 +19,19 @@
 body[data-theme="light"] {
   --primary: #4f46e5;
   --primary-hover: #4338ca;
-  --bg-dark: #f1f5f9;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.1);
+  --bg-dark: #f0f4f8; /* Soft blue-grey */
+  --glass-bg: rgba(255, 255, 255, 0.85); /* More opaque for premium frosted look */
+  --glass-border: rgba(200, 210, 220, 0.5); /* subtle border */
   --success: #059669;
   --error: #dc2626;
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --kbd-bg: #d5d9df;
-  --kbd-border: #c0c4c9;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --kbd-bg: #e2e8f0;
+  --kbd-border: #cbd5e1;
   --key-bg: #ffffff;
-  --key-border: #d1d5db;
-  --key-shadow: #c2c5c9;
-  --key-text: #4a4a4a;
+  --key-border: #e2e8f0;
+  --key-shadow: #cbd5e1;
+  --key-text: #334155;
 }
 
 body {
@@ -63,9 +63,9 @@ body::before {
 
 body[data-theme="light"]::before {
   background: 
-    radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.08) 0%, transparent 60%),
-    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-    radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 50% 50%, rgba(79, 70, 229, 0.04) 0%, transparent 60%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.02) 0%, transparent 50%);
 }
 
 @keyframes mindFocusBreathing {
@@ -710,6 +710,11 @@ main {
   pointer-events: none;
 }
 
+[data-theme='light'] .virtual-keyboard::before {
+  opacity: 0.15; /* Much softer RGB glow in light mode */
+  filter: blur(12px);
+}
+
 /* Rows */
 .keyboard-row {
   display: flex;
@@ -751,24 +756,24 @@ main {
 }
 
 [data-theme='light'] .virtual-keyboard {
-  background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-  border-color: #ccc;
+  background: linear-gradient(145deg, #ffffff, #f1f5f9);
+  border-color: #e2e8f0;
   box-shadow: 
-    0 20px 40px rgba(0,0,0,0.15),
-    inset 0 1px 2px rgba(255,255,255,1),
-    inset 0 -5px 15px rgba(0,0,0,0.05);
+    0 20px 40px rgba(148, 163, 184, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 1),
+    inset 0 -5px 15px rgba(148, 163, 184, 0.1);
 }
 
 [data-theme='light'] .key {
-  background: linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
-  color: #333;
-  border: 1px solid #d0d0d0;
-  border-top: 1px solid #fff;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-top: 1px solid #ffffff;
   box-shadow: 
     inset 0 1px 1px rgba(255, 255, 255, 1),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.05),
-    0 6px 0 #b0b0b0,
-    0 8px 5px rgba(0,0,0,0.15);
+    inset 0 -1px 2px rgba(148, 163, 184, 0.1),
+    0 6px 0 #94a3b8,
+    0 8px 5px rgba(148, 163, 184, 0.3);
 }
 
 /* Shine-through text setup */
@@ -796,15 +801,15 @@ main {
 }
 
 [data-theme='light'] .key-active {
-  background: #ccffcc !important;
-  color: #006600 !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
   transform: translateY(5px);
   box-shadow: 
-    inset 0 1px 2px rgba(0,0,0,0.1),
-    0 0 0 #b0b0b0,
-    0 0 15px rgba(0, 255, 64, 0.4) !important;
-  border-top-color: #00ff40 !important;
-  border-color: #00ff40 !important;
+    inset 0 1px 2px rgba(0,0,0,0.05),
+    0 0 0 #94a3b8,
+    0 0 15px rgba(16, 185, 129, 0.4) !important;
+  border-top-color: #22c55e !important;
+  border-color: #22c55e !important;
 }
 
 /* Remove the individual RGB underglow for active key since we have global board underglow */
@@ -835,14 +840,14 @@ main {
 }
 
 [data-theme='light'] .key-error {
-  background: #ffcccc !important;
-  color: #990000 !important;
+  background: #fef2f2 !important;
+  color: #991b1b !important;
   transform: translateY(5px);
   box-shadow: 
-    inset 0 1px 2px rgba(0,0,0,0.1),
-    0 0 0 #b0b0b0,
-    0 0 15px rgba(255,0,0,0.3) !important;
-  border-color: #ff0000 !important;
+    inset 0 1px 2px rgba(0,0,0,0.05),
+    0 0 0 #94a3b8,
+    0 0 15px rgba(239, 68, 68, 0.3) !important;
+  border-color: #ef4444 !important;
 }
 
 .key-error::after {
