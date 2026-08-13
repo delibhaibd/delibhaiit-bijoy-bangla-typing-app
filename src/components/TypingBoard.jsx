@@ -117,6 +117,18 @@ export default function TypingBoard() {
         return bounds;
     }, [lessonData, currentCategoryId]);
 
+    const screenBounds = React.useMemo(() => {
+        if (!currentSubLesson?.screens) return [];
+        const bounds = [];
+        let startIndex = 0;
+        for (const screen of currentSubLesson.screens) {
+            const len = screen.text.length;
+            bounds.push({ start: startIndex, end: startIndex + len, title: screen.title, isSentence: screen.isSentence });
+            startIndex += len;
+        }
+        return bounds;
+    }, [currentSubLesson]);
+
     // Save completed lessons
     useEffect(() => {
         const storageKey = user ? `bijoyCompletedLessons_${user.id}` : 'bijoyCompletedLessons_guest';
@@ -213,15 +225,22 @@ export default function TypingBoard() {
         }));
     }, [startTime, totalKeystrokes, correctKeystrokes, currentSubLessonId]);
 
+    const latestStateRef = useRef({ handleComplete, currentIndex });
+    useEffect(() => {
+        latestStateRef.current = { handleComplete, currentIndex };
+    }, [handleComplete, currentIndex]);
+
     // Timer effect for 60s challenge
     useEffect(() => {
         let timer;
-        if (currentSubLessonId === 'all-consonants' && startTime && !completed && timeLeft > 0) {
+        if (currentSubLessonId === 'all-consonants' && startTime && !completed) {
             timer = setInterval(() => {
                 setTimeLeft(prev => {
                     if (prev <= 1) {
                         clearInterval(timer);
-                        handleComplete(currentIndex);
+                        if (latestStateRef.current) {
+                            latestStateRef.current.handleComplete(latestStateRef.current.currentIndex);
+                        }
                         return 0;
                     }
                     return prev - 1;
@@ -229,7 +248,7 @@ export default function TypingBoard() {
             }, 1000);
         }
         return () => clearInterval(timer);
-    }, [currentSubLessonId, startTime, completed, timeLeft, handleComplete, currentIndex]);
+    }, [currentSubLessonId, startTime, completed]);
 
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -542,6 +561,13 @@ export default function TypingBoard() {
                                                 const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
                                                 const totalPages = practicePageBounds.length || 1;
                                                 return `অনুশীলন (${currentPage}/${totalPages})`;
+                                            } else if (currentSubLesson?.screens) {
+                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                                const pageIndex = screenBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+                                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
+                                                const totalPages = screenBounds.length || 1;
+                                                const title = screenBounds[pageIndex !== -1 ? pageIndex : 0]?.title || '';
+                                                return `স্ক্রিন ${currentPage}/${totalPages} - ${title}`;
                                             } else {
                                                 const PAGE_SIZE = 14;
                                                 const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
@@ -556,7 +582,7 @@ export default function TypingBoard() {
                         </div>
 
                         <div 
-                            className={`text-display ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs') ? 'practice-mode' : ''}`}
+                            className={`text-display ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
                             dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
                         >
                             {(() => {
@@ -565,6 +591,11 @@ export default function TypingBoard() {
                                 if (currentCategoryId === 'practice') {
                                     const effectiveIndex = hasError ? errorIndex : currentIndex;
                                     const page = practicePageBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || practicePageBounds[0] || { start: 0, end: lessonData.length };
+                                    startIndex = page.start;
+                                    endIndex = page.end;
+                                } else if (currentSubLesson?.screens) {
+                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
+                                    const page = screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || screenBounds[0] || { start: 0, end: lessonData.length };
                                     startIndex = page.start;
                                     endIndex = page.end;
                                 } else {
@@ -592,7 +623,7 @@ export default function TypingBoard() {
                                     if (actualIndex === wrongIndex) className += ' wrong';
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs';
+                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence);
                                     const char = item.char || item.bn;
                                     const displayChar = char === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : char;
                                     const expectedKeys = item.keys || [item.key];
