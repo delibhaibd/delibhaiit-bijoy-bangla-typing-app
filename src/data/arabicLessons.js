@@ -3,7 +3,7 @@ import { generateBlockSequence } from '../utils/generator';
 export const arabicCategories = [
     {
         id: 'arabic-basic-letters',
-        title: 'বেসিক বর্ণ (Basic Letters)',
+        title: 'বেসিক বর্ণ',
         subLessons: [
             {
                 id: 'ar-letters-1',
@@ -79,29 +79,29 @@ export const arabicCategories = [
                 id: 'ar-letters-11',
                 title: 'ى لا',
                 sequence: generateBlockSequence([
-                    { keys: ["b"], char: 'ى' }, { keys: ["n"], char: 'لا' }
+                    { keys: ["b"], char: 'ى' }, { keys: ["n"], char: 'লা' }
                 ], 15, 15)
             },
             {
                 id: 'ar-all-letters-review',
-                title: 'সব বর্ণের প্র্যাক্টিস (All Letters Review)',
+                title: 'সব বর্ণের প্র্যাক্টিস',
                 sequence: generateBlockSequence([
                     { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' }, { keys: ["j"], char: 'ت' }, { keys: ["e"], char: 'ث' }, { keys: ["["], char: 'ج' }, { keys: ["p"], char: 'ح' }, { keys: ["o"], char: 'خ' },
                     { keys: ["]"], char: 'د' }, { keys: ["`"], char: 'ذ' }, { keys: ["m"], char: 'ر' }, { keys: ["x"], char: 'ز' }, { keys: ["s"], char: 'س' }, { keys: ["a"], char: 'ش' }, { keys: ["w"], char: 'ص' },
                     { keys: ["q"], char: 'ض' }, { keys: ["'"], char: 'ط' }, { keys: ["z"], char: 'ظ' }, { keys: ["u"], char: 'ع' }, { keys: ["y"], char: 'غ' }, { keys: ["t"], char: 'ف' }, { keys: ["r"], char: 'ق' },
                     { keys: [";"], char: 'ك' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' }, { keys: ["k"], char: 'ن' }, { keys: ["i"], char: 'ه' }, { keys: ["c"], char: 'و' }, { keys: ["d"], char: 'ي' },
-                    { keys: ["."], char: 'ء' }, { keys: ["v"], char: 'ة' }, { keys: ["b"], char: 'ى' }, { keys: ["n"], char: 'لا' }
+                    { keys: ["."], char: 'ء' }, { keys: ["v"], char: 'ة' }, { keys: ["b"], char: 'ى' }, { keys: ["n"], char: 'লা' }
                 ], 0, 40)
             }
         ]
     },
     {
         id: 'arabic-harakat',
-        title: 'হরকত ও তাশদীদ (Harakat & Symbols)',
+        title: 'হরকত ও তাশদীদ',
         subLessons: [
             { 
                 id: 'ar-harakat-basic', 
-                title: 'যবর, যের, পেশ (Fatha, Kasra, Damma)', 
+                title: 'যবর, যের, পেশ', 
                 sequence: generateBlockSequence([
                     { keys: ["Q"], char: 'َ' }, // Shift+Q = Fatha
                     { keys: ["A"], char: 'ِ' }, // Shift+A = Kasra
@@ -119,7 +119,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-harakat-shadda-sukun', 
-                title: 'সুকুন ও তাশদীদ (Sukun & Shadda)', 
+                title: 'সুকুন ও তাশদীদ', 
                 sequence: generateBlockSequence([
                     { keys: ["X"], char: 'ْ' }, // Shift+X = Sukun
                     { keys: ["~"], char: 'ّ' }  // Shift+` = Shadda
@@ -127,7 +127,7 @@ export const arabicCategories = [
             },
             {
                 id: 'ar-harakat-practice',
-                title: 'শব্দের সাথে হরকত (Words with Harakat)',
+                title: 'শব্দের সাথে হরকত',
                 sequence: generateBlockSequence([
                     { keys: ["f", "Q", "j", "A", "f", "R"], char: 'بَتِبٌ' },
                     { keys: ["s", "E", "a", "X", "f", "W"], char: 'سُشْبً' },
@@ -138,11 +138,11 @@ export const arabicCategories = [
     },
     {
         id: 'arabic-words',
-        title: 'শব্দ প্র্যাক্টিস (Word Practice)',
+        title: 'শব্দ প্র্যাক্টিস',
         subLessons: [
             { 
                 id: 'ar-words-1', 
-                title: '২ অক্ষরের শব্দ (2-letter words)', 
+                title: '২ অক্ষরের শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "f"], char: 'اب' },
                     { keys: ["h", "l"], char: 'ام' },
@@ -156,7 +156,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-2', 
-                title: '৩ অক্ষরের শব্দ (3-letter words)', 
+                title: '৩ অক্ষরের শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "s", "]"], char: 'اسد' },
                     { keys: ["f", "k", "j"], char: 'بنت' },
@@ -170,7 +170,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-3', 
-                title: '৪ অক্ষরের শব্দ (4-letter words)', 
+                title: '৪ অক্ষরের শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: [";", "j", "h", "f"], char: 'كتاب' },
                     { keys: ["l", ";", "j", "f"], char: 'مكتب' },
@@ -183,7 +183,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-4', 
-                title: '৫ অক্ষরের শব্দ (5-letter words)', 
+                title: '৫ অক্ষরের শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: ["l", "]", "m", "s", "v"], char: 'مدرسة' },
                     { keys: ["h", "s", "j", "h", "`"], char: 'استاذ' },
@@ -208,7 +208,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-6', 
-                title: 'হরকত যুক্ত শব্দ (Words with Harakat)', 
+                title: 'হরকত যুক্ত শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: [";", "E", "j", "A", "f", "Q"], char: 'كُتِبَ' },
                     { keys: ["m", "E", "s", "E", "g", "R"], char: 'رُسُلٌ' },
@@ -224,11 +224,11 @@ export const arabicCategories = [
     },
     {
         id: 'arabic-sentences',
-        title: 'বাক্য প্র্যাক্টিস (Sentence Practice)',
+        title: 'বাক্য প্র্যাক্টিস',
         subLessons: [
             { 
                 id: 'ar-sen-1', 
-                title: '২ শব্দের বাক্য (2-word sentences)', 
+                title: '২ শব্দের বাক্য', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "k", "h"], char: 'انا' },
                     { keys: [" "], char: ' ' },
@@ -243,7 +243,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-2', 
-                title: '৩ শব্দের বাক্য (3-word sentences)', 
+                title: '৩ শব্দের বাক্য', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "k", "h", " ", "h", "]", "m", "s", " ", "h", "g", "u", "m", "f", "d", "v"], char: 'انا ادرس العربية' },
                     { keys: ["i", "`", "h"], char: 'هذا' },
@@ -255,7 +255,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-3', 
-                title: 'হরকত যুক্ত বাক্য (Sentences with Harakat)', 
+                title: 'হরকত যুক্ত বাক্য', 
                 sequence: generateBlockSequence([
                     { keys: [";", "Q", "d", "X", "t", "Q"], char: 'كَيْفَ' },
                     { keys: [" "], char: ' ' },
@@ -267,7 +267,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-4', 
-                title: 'ইসলামী বাক্য (Islamic Sentences)', 
+                title: 'ইসলামী বাক্য', 
                 sequence: generateBlockSequence([
                     { keys: ["f", "A", "s", "X", "l", "A"], char: 'بِسْمِ' },
                     { keys: [" "], char: ' ' },
@@ -279,7 +279,7 @@ export const arabicCategories = [
     },
     {
         id: 'arabic-symbols',
-        title: 'বিশেষ চিহ্ন ও শর্টকাট (Symbols & Shortcuts)',
+        title: 'বিশেষ চিহ্ন ও শর্টকাট',
         subLessons: [
             { 
                 id: 'ar-sym-1', 
@@ -315,11 +315,11 @@ export const arabicCategories = [
     },
     {
         id: 'arabic-surahs',
-        title: 'কোরআনের সূরা (Quranic Surahs)',
+        title: 'কোরআনের সূরা',
         subLessons: [
             { 
                 id: 'ar-surah-ikhlas', 
-                title: 'সূরা ইখলাস (Surah Al-Ikhlas)', 
+                title: 'সূরা ইখলাস', 
                 sequence: [
                     { keys: ["r", "E", "g", "X", " ", "i", "E", "c", "Q", " ", "h", "g", "g", "~", "Q", "i", "E", " ", "H", "Q", "p", "Q", "]", "R", " ", "&"], char: 'قُلْ هُوَ اللَّهُ أَحَدٌ ۝' },
                     { keys: ["h", "g", "g", "~", "Q", "i", "E", " ", "h", "g", "w", "~", "Q", "l", "Q", "]", "E", " ", "&"], char: 'اللَّهُ الصَّمَدُ ۝' },
@@ -329,7 +329,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-surah-kawthar', 
-                title: 'সূরা আল-কাওসার (Surah Al-Kawthar)', 
+                title: 'সূরা আল-কাওসার', 
                 sequence: [
                     { keys: ["Y", "A", "k", "~", "Q", "h"], char: 'إِنَّا' },
                     { keys: [" "], char: ' ' },
