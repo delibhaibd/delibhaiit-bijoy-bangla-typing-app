@@ -567,28 +567,15 @@ export default function TypingBoard({ isDarkMode = true }) {
                             const catPercent = totalCatLessons > 0 ? Math.round((completedInCat / totalCatLessons) * 100) : 0;
 
                             return (
-                                <div className="sub-lesson-hero-card">
-                                    <div className="hero-left">
-                                        <div className="hero-category-icon">
-                                            {getCategoryIcon(currentCategory?.id)}
-                                        </div>
-                                        <div className="hero-text-group">
-                                            <div className="hero-badge-pill">
-                                                {typingMode === 'bn' ? '🇧🇩 বাংলা টাইপিং' : (typingMode === 'ar' ? '🇸🇦 আরবি টাইপিং' : '🇬🇧 English Typing')}
-                                            </div>
-                                            <h2 className="hero-title">{currentCategory?.title}</h2>
-                                            <p className="hero-subtitle">আপনার পছন্দমত লেসন বেছে নিয়ে টাইপিং শুরু করুন</p>
-                                        </div>
-                                    </div>
-                                    <div className="hero-stats-box">
-                                        <div className="hero-progress-circle-area">
-                                            <div className="hero-stat-number">{completedInCat}/{totalCatLessons}</div>
-                                            <div className="hero-stat-label">লেসন সম্পন্ন</div>
+                                <div className="sub-lesson-hero-card only-progress">
+                                    <div className="hero-progress-horizontal-wrapper">
+                                        <div className="hero-progress-info">
+                                            <span className="hero-progress-title">📊 লেসন অগ্রগতি</span>
+                                            <div className="hero-stat-number">{completedInCat}/{totalCatLessons} সম্পন্ন ({catPercent}%)</div>
                                         </div>
                                         <div className="hero-progress-bar-wrap">
                                             <div className="hero-progress-bar-fill" style={{ width: `${Math.max(6, catPercent)}%` }}></div>
                                         </div>
-                                        <div className="hero-percent-text">{catPercent}% সমাপ্ত</div>
                                     </div>
                                 </div>
                             );
