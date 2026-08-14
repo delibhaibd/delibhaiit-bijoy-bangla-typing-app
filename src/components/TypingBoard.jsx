@@ -739,76 +739,108 @@ export default function TypingBoard({ isDarkMode = true }) {
                         </div>
                     </div>
                 ) : (
-                    <div ref={uiWrapperRef} className="typing-ui-wrapper" style={{ width: '100%', maxWidth: '100%', margin: '0', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
-                        <div className="practice-header">
-                            <button className="back-btn" onClick={() => setCurrentSubLessonId(null)}>← ফিরে যান</button>
-                            <h3>{currentSubLesson?.title}</h3>
-                            <button className="retry-btn-header" onClick={handleRetryLesson} title="প্রথম থেকে শুরু করুন">🔄 নতুন করে শুরু</button>
+                    <div ref={uiWrapperRef} className="typing-ui-wrapper practice-page-premium" style={{ width: '100%', maxWidth: '100%', margin: '0', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
+                        <div className="practice-header-premium">
+                            <button type="button" className="practice-back-btn" onClick={() => setCurrentSubLessonId(null)}>
+                                <span className="back-arrow">←</span>
+                                <span>তালিকায় ফিরুন</span>
+                            </button>
+                            <div className="practice-header-center">
+                                <span className="practice-cat-badge">
+                                    <span className="cat-icon">{getCategoryIcon(currentCategoryId)}</span>
+                                    <span>{currentCategory?.title}</span>
+                                </span>
+                                <h3 className="practice-lesson-heading">{currentSubLesson?.title}</h3>
+                            </div>
+                            <button type="button" className="practice-retry-btn" onClick={handleRetryLesson} title="প্রথম থেকে শুরু করুন">
+                                <span className="retry-icon">🔄</span>
+                                <span>নতুন করে শুরু</span>
+                            </button>
                         </div>
 
-                        <div className="keyboard-info">
+                        <div className="practice-status-strip">
                             {hasError ? (
-                                <div className="error-alert-box">
-                                    <span className="error-icon">⚠️</span>
-                                    <div className="error-alert-text">
-                                        <strong>ভুল হয়েছে!</strong> 
-                                        <span>ঠিক করতে কীবোর্ডের <kbd>Backspace</kbd> বাটন চাপুন</span>
+                                <div className="practice-error-banner">
+                                    <span className="error-pulse-icon">⚠️</span>
+                                    <div className="error-msg-wrap">
+                                        <span className="error-lead">ভুল বাটন চাপছেন!</span>
+                                        <span className="error-sub">ঠিক করতে কীবোর্ডের <kbd className="hud-kbd">Backspace</kbd> বাটন চাপুন</span>
                                     </div>
                                 </div>
                             ) : (
-                                <p className="instruction">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি চাপুন</p>
+                                <div className="practice-instruction-banner">
+                                    <span className="instruction-bulb">💡</span>
+                                    <span className="instruction-text">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি দেখে সঠিক আঙুল দিয়ে টাইপ করুন</span>
+                                </div>
                             )}
                         </div>
 
-                        <div className="stats-panel">
-                            <div className="stat-box">
-                                <span className="stat-label">গতি (WPM)</span>
-                                <span className="stat-value">{wpm}</span>
-                            </div>
-                            <div className="stat-box">
-                                <span className="stat-label">সঠিকতা (Accuracy)</span>
-                                <span className="stat-value">{accuracy || (totalKeystrokes === 0 ? 100 : Math.round((correctKeystrokes / totalKeystrokes) * 100))}%</span>
-                            </div>
-                            {currentSubLessonId === 'all-consonants' ? (
-                                <div className="stat-box">
-                                    <span className="stat-label">সময় বাকি</span>
-                                    <span className="stat-value" style={{ color: '#ef4444', fontWeight: 'bold' }}>{timeLeft}s</span>
+                        {/* Modern HUD Stats Grid */}
+                        {(() => {
+                            const effectiveIndex = hasError ? errorIndex : currentIndex;
+                            const progressPct = Math.round((effectiveIndex / (lessonData.length || 1)) * 100);
+                            
+                            let screenInfo = '';
+                            if (currentCategoryId === 'practice') {
+                                const pageIndex = practicePageBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
+                                const totalPages = practicePageBounds.length || 1;
+                                screenInfo = `অনুশীলন (${currentPage}/${totalPages})`;
+                            } else if (currentSubLesson?.screens) {
+                                const pageIndex = screenBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
+                                const totalPages = screenBounds.length || 1;
+                                screenInfo = `${currentPage}/${totalPages}`;
+                            } else {
+                                const PAGE_SIZE = 14;
+                                const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
+                                const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
+                                screenInfo = `${currentPage}/${totalPages}`;
+                            }
+
+                            return (
+                                <div className="practice-hud-grid">
+                                    <div className="hud-card hud-wpm">
+                                        <div className="hud-card-icon-wrap">⚡</div>
+                                        <div className="hud-card-body">
+                                            <span className="hud-card-label">টাইপিং গতি</span>
+                                            <span className="hud-card-value">{wpm} <small>WPM</small></span>
+                                        </div>
+                                    </div>
+
+                                    <div className="hud-card hud-accuracy">
+                                        <div className="hud-card-icon-wrap">🎯</div>
+                                        <div className="hud-card-body">
+                                            <span className="hud-card-label">সঠিকতা</span>
+                                            <span className="hud-card-value">
+                                                {accuracy || (totalKeystrokes === 0 ? 100 : Math.round((correctKeystrokes / totalKeystrokes) * 100))}<small>%</small>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="hud-card hud-screen">
+                                        <div className="hud-card-icon-wrap">📑</div>
+                                        <div className="hud-card-body">
+                                            <span className="hud-card-label">স্ক্রিন / পেজ</span>
+                                            <span className="hud-card-value">{screenInfo}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="hud-card hud-progress">
+                                        <div className="hud-card-icon-wrap">📈</div>
+                                        <div className="hud-card-body">
+                                            <span className="hud-card-label">লেসন প্রগ্রেস</span>
+                                            <span className="hud-card-value">{progressPct}<small>%</small></span>
+                                        </div>
+                                    </div>
                                 </div>
-                            ) : (
-                                <div className="stat-box">
-                                    <span className="stat-label">স্ট্যাটাস</span>
-                                    <span className="stat-value">
-                                        {(() => {
-                                            if (currentCategoryId === 'practice') {
-                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                                const pageIndex = practicePageBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
-                                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
-                                                const totalPages = practicePageBounds.length || 1;
-                                                return `অনুশীলন (${currentPage}/${totalPages})`;
-                                            } else if (currentSubLesson?.screens) {
-                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                                const pageIndex = screenBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
-                                                const currentPage = (pageIndex !== -1 ? pageIndex : 0) + 1;
-                                                const totalPages = screenBounds.length || 1;
-                                                const title = screenBounds[pageIndex !== -1 ? pageIndex : 0]?.title || '';
-                                                return `স্ক্রিন ${currentPage}/${totalPages} - ${title}`;
-                                            } else {
-                                                const PAGE_SIZE = 14;
-                                                const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
-                                                const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                                const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
-                                                return `পেজ ${currentPage}/${totalPages}`;
-                                            }
-                                        })()}
-                                    </span>
-                                </div>
-                            )}
-                        </div>
+                            );
+                        })()}
 
                         {/* Live active lesson progress bar */}
                         <div className="active-lesson-progress-container">
                             <div className="active-lesson-progress-info">
-                                <span className="active-progress-label">📊 লেসন অগ্রগতি</span>
+                                <span className="active-progress-label">📊 লেসন অগ্রগতি ট্র্যাক</span>
                                 <span className="active-progress-percent">
                                     {Math.round(((hasError ? errorIndex : currentIndex) / (lessonData.length || 1)) * 100)}% ({hasError ? errorIndex : currentIndex}/{lessonData.length} অক্ষর)
                                 </span>
@@ -822,7 +854,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                         </div>
 
                         <div 
-                            className={`text-display ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
+                            className={`text-display text-display-premium ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
                             dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
                         >
                             {(() => {
@@ -924,8 +956,12 @@ export default function TypingBoard({ isDarkMode = true }) {
                             />
                         </div>
 
-                        <div className="keyboard-info">
-                            আপনি চাপছেন: <span className="key-pressed">{currentKey}</span>
+                        <div className="practice-hud-footer">
+                            <div className="key-pressed-hud-pill">
+                                <span className="hud-lead-icon">⌨️</span>
+                                <span className="hud-lead-text">বর্তমান চাপছেন:</span>
+                                <span className="hud-key-badge">{currentKey || '—'}</span>
+                            </div>
                         </div>
 
                         {completed && (
