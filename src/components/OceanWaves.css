@@ -3,63 +3,63 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 15vh; /* Perfect height for the waves at the bottom */
+  height: 32vh;
   overflow: hidden;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
+  filter: drop-shadow(0 -4px 16px rgba(56, 189, 248, 0.35));
 }
 
 .waves {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 15vh;
-  min-height: 80px;
-  max-height: 150px;
+  height: 32vh;
+  min-height: 180px;
+  max-height: 320px;
 }
 
 /* 
-  Parallax smooth animation for the gentle wave paths. 
-  This creates a highly realistic, soft, and buttery fluid effect.
+  Parallax smooth animation for the ocean wave paths.
 */
 .parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+  animation: move-forever 18s cubic-bezier(.55,.5,.45,.5) infinite;
 }
 
-/* Beautiful soft Cyan / Ocean Blue tones for Dark Theme - Low Opacity */
+/* Vivid, glowing Ocean Blue & Cyan waves for Dark Theme */
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
-  animation-duration: 11s;
-  fill: rgba(56, 189, 248, 0.05); /* Soft cyan */
+  animation-duration: 8s;
+  fill: rgba(99, 102, 241, 0.45);
 }
 .parallax > use:nth-child(2) {
   animation-delay: -4s;
-  animation-duration: 14s;
-  fill: rgba(56, 189, 248, 0.1);
+  animation-duration: 11s;
+  fill: rgba(56, 189, 248, 0.6);
 }
 .parallax > use:nth-child(3) {
   animation-delay: -6s;
-  animation-duration: 17s;
-  fill: rgba(56, 189, 248, 0.15);
+  animation-duration: 14s;
+  fill: rgba(14, 165, 233, 0.75);
 }
 .parallax > use:nth-child(4) {
   animation-delay: -8s;
-  animation-duration: 22s;
-  fill: rgba(56, 189, 248, 0.2);
+  animation-duration: 18s;
+  fill: rgba(2, 132, 199, 0.92);
 }
 
-/* Vibrant tropical Blue tones for Light Theme - Low Opacity */
+/* Rich, crisp tropical ocean waves for Light Theme */
 body[data-theme="light"] .parallax > use:nth-child(1) { 
-  fill: rgba(14, 165, 233, 0.08); 
+  fill: rgba(99, 102, 241, 0.4); 
 }
 body[data-theme="light"] .parallax > use:nth-child(2) { 
-  fill: rgba(14, 165, 233, 0.15); 
+  fill: rgba(56, 189, 248, 0.65); 
 }
 body[data-theme="light"] .parallax > use:nth-child(3) { 
-  fill: rgba(14, 165, 233, 0.2); 
+  fill: rgba(14, 165, 233, 0.8); 
 }
 body[data-theme="light"] .parallax > use:nth-child(4) { 
-  fill: rgba(14, 165, 233, 0.3); 
+  fill: rgba(2, 132, 199, 0.95); 
 }
 
 @keyframes move-forever {

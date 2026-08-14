@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react'
 import TypingBoard from './components/TypingBoard'
-import OceanWaves from './components/OceanWaves'
-import Rain from './components/Rain'
 import SoundSettings from './components/SoundSettings'
 import './App.css'
 
@@ -28,10 +26,8 @@ function App() {
         <h1>ডেলিভাই আইটি ইনস্টিটিউট | বিজয় বায়ান্ন <span>বাংলা টাইপিং প্র্যাকটিস</span></h1>
         <p>ইংলিশ কীবোর্ডে বিজয় লেআউটের প্র্যাকটিস করুন</p>
       </header>
-      <Rain />
-      <OceanWaves />
       <main>
-        <TypingBoard />
+        <TypingBoard isDarkMode={isDarkMode} />
       </main>
     </div>
   )

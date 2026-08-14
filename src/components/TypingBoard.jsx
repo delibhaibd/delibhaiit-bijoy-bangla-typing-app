@@ -8,8 +8,9 @@ import VirtualKeyboard from './VirtualKeyboard';
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import confetti from 'canvas-confetti';
+import { applyPageBackground } from '../utils/generator';
 
-export default function TypingBoard() {
+export default function TypingBoard({ isDarkMode = true }) {
     const { user, logout } = useAuth();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -134,6 +135,29 @@ export default function TypingBoard() {
         const storageKey = user ? `bijoyCompletedLessons_${user.id}` : 'bijoyCompletedLessons_guest';
         localStorage.setItem(storageKey, JSON.stringify(completedLessons));
     }, [completedLessons, user]);
+
+    // Change background pattern dynamically on every page / category / screen switch
+    useEffect(() => {
+        let screenOrPage = 0;
+        let screenTitle = '';
+        if (currentCategoryId === 'practice') {
+            const effectiveIndex = hasError ? errorIndex : currentIndex;
+            const idx = practicePageBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+            screenOrPage = idx >= 0 ? idx : 0;
+        } else if (currentSubLesson?.screens) {
+            const effectiveIndex = hasError ? errorIndex : currentIndex;
+            const idx = screenBounds.findIndex(b => effectiveIndex >= b.start && effectiveIndex < b.end);
+            screenOrPage = idx >= 0 ? idx : 0;
+            screenTitle = currentSubLesson.screens[screenOrPage]?.title || '';
+        } else if (currentSubLessonId) {
+            const effectiveIndex = hasError ? errorIndex : currentIndex;
+            screenOrPage = Math.floor(effectiveIndex / 14);
+        }
+
+        const pageKey = `${typingMode}_${currentCategoryId}_${currentSubLessonId || 'menu'}_p${screenOrPage}_${screenTitle}`;
+
+        applyPageBackground(pageKey, isDarkMode);
+    }, [typingMode, currentCategoryId, currentSubLessonId, currentIndex, hasError, errorIndex, currentSubLesson, practicePageBounds, screenBounds, isDarkMode]);
 
     // Reset practice states when sub-lesson changes
     useEffect(() => {
@@ -679,7 +703,7 @@ export default function TypingBoard() {
                                 wrongKey={hasError ? currentKey : null}
                                 isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
                                 feedbackKey={feedbackKey}
-                                isNumpadMode={currentSubLessonId === 'en-adv-4'}
+                                isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
                                 typingMode={typingMode === 'ar' ? 'en' : typingMode}
                             />
                         </div>

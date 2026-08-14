@@ -88,14 +88,11 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         }
 
         if (key.toLowerCase() === targetKey?.toLowerCase()) {
-            // If it's a digit or math symbol, highlight the right section
             const isDigitOrSymbol = /^[0-9/*\-+.\nEnter]$/.test(key);
             if (isNumpadMode && isDigitOrSymbol) {
                 return isNumpadKey;
             }
             if (!isNumpadMode && isDigitOrSymbol) {
-                // If it's on the main keyboard, it shouldn't be a numpad key
-                // Wait, some keys like Enter are on both.
                 if (key === 'Enter') return !isNumpadKey;
                 return !isNumpadKey;
             }
@@ -138,8 +135,10 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             justifyContent: 'center',
             width: '100%',
             maxWidth: '900px',
-            margin: '0 auto'
+            margin: '0 auto',
+            position: 'relative'
         }}>
+            
             {!isNumpadMode && (
                 <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none' }}>
                     {KEYBOARD_ROWS.map((row, rowIndex) => (

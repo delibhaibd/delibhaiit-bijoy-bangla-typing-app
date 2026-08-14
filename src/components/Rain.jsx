@@ -2,18 +2,17 @@ import React from 'react';
 import './Rain.css';
 
 const Rain = () => {
-    // Create an array for a gentle drizzle (about 80 drops)
-    const drops = Array.from({ length: 80 });
+    // 100 crisp, visible raindrops
+    const drops = Array.from({ length: 100 });
 
     return (
         <div className="rain-container">
             {drops.map((_, i) => {
-                // Randomize position, speed, and opacity to make it look like a natural drizzle
                 const style = {
                     left: `${Math.random() * 100}%`,
-                    animationDuration: `${1.5 + Math.random() * 1.5}s`, // Gentle speed
-                    animationDelay: `${Math.random() * 2}s`,
-                    opacity: 0.15 + Math.random() * 0.3 // Soft opacity
+                    animationDuration: `${1.2 + Math.random() * 1.2}s`,
+                    animationDelay: `${Math.random() * 2.5}s`,
+                    opacity: 0.6 + Math.random() * 0.4
                 };
                 return <div key={i} className="raindrop" style={style}></div>;
             })}
