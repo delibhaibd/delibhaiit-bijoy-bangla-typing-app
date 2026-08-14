@@ -38,9 +38,18 @@ body[data-theme="light"] {
    DYNAMIC PAGE PATTERNS (8 Unique Modern Static Patterns)
    ========================================================= */
 
+*, *::before, *::after {
+  font-weight: 400 !important;
+}
+
+h1, h2, h3, h4, h5, h6, b, strong, button, input, select, textarea, span, p, div, a, label {
+  font-weight: 400 !important;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', 'Tiro Bangla', sans-serif;
+  font-weight: 400;
   background-color: var(--bg-dark);
   color: var(--text-main);
   min-height: 100vh;
