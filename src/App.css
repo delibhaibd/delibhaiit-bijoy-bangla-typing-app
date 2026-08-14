@@ -381,34 +381,30 @@ body[data-theme="light"] .sidebar-header-premium {
 }
 
 .sidebar-title-main {
-  font-size: 1.08rem;
-  font-weight: 700;
+  font-size: 1.18rem;
   color: var(--text-main);
   letter-spacing: -0.2px;
   line-height: 1.2;
 }
 
 .sidebar-title-sub {
-  font-size: 0.76rem;
+  font-size: 0.84rem;
   color: var(--text-muted);
-  font-weight: 500;
 }
 
 .sidebar-badge-counter {
   background: rgba(16, 185, 129, 0.15);
   color: #10b981;
   border: 1px solid rgba(16, 185, 129, 0.35);
-  padding: 4px 9px;
+  padding: 4px 10px;
   border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.84rem;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
 }
 
 /* Menu Section Labels */
 .menu-section-label {
-  font-size: 0.74rem;
-  font-weight: 700;
+  font-size: 0.84rem;
   text-transform: uppercase;
   letter-spacing: 0.9px;
   color: var(--text-muted);
@@ -440,13 +436,12 @@ body[data-theme="light"] .lang-segmented-pills {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 8px 6px;
+  padding: 9px 8px;
   border: none;
   background: transparent;
   color: var(--text-muted);
   border-radius: 10px;
-  font-size: 0.86rem;
-  font-weight: 600;
+  font-size: 0.96rem;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
@@ -465,17 +460,16 @@ body[data-theme="light"] .lang-pill:hover {
   background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  font-weight: 700;
   transform: scale(1.02);
 }
 
 .lang-flag {
-  font-size: 1rem;
+  font-size: 1.15rem;
   line-height: 1;
 }
 
 .lang-name {
-  font-size: 0.84rem;
+  font-size: 0.95rem;
   white-space: nowrap;
 }
 
@@ -493,7 +487,7 @@ body[data-theme="light"] .lang-pill:hover {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.72rem 0.85rem;
+  padding: 0.8rem 0.95rem;
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 14px;
@@ -527,7 +521,6 @@ body[data-theme="light"] .sidebar-btn:hover {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(79, 70, 229, 0.12) 100%);
   border-color: rgba(99, 102, 241, 0.65);
   color: var(--text-main);
-  font-weight: 700;
   box-shadow: 0 8px 22px -5px rgba(99, 102, 241, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transform: translateX(4px);
 }
@@ -553,18 +546,18 @@ body[data-theme="light"] .sidebar-btn.active {
 .cat-btn-content {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
 }
 
 .cat-icon {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 33px;
-  height: 33px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.09);
   flex-shrink: 0;
@@ -586,13 +579,12 @@ body[data-theme="light"] .cat-icon {
 .cat-text-group {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
 }
 
 .cat-title {
-  font-size: 0.91rem;
-  font-weight: 600;
+  font-size: 1.05rem;
   color: var(--text-main);
   white-space: nowrap;
   overflow: hidden;
@@ -601,9 +593,8 @@ body[data-theme="light"] .cat-icon {
 }
 
 .cat-subinfo {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
-  font-weight: 500;
   line-height: 1.1;
 }
 
@@ -613,11 +604,10 @@ body[data-theme="light"] .cat-icon {
 
 body[data-theme="light"] .sidebar-btn.active .cat-subinfo {
   color: #4f46e5;
-  font-weight: 600;
 }
 
 .cat-arrow {
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   color: var(--text-muted);
   opacity: 0.4;
   transition: all 0.25s ease;
@@ -1436,10 +1426,10 @@ body[data-theme="light"] .sub-lesson-hero-card {
 }
 
 .hero-category-icon {
-  font-size: 2.2rem;
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
+  font-size: 2.6rem;
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1452,7 +1442,7 @@ body[data-theme="light"] .sub-lesson-hero-card {
 .hero-text-group {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
@@ -1463,10 +1453,9 @@ body[data-theme="light"] .sub-lesson-hero-card {
   background: rgba(99, 102, 241, 0.18);
   color: #a5b4fc;
   border: 1px solid rgba(99, 102, 241, 0.35);
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.9rem;
   margin-bottom: 4px;
 }
 
@@ -1478,28 +1467,26 @@ body[data-theme="light"] .hero-badge-pill {
 
 .hero-title {
   margin: 0;
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 2.05rem;
   color: var(--text-main);
   letter-spacing: -0.3px;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .hero-subtitle {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
-  font-weight: 500;
 }
 
 .hero-stats-box {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  min-width: 160px;
+  min-width: 175px;
   background: rgba(0, 0, 0, 0.25);
-  padding: 0.9rem 1.1rem;
-  border-radius: 15px;
+  padding: 1rem 1.3rem;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
@@ -1512,29 +1499,27 @@ body[data-theme="light"] .hero-stats-box {
 .hero-progress-circle-area {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 8px;
 }
 
 .hero-stat-number {
-  font-size: 1.35rem;
-  font-weight: 800;
+  font-size: 1.7rem;
   color: #10b981;
   line-height: 1;
 }
 
 .hero-stat-label {
-  font-size: 0.74rem;
+  font-size: 0.88rem;
   color: var(--text-muted);
-  font-weight: 600;
 }
 
 .hero-progress-bar-wrap {
   width: 100%;
-  height: 6px;
+  height: 7px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  margin: 7px 0 3px;
+  margin: 8px 0 4px;
 }
 
 body[data-theme="light"] .hero-progress-bar-wrap {
@@ -1550,16 +1535,15 @@ body[data-theme="light"] .hero-progress-bar-wrap {
 }
 
 .hero-percent-text {
-  font-size: 0.72rem;
+  font-size: 0.86rem;
   color: var(--text-muted);
-  font-weight: 600;
 }
 
 /* Progressive Cards Grid */
 .progressive-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.15rem;
   width: 100%;
 }
 
@@ -1571,8 +1555,8 @@ body[data-theme="light"] .hero-progress-bar-wrap {
   flex-direction: column;
   background: rgba(15, 23, 42, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  padding: 1.15rem 1.25rem 0.85rem;
+  border-radius: 20px;
+  padding: 1.35rem 1.45rem 1rem;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1611,29 +1595,28 @@ body[data-theme="light"] .lesson-card-premium.completed {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 0.85rem;
+  gap: 14px;
+  margin-bottom: 0.95rem;
 }
 
 .lesson-badge-and-title {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   min-width: 0;
 }
 
 .lesson-index-badge {
-  width: 36px;
-  height: 36px;
-  border-radius: 11px;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--text-main);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1.25rem;
   flex-shrink: 0;
   transition: all 0.2s ease;
 }
@@ -1648,49 +1631,35 @@ body[data-theme="light"] .lesson-index-badge {
   color: #ffffff;
   border-color: #34d399;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
-  font-weight: 800;
 }
 
 .lesson-title-meta {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
-}
-
-.lesson-step-tag {
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #818cf8;
-  letter-spacing: 0.6px;
-}
-
-body[data-theme="light"] .lesson-step-tag {
-  color: #4f46e5;
 }
 
 .lesson-card-title {
   margin: 0;
-  font-size: 1.02rem;
-  font-weight: 700;
+  font-size: 1.4rem;
   color: var(--text-main);
-  line-height: 1.25;
+  line-height: 1.3;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: 0.3px;
 }
 
 .lesson-btn-modern {
-  padding: 0.55rem 1.05rem;
-  border-radius: 10px;
+  padding: 0.65rem 1.3rem;
+  border-radius: 12px;
   border: none;
-  font-weight: 700;
-  font-size: 0.84rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   white-space: nowrap;
@@ -1722,7 +1691,7 @@ body[data-theme="light"] .lesson-step-tag {
 .lesson-card-divider-modern {
   height: 1px;
   background: rgba(255, 255, 255, 0.07);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
 }
 
 body[data-theme="light"] .lesson-card-divider-modern {
@@ -1732,19 +1701,19 @@ body[data-theme="light"] .lesson-card-divider-modern {
 .lesson-card-metrics {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin-bottom: 0.75rem;
+  gap: 8px;
+  margin-bottom: 0.85rem;
 }
 
 .metric-pill {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.76rem;
+  padding: 5px 11px;
+  border-radius: 9px;
+  font-size: 0.9rem;
   color: var(--text-muted);
 }
 
@@ -1754,17 +1723,16 @@ body[data-theme="light"] .metric-pill {
 }
 
 .metric-icon {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
 }
 
 .metric-val {
   color: var(--text-main);
-  font-weight: 700;
 }
 
 .lesson-card-bottom-track {
   width: 100%;
-  height: 4px;
+  height: 5px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 4px;
   overflow: hidden;
