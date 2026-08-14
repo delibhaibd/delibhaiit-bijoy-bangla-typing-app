@@ -601,32 +601,33 @@ export default function TypingBoard({ isDarkMode = true }) {
                                                     <h3 className="lesson-card-title">{subLesson.title}</h3>
                                                 </div>
                                             </div>
-                                            <button 
-                                                type="button"
-                                                className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : 'start-btn'}`}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setCurrentSubLessonId(subLesson.id);
-                                                }}
-                                            >
-                                                {isCompleted ? '▶ অনুশীলন' : '▶ শুরু করুন'}
-                                            </button>
-                                        </div>
 
-                                        <div className="lesson-card-divider-modern"></div>
+                                            <div className="lesson-card-right-group">
+                                                <div className="lesson-card-metrics">
+                                                    <div className="metric-pill">
+                                                        <span className="metric-icon">⚡</span>
+                                                        <span className="metric-val">{lessonStats?.wpm ? `${lessonStats.wpm} WPM` : '-- WPM'}</span>
+                                                    </div>
+                                                    <div className="metric-pill">
+                                                        <span className="metric-icon">🎯</span>
+                                                        <span className="metric-val">{lessonStats?.accuracy ? `${lessonStats.accuracy}%` : '--%'}</span>
+                                                    </div>
+                                                    <div className="metric-pill">
+                                                        <span className="metric-icon">⏱️</span>
+                                                        <span className="metric-val">{lessonStats?.time || '--:--'}</span>
+                                                    </div>
+                                                </div>
 
-                                        <div className="lesson-card-metrics">
-                                            <div className="metric-pill">
-                                                <span className="metric-icon">⚡</span>
-                                                <span className="metric-val">{lessonStats?.wpm ? `${lessonStats.wpm} WPM` : '-- WPM'}</span>
-                                            </div>
-                                            <div className="metric-pill">
-                                                <span className="metric-icon">🎯</span>
-                                                <span className="metric-val">{lessonStats?.accuracy ? `${lessonStats.accuracy}%` : '--%'}</span>
-                                            </div>
-                                            <div className="metric-pill">
-                                                <span className="metric-icon">⏱️</span>
-                                                <span className="metric-val">{lessonStats?.time || '--:--'}</span>
+                                                <button 
+                                                    type="button"
+                                                    className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : 'start-btn'}`}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setCurrentSubLessonId(subLesson.id);
+                                                    }}
+                                                >
+                                                    {isCompleted ? '▶ অনুশীলন' : '▶ শুরু করুন'}
+                                                </button>
                                             </div>
                                         </div>
 
