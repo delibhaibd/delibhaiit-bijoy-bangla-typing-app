@@ -3,7 +3,7 @@ import { generateBlockSequence } from '../utils/generator';
 export const englishCategories = [
     {
         id: 'en-beginner',
-        title: 'Beginner (বিগিনার)',
+        title: 'Beginner',
         subLessons: [
             // Getting Started
             { 
@@ -297,7 +297,7 @@ export const englishCategories = [
     },
     {
         id: 'en-intermediate',
-        title: 'Intermediate (ইন্টারমিডিয়েট)',
+        title: 'Intermediate',
         subLessons: [
             // Common English Words
             { 
@@ -510,7 +510,7 @@ export const englishCategories = [
     },
     {
         id: 'en-advanced',
-        title: 'Advanced (অ্যাডভান্স)',
+        title: 'Advanced',
         subLessons: [
             // Skill Builder
             { id: 'en-adv-1', title: 'Numbers Letters Numbers', sequence: generateBlockSequence([{ keys: ["1"], char: '1' }, { keys: ["a"], char: 'a' }, { keys: ["2"], char: '2' }, { keys: ["b"], char: 'b' }, { keys: ["3"], char: '3' }, { keys: ["c"], char: 'c' }], 15, 15) },
