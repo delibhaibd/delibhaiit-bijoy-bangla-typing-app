@@ -472,7 +472,9 @@ body[data-theme="light"] .lang-pill:hover {
 }
 
 .lang-flag {
-  font-size: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
 }
 

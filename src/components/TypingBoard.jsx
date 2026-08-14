@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import confetti from 'canvas-confetti';
 import { applyPageBackground } from '../utils/generator';
+import FlagIcon from './FlagIcon';
 
 export default function TypingBoard({ isDarkMode = true }) {
     const { user, logout } = useAuth();
@@ -566,7 +567,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 className={`lang-pill ${typingMode === 'bn' ? 'active' : ''}`}
                                 onClick={() => handleLanguageChange('bn')}
                             >
-                                <span className="lang-flag">🇧🇩</span>
+                                <span className="lang-flag"><FlagIcon lang="bn" size={15} /></span>
                                 <span className="lang-name">বাংলা</span>
                             </button>
                             <button 
@@ -574,7 +575,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 className={`lang-pill ${typingMode === 'en' ? 'active' : ''}`}
                                 onClick={() => handleLanguageChange('en')}
                             >
-                                <span className="lang-flag">🇬🇧</span>
+                                <span className="lang-flag"><FlagIcon lang="en" size={15} /></span>
                                 <span className="lang-name">English</span>
                             </button>
                             <button 
@@ -582,7 +583,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 className={`lang-pill ${typingMode === 'ar' ? 'active' : ''}`}
                                 onClick={() => handleLanguageChange('ar')}
                             >
-                                <span className="lang-flag">🇸🇦</span>
+                                <span className="lang-flag"><FlagIcon lang="ar" size={15} /></span>
                                 <span className="lang-name">العربية</span>
                             </button>
                         </div>
