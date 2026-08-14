@@ -611,7 +611,6 @@ export default function TypingBoard({ isDarkMode = true }) {
                                                     {isCompleted ? '✓' : (index + 1)}
                                                 </div>
                                                 <div className="lesson-title-meta">
-                                                    <span className="lesson-step-tag">ধাপ {index + 1}</span>
                                                     <h3 className="lesson-card-title">{subLesson.title}</h3>
                                                 </div>
                                             </div>
