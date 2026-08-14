@@ -159,22 +159,45 @@ export default function TypingBoard({ isDarkMode = true }) {
         applyPageBackground(pageKey, isDarkMode);
     }, [typingMode, currentCategoryId, currentSubLessonId, currentIndex, hasError, errorIndex, currentSubLesson, practicePageBounds, screenBounds, isDarkMode]);
 
-    // Reset practice states when sub-lesson changes
+    // Load or resume practice states when sub-lesson changes
     useEffect(() => {
-        setCurrentIndex(0);
-        setSubIndex(0);
-        setCompleted(false);
-        setStartTime(null);
-        setWpm(0);
-        setAccuracy(0);
-        setTotalKeystrokes(0);
-        setCorrectKeystrokes(0);
+        if (!currentSubLessonId) return;
+
+        const storageKey = user ? `bijoyCompletedLessons_${user.id}` : 'bijoyCompletedLessons_guest';
+        let saved = {};
+        try {
+            const raw = localStorage.getItem(storageKey);
+            if (raw) saved = JSON.parse(raw);
+        } catch (err) {}
+
+        const lessonProgress = saved[currentSubLessonId];
+        // If lesson was in-progress and user hasn't completed it, resume from saved index!
+        if (lessonProgress && lessonProgress.status === 'in_progress' && typeof lessonProgress.currentIndex === 'number' && lessonProgress.currentIndex > 0 && lessonProgress.currentIndex < rawLessonData.length) {
+            setCurrentIndex(lessonProgress.currentIndex);
+            setSubIndex(0);
+            setCompleted(false);
+            setTotalKeystrokes(lessonProgress.totalKeystrokes || lessonProgress.currentIndex);
+            setCorrectKeystrokes(lessonProgress.correctKeystrokes || lessonProgress.currentIndex);
+            setWpm(lessonProgress.wpm || 0);
+            setAccuracy(lessonProgress.accuracy || 100);
+            setTimeSpent(lessonProgress.time || '0:00');
+        } else {
+            setCurrentIndex(0);
+            setSubIndex(0);
+            setCompleted(false);
+            setStartTime(null);
+            setWpm(lessonProgress?.wpm || 0);
+            setAccuracy(lessonProgress?.accuracy || 0);
+            setTotalKeystrokes(0);
+            setCorrectKeystrokes(0);
+            setTimeSpent(lessonProgress?.time || '0:00');
+        }
         setHasError(false);
         setErrorIndex(-1);
         setCurrentKey('-');
         setWrongIndex(-1);
         setTimeLeft(60);
-    }, [currentSubLessonId]);
+    }, [currentSubLessonId, user, rawLessonData.length]);
 
     const handleNextLesson = useCallback(() => {
         const currentIndex = currentCategory?.subLessons.findIndex(s => s.id === currentSubLessonId);
@@ -200,7 +223,22 @@ export default function TypingBoard({ isDarkMode = true }) {
         setWrongIndex(-1);
         setTimeSpent('0:00');
         setTimeLeft(60);
-    }, []);
+
+        setCompletedLessons(prev => ({
+            ...prev,
+            [currentSubLessonId]: {
+                status: 'in_progress',
+                currentIndex: 0,
+                totalChars: lessonData.length,
+                percent: 0,
+                wpm: 0,
+                accuracy: 100,
+                time: '0:00',
+                totalKeystrokes: 0,
+                correctKeystrokes: 0
+            }
+        }));
+    }, [currentSubLessonId, lessonData.length]);
 
     const handleComplete = useCallback((charsDone) => {
         setCompleted(true);
@@ -237,14 +275,19 @@ export default function TypingBoard({ isDarkMode = true }) {
         setAccuracy(finalAcc);
         setTimeSpent(timeString);
         
-        // Save progress
+        // Save complete progress
         setCompletedLessons(prev => ({
             ...prev,
             [currentSubLessonId]: {
                 status: 'completed',
+                currentIndex: charsDone,
+                totalChars: charsDone,
+                percent: 100,
                 wpm: finalWpm,
                 accuracy: finalAcc,
-                time: timeString
+                time: timeString,
+                totalKeystrokes: totalKeystrokes + 1,
+                correctKeystrokes: correctKeystrokes + 1
             }
         }));
     }, [startTime, totalKeystrokes, correctKeystrokes, currentSubLessonId]);
@@ -330,11 +373,45 @@ export default function TypingBoard({ isDarkMode = true }) {
                     setSubIndex(prev => prev + 1);
                     setWrongIndex(-1);
                 } else {
-                    setCurrentIndex(prev => prev + 1);
+                    const nextIndex = currentIndex + 1;
+                    setCurrentIndex(nextIndex);
                     setSubIndex(0);
                     setWrongIndex(-1);
-                    if (currentIndex + 1 === lessonData.length) {
-                        handleComplete(currentIndex + 1);
+                    if (nextIndex >= lessonData.length) {
+                        handleComplete(nextIndex);
+                    } else {
+                        // Real-time progress update & save
+                        const totalChars = lessonData.length;
+                        const currentPercent = Math.round((nextIndex / totalChars) * 100);
+                        const timeInMs = startTime ? (Date.now() - startTime) : 1000;
+                        const timeInMinutes = Math.max(0.01, timeInMs / 60000);
+                        const words = nextIndex / 5;
+                        const liveWpm = Math.round(words / timeInMinutes) || 0;
+                        const liveAcc = (totalKeystrokes + 1) === 0 ? 100 : Math.round(((correctKeystrokes + 1) / (totalKeystrokes + 1)) * 100);
+                        const totalSeconds = Math.floor(timeInMs / 1000);
+                        const m = Math.floor(totalSeconds / 60);
+                        const s = (totalSeconds % 60).toString().padStart(2, '0');
+                        const timeString = `${m}:${s}`;
+
+                        setWpm(liveWpm);
+                        setAccuracy(liveAcc);
+                        setTimeSpent(timeString);
+
+                        setCompletedLessons(prev => ({
+                            ...prev,
+                            [currentSubLessonId]: {
+                                ...(prev[currentSubLessonId] || {}),
+                                status: 'in_progress',
+                                currentIndex: nextIndex,
+                                totalChars: totalChars,
+                                percent: currentPercent,
+                                wpm: liveWpm,
+                                accuracy: liveAcc,
+                                time: timeString,
+                                totalKeystrokes: totalKeystrokes + 1,
+                                correctKeystrokes: correctKeystrokes + 1
+                            }
+                        }));
                     }
                 }
             } else {
@@ -351,7 +428,7 @@ export default function TypingBoard({ isDarkMode = true }) {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson]);
+    }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson, handleComplete]);
 
     useEffect(() => {
         const activeCharBox = document.querySelector('.char-box.active');
@@ -563,18 +640,28 @@ export default function TypingBoard({ isDarkMode = true }) {
                     <div className="sub-lesson-list-premium">
                         {(() => {
                             const totalCatLessons = currentCategory?.subLessons?.length || 0;
-                            const completedInCat = currentCategory?.subLessons?.filter(sl => completedLessons[sl.id]?.status === 'completed').length || 0;
-                            const catPercent = totalCatLessons > 0 ? Math.round((completedInCat / totalCatLessons) * 100) : 0;
+                            let totalCatPercentSum = 0;
+                            let completedInCat = 0;
+                            currentCategory?.subLessons?.forEach(sl => {
+                                const stat = completedLessons[sl.id];
+                                if (stat?.status === 'completed' || stat?.percent === 100) {
+                                    totalCatPercentSum += 100;
+                                    completedInCat++;
+                                } else if (stat?.percent) {
+                                    totalCatPercentSum += stat.percent;
+                                }
+                            });
+                            const catPercent = totalCatLessons > 0 ? Math.round(totalCatPercentSum / totalCatLessons) : 0;
 
                             return (
                                 <div className="sub-lesson-hero-card only-progress">
                                     <div className="hero-progress-horizontal-wrapper">
                                         <div className="hero-progress-info">
                                             <span className="hero-progress-title">📊 লেসন অগ্রগতি</span>
-                                            <div className="hero-stat-number">{completedInCat}/{totalCatLessons} সম্পন্ন ({catPercent}%)</div>
+                                            <div className="hero-stat-number">{completedInCat}/{totalCatLessons} সম্পূর্ণ ({catPercent}% অগ্রগতি)</div>
                                         </div>
                                         <div className="hero-progress-bar-wrap">
-                                            <div className="hero-progress-bar-fill" style={{ width: `${Math.max(6, catPercent)}%` }}></div>
+                                            <div className="hero-progress-bar-fill" style={{ width: `${Math.max(catPercent > 0 ? 3 : 0, catPercent)}%` }}></div>
                                         </div>
                                     </div>
                                 </div>
@@ -584,21 +671,26 @@ export default function TypingBoard({ isDarkMode = true }) {
                         <div className="progressive-cards-grid">
                             {currentCategory?.subLessons.map((subLesson, index) => {
                                 const lessonStats = completedLessons[subLesson.id];
-                                const isCompleted = lessonStats?.status === 'completed';
+                                const isCompleted = lessonStats?.status === 'completed' || lessonStats?.percent === 100;
+                                const hasProgress = !isCompleted && typeof lessonStats?.percent === 'number' && lessonStats.percent > 0;
+                                const progressPercent = isCompleted ? 100 : (lessonStats?.percent || 0);
                                 
                                 return (
                                     <div 
                                         key={subLesson.id} 
-                                        className={`lesson-card-premium ${isCompleted ? 'completed' : ''}`}
+                                        className={`lesson-card-premium ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')}`}
                                         onClick={() => setCurrentSubLessonId(subLesson.id)}
                                     >
                                         <div className="lesson-card-top">
                                             <div className="lesson-badge-and-title">
-                                                <div className={`lesson-index-badge ${isCompleted ? 'completed' : ''}`}>
+                                                <div className={`lesson-index-badge ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')}`}>
                                                     {isCompleted ? '✓' : (index + 1)}
                                                 </div>
                                                 <div className="lesson-title-meta">
                                                     <h3 className="lesson-card-title">{subLesson.title}</h3>
+                                                    {hasProgress && (
+                                                        <span className="lesson-in-progress-tag">অগ্রগতি: {progressPercent}%</span>
+                                                    )}
                                                 </div>
                                             </div>
 
@@ -620,19 +712,22 @@ export default function TypingBoard({ isDarkMode = true }) {
 
                                                 <button 
                                                     type="button"
-                                                    className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : 'start-btn'}`}
+                                                    className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : (hasProgress ? 'continue-btn' : 'start-btn')}`}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
                                                         setCurrentSubLessonId(subLesson.id);
                                                     }}
                                                 >
-                                                    {isCompleted ? '▶ অনুশীলন' : '▶ শুরু করুন'}
+                                                    {isCompleted ? '▶ পুনরায় অনুশীলন' : (hasProgress ? `▶ চালিয়ে যান (${progressPercent}%)` : '▶ শুরু করুন')}
                                                 </button>
                                             </div>
                                         </div>
 
                                         <div className="lesson-card-bottom-track">
-                                            <div className={`track-fill ${isCompleted ? 'filled' : ''}`}></div>
+                                            <div 
+                                                className={`track-fill ${isCompleted ? 'filled' : (hasProgress ? 'in-progress-fill' : '')}`}
+                                                style={{ width: `${progressPercent}%` }}
+                                            ></div>
                                         </div>
                                     </div>
                                 );
@@ -644,6 +739,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                         <div className="practice-header">
                             <button className="back-btn" onClick={() => setCurrentSubLessonId(null)}>← ফিরে যান</button>
                             <h3>{currentSubLesson?.title}</h3>
+                            <button className="retry-btn-header" onClick={handleRetryLesson} title="প্রথম থেকে শুরু করুন">🔄 নতুন করে শুরু</button>
                         </div>
 
                         <div className="keyboard-info">
@@ -664,6 +760,10 @@ export default function TypingBoard({ isDarkMode = true }) {
                             <div className="stat-box">
                                 <span className="stat-label">গতি (WPM)</span>
                                 <span className="stat-value">{wpm}</span>
+                            </div>
+                            <div className="stat-box">
+                                <span className="stat-label">সঠিকতা (Accuracy)</span>
+                                <span className="stat-value">{accuracy || (totalKeystrokes === 0 ? 100 : Math.round((correctKeystrokes / totalKeystrokes) * 100))}%</span>
                             </div>
                             {currentSubLessonId === 'all-consonants' ? (
                                 <div className="stat-box">
@@ -699,6 +799,22 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     </span>
                                 </div>
                             )}
+                        </div>
+
+                        {/* Live active lesson progress bar */}
+                        <div className="active-lesson-progress-container">
+                            <div className="active-lesson-progress-info">
+                                <span className="active-progress-label">📊 লেসন অগ্রগতি</span>
+                                <span className="active-progress-percent">
+                                    {Math.round(((hasError ? errorIndex : currentIndex) / (lessonData.length || 1)) * 100)}% ({hasError ? errorIndex : currentIndex}/{lessonData.length} অক্ষর)
+                                </span>
+                            </div>
+                            <div className="active-lesson-progress-bar">
+                                <div 
+                                    className="active-lesson-progress-fill" 
+                                    style={{ width: `${Math.max(1, Math.round(((hasError ? errorIndex : currentIndex) / (lessonData.length || 1)) * 100))}%` }}
+                                ></div>
+                            </div>
                         </div>
 
                         <div 
