@@ -7,77 +7,77 @@ export const arabicCategories = [
         subLessons: [
             {
                 id: 'ar-letters-1',
-                title: 'ধাপ ১: ا ب ت',
+                title: 'ا ب ت',
                 sequence: generateBlockSequence([
                     { keys: ["h"], char: 'ا' }, { keys: ["f"], char: 'ب' }, { keys: ["j"], char: 'ت' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-2',
-                title: 'ধাপ ২: ث ج ح',
+                title: 'ث ج ح',
                 sequence: generateBlockSequence([
                     { keys: ["e"], char: 'ث' }, { keys: ["["], char: 'ج' }, { keys: ["p"], char: 'ح' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-3',
-                title: 'ধাপ ৩: خ د ذ',
+                title: 'خ د ذ',
                 sequence: generateBlockSequence([
                     { keys: ["o"], char: 'خ' }, { keys: ["]"], char: 'د' }, { keys: ["`"], char: 'ذ' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-4',
-                title: 'ধাপ ৪: ر ز س',
+                title: 'ر ز س',
                 sequence: generateBlockSequence([
                     { keys: ["m"], char: 'ر' }, { keys: ["x"], char: 'ز' }, { keys: ["s"], char: 'س' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-5',
-                title: 'ধাপ ৫: ش ص ض',
+                title: 'ش ص ض',
                 sequence: generateBlockSequence([
                     { keys: ["a"], char: 'ش' }, { keys: ["w"], char: 'ص' }, { keys: ["q"], char: 'ض' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-6',
-                title: 'ধাপ ৬: ط ظ ع',
+                title: 'ط ظ ع',
                 sequence: generateBlockSequence([
                     { keys: ["'"], char: 'ط' }, { keys: ["z"], char: 'ظ' }, { keys: ["u"], char: 'ع' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-7',
-                title: 'ধাপ ৭: غ ف ق',
+                title: 'غ ف ق',
                 sequence: generateBlockSequence([
                     { keys: ["y"], char: 'غ' }, { keys: ["t"], char: 'ف' }, { keys: ["r"], char: 'ق' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-8',
-                title: 'ধাপ ৮: ك ل م',
+                title: 'ك ل م',
                 sequence: generateBlockSequence([
                     { keys: [";"], char: 'ك' }, { keys: ["g"], char: 'ل' }, { keys: ["l"], char: 'م' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-9',
-                title: 'ধাপ ৯: ن ه و',
+                title: 'ن ه و',
                 sequence: generateBlockSequence([
                     { keys: ["k"], char: 'ن' }, { keys: ["i"], char: 'ه' }, { keys: ["c"], char: 'و' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-10',
-                title: 'ধাপ ১০: ي ء ة',
+                title: 'ي ء ة',
                 sequence: generateBlockSequence([
                     { keys: ["d"], char: 'ي' }, { keys: ["."], char: 'ء' }, { keys: ["v"], char: 'ة' }
                 ], 15, 15)
             },
             {
                 id: 'ar-letters-11',
-                title: 'ধাপ ১১ (বিশেষ বর্ণ): ى لا',
+                title: 'ى لا',
                 sequence: generateBlockSequence([
                     { keys: ["b"], char: 'ى' }, { keys: ["n"], char: 'لا' }
                 ], 15, 15)
@@ -142,7 +142,7 @@ export const arabicCategories = [
         subLessons: [
             { 
                 id: 'ar-words-1', 
-                title: 'ধাপ ১: ২ অক্ষরের শব্দ (2-letter words)', 
+                title: '২ অক্ষরের শব্দ (2-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "f"], char: 'اب' },
                     { keys: ["h", "l"], char: 'ام' },
@@ -156,7 +156,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-2', 
-                title: 'ধাপ ২: ৩ অক্ষরের শব্দ (3-letter words)', 
+                title: '৩ অক্ষরের শব্দ (3-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "s", "]"], char: 'اسد' },
                     { keys: ["f", "k", "j"], char: 'بنت' },
@@ -170,7 +170,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-3', 
-                title: 'ধাপ ৩: ৪ অক্ষরের শব্দ (4-letter words)', 
+                title: '৪ অক্ষরের শব্দ (4-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: [";", "j", "h", "f"], char: 'كتاب' },
                     { keys: ["l", ";", "j", "f"], char: 'مكتب' },
@@ -183,7 +183,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-4', 
-                title: 'ধাপ ৪: ৫ অক্ষরের শব্দ (5-letter words)', 
+                title: '৫ অক্ষরের শব্দ (5-letter words)', 
                 sequence: generateBlockSequence([
                     { keys: ["l", "]", "m", "s", "v"], char: 'مدرسة' },
                     { keys: ["h", "s", "j", "h", "`"], char: 'استاذ' },
@@ -196,7 +196,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-5', 
-                title: 'ধাপ ৫: লাম-আলিফ (لا) যুক্ত শব্দ', 
+                title: 'লাম-আলিফ (لا) যুক্ত শব্দ', 
                 sequence: generateBlockSequence([
                     { keys: ["s", "n", "l"], char: 'سلام' },
                     { keys: ["h", "s", "n", "l"], char: 'اسلام' },
@@ -208,7 +208,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-words-6', 
-                title: 'ধাপ ৬: হরকত যুক্ত শব্দ (Words with Harakat)', 
+                title: 'হরকত যুক্ত শব্দ (Words with Harakat)', 
                 sequence: generateBlockSequence([
                     { keys: [";", "E", "j", "A", "f", "Q"], char: 'كُتِبَ' },
                     { keys: ["m", "E", "s", "E", "g", "R"], char: 'رُسُلٌ' },
@@ -228,7 +228,7 @@ export const arabicCategories = [
         subLessons: [
             { 
                 id: 'ar-sen-1', 
-                title: 'ধাপ ১: ২ শব্দের বাক্য (2-word sentences)', 
+                title: '২ শব্দের বাক্য (2-word sentences)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "k", "h"], char: 'انا' },
                     { keys: [" "], char: ' ' },
@@ -243,7 +243,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-2', 
-                title: 'ধাপ ২: ৩ শব্দের বাক্য (3-word sentences)', 
+                title: '৩ শব্দের বাক্য (3-word sentences)', 
                 sequence: generateBlockSequence([
                     { keys: ["h", "k", "h", " ", "h", "]", "m", "s", " ", "h", "g", "u", "m", "f", "d", "v"], char: 'انا ادرس العربية' },
                     { keys: ["i", "`", "h"], char: 'هذا' },
@@ -255,7 +255,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-3', 
-                title: 'ধাপ ৩: হরকত যুক্ত বাক্য (Sentences with Harakat)', 
+                title: 'হরকত যুক্ত বাক্য (Sentences with Harakat)', 
                 sequence: generateBlockSequence([
                     { keys: [";", "Q", "d", "X", "t", "Q"], char: 'كَيْفَ' },
                     { keys: [" "], char: ' ' },
@@ -267,7 +267,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sen-4', 
-                title: 'ধাপ ৪: ইসলামী বাক্য (Islamic Sentences)', 
+                title: 'ইসলামী বাক্য (Islamic Sentences)', 
                 sequence: generateBlockSequence([
                     { keys: ["f", "A", "s", "X", "l", "A"], char: 'بِسْمِ' },
                     { keys: [" "], char: ' ' },
@@ -283,7 +283,7 @@ export const arabicCategories = [
         subLessons: [
             { 
                 id: 'ar-sym-1', 
-                title: 'ধাপ ১: গুরুত্বপূর্ণ ইসলামী শর্টকাট', 
+                title: 'গুরুত্বপূর্ণ ইসলামী শর্টকাট', 
                 sequence: generateBlockSequence([
                     { keys: ["!"], char: 'ﷲ' },
                     { keys: ["@"], char: '﷽' },
@@ -293,7 +293,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sym-2', 
-                title: 'ধাপ ২: কোরআনের বিশেষ চিহ্ন (রুকু, সিজদাহ)', 
+                title: 'কোরআনের বিশেষ চিহ্ন (রুকু, সিজদাহ)', 
                 sequence: generateBlockSequence([
                     { keys: ["%"], char: '۞' },
                     { keys: ["^"], char: '۩' },
@@ -302,7 +302,7 @@ export const arabicCategories = [
             },
             { 
                 id: 'ar-sym-3', 
-                title: 'ধাপ ৩: ওয়াক্বফ (থামার চিহ্ন)', 
+                title: 'ওয়াক্বফ (থামার চিহ্ন)', 
                 sequence: generateBlockSequence([
                     { keys: ["*"], char: 'ۘ' },
                     { keys: ["("], char: 'ۚ' },

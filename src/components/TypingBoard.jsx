@@ -861,7 +861,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                             {(() => {
                                                 const cIndex = currentCategory?.subLessons.findIndex(s => s.id === currentSubLessonId);
                                                 const isLast = cIndex === currentCategory?.subLessons.length - 1;
-                                                return isLast ? "তালিকায় ফিরে যান" : "পরবর্তী ধাপ";
+                                                return isLast ? "তালিকায় ফিরে যান" : "পরবর্তী লেসন";
                                             })()}
                                             <span className="shortcut-hint" style={{background: 'rgba(255,255,255,0.2)', color: 'white'}}>Enter</span>
                                         </button>
