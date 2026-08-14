@@ -1,12 +1,15 @@
 {
   "name": "bijoy-typing",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Bijoy Bangla, English, and Arabic Typing Tutor",
+  "author": "delibhaibd",
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && electron-builder",
+    "build": "vite build",
+    "build:electron": "vite build && electron-builder",
     "lint": "oxlint",
     "preview": "vite preview"
   },
