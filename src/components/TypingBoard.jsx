@@ -418,6 +418,47 @@ export default function TypingBoard({ isDarkMode = true }) {
         currentExpectedKey = 'Backspace';
     }
 
+    const getCategoryIcon = (catId) => {
+        const iconMap = {
+            'home-row': '🏠',
+            'top-row': '⬆️',
+            'bottom-row': '⬇️',
+            'vowels': '🅰️',
+            'consonants': '🔤',
+            'conjuncts': '🧩',
+            'practice': '📖',
+            'speed-test': '⚡',
+            'en-basic': '⌨️',
+            'en-adv-1': '🔠',
+            'en-adv-2': '🔤',
+            'en-adv-3': '🔣',
+            'en-adv-4': '🔢',
+            'en-adv-5': '🧮',
+            'en-adv-6': '💼',
+            'en-adv-7': '⚡',
+            'arabic-letters': '🔤',
+            'arabic-harakat': '〰️',
+            'arabic-words': '📝',
+            'arabic-sentences': '📜',
+            'arabic-surahs': '🕌'
+        };
+        return iconMap[catId] || '📌';
+    };
+
+    const totalCompletedCount = Object.keys(completedLessons).filter(k => completedLessons[k]?.status === 'completed').length;
+
+    const handleLanguageChange = (mode) => {
+        setTypingMode(mode);
+        setCurrentCategoryId(
+            mode === 'bn' 
+                ? categories[0].id 
+                : mode === 'ar' 
+                    ? arabicCategories[0].id 
+                    : englishCategories[0].id
+        );
+        setCurrentSubLessonId(null);
+    };
+
     const handleCategoryClick = (catId) => {
         setCurrentCategoryId(catId);
         setCurrentSubLessonId(null);
@@ -426,72 +467,95 @@ export default function TypingBoard({ isDarkMode = true }) {
     return (
         <div className="typing-layout-wrapper">
             {!currentSubLessonId && (
-                <aside className="sidebar">
-                <div className="sidebar-title">মেনু</div>
-                <div className="sidebar-mode-toggle" style={{ marginBottom: '20px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '500' }}>টাইপিং মোড নির্বাচন করুন</label>
-                    <div style={{ position: 'relative' }}>
-                        <select 
-                            className="sidebar-btn" 
-                            style={{ 
-                                width: '100%', 
-                                appearance: 'none', 
-                                textAlign: 'left', 
-                                paddingRight: '30px',
-                                background: 'var(--surface)',
-                                cursor: 'pointer',
-                                fontSize: '1rem'
-                            }}
-                            value={typingMode}
-                            onChange={(e) => {
-                                const mode = e.target.value;
-                                setTypingMode(mode);
-                                setCurrentCategoryId(
-                                    mode === 'bn' 
-                                        ? categories[0].id 
-                                        : mode === 'ar' 
-                                            ? arabicCategories[0].id 
-                                            : englishCategories[0].id
-                                );
-                                setCurrentSubLessonId(null);
-                            }}
-                        >
-                            <option value="bn">বাংলা টাইপিং (Bengali)</option>
-                            <option value="en">ইংরেজি টাইপিং (English)</option>
-                            <option value="ar">আরবি টাইপিং (Arabic)</option>
-                        </select>
-                        <div style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--primary)', fontSize: '0.8rem' }}>
-                            ▼
+                <aside className="sidebar premium-sidebar">
+                    <div className="sidebar-header-premium">
+                        <div className="sidebar-header-title-box">
+                            <span className="sidebar-header-icon">🧭</span>
+                            <div>
+                                <div className="sidebar-title-main">মেনু ও ক্যাটাগরি</div>
+                                <div className="sidebar-title-sub">টাইপিং লেসন নির্বাচন</div>
+                            </div>
+                        </div>
+                        {totalCompletedCount > 0 && (
+                            <span className="sidebar-badge-counter">{totalCompletedCount} ✓</span>
+                        )}
+                    </div>
+
+                    <div className="menu-lang-selector">
+                        <div className="menu-section-label">টাইপিং ভাষা নির্বাচন</div>
+                        <div className="lang-segmented-pills">
+                            <button 
+                                type="button"
+                                className={`lang-pill ${typingMode === 'bn' ? 'active' : ''}`}
+                                onClick={() => handleLanguageChange('bn')}
+                            >
+                                <span className="lang-flag">🇧🇩</span>
+                                <span className="lang-name">বাংলা</span>
+                            </button>
+                            <button 
+                                type="button"
+                                className={`lang-pill ${typingMode === 'en' ? 'active' : ''}`}
+                                onClick={() => handleLanguageChange('en')}
+                            >
+                                <span className="lang-flag">🇬🇧</span>
+                                <span className="lang-name">English</span>
+                            </button>
+                            <button 
+                                type="button"
+                                className={`lang-pill ${typingMode === 'ar' ? 'active' : ''}`}
+                                onClick={() => handleLanguageChange('ar')}
+                            >
+                                <span className="lang-flag">🇸🇦</span>
+                                <span className="lang-name">العربية</span>
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div className="sidebar-buttons">
-                    {activeCategories.map(cat => (
-                        <button 
-                            key={cat.id}
-                            className={`sidebar-btn ${currentCategoryId === cat.id ? 'active' : ''}`}
-                            onClick={() => handleCategoryClick(cat.id)}
-                        >
-                            {cat.title}
-                        </button>
-                    ))}
-                </div>
-                
-                {/* 
-                <div className="sidebar-auth-section" style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
-                    {user ? (
-                        <div className="user-profile">
-                            <div style={{ fontSize: '0.9rem', marginBottom: '8px' }}>লগড ইন: <br/><strong>{user.email}</strong></div>
-                            <button className="sidebar-btn" onClick={logout} style={{ background: 'var(--surface-hover)', color: 'var(--text-main)' }}>লগআউট</button>
+
+                    <div className="menu-categories-list">
+                        <div className="menu-section-label">ক্যাটাগরি সমূহ</div>
+                        <div className="sidebar-buttons">
+                            {activeCategories.map(cat => {
+                                const isCatActive = currentCategoryId === cat.id;
+                                const icon = getCategoryIcon(cat.id);
+                                const lessonCount = cat.subLessons?.length || 0;
+                                const completedInCat = cat.subLessons?.filter(sl => completedLessons[sl.id]?.status === 'completed').length || 0;
+
+                                return (
+                                    <button 
+                                        key={cat.id}
+                                        className={`sidebar-btn ${isCatActive ? 'active' : ''}`}
+                                        onClick={() => handleCategoryClick(cat.id)}
+                                    >
+                                        <div className="cat-btn-content">
+                                            <span className="cat-icon">{icon}</span>
+                                            <div className="cat-text-group">
+                                                <span className="cat-title">{cat.title}</span>
+                                                <span className="cat-subinfo">
+                                                    {completedInCat > 0 ? `${completedInCat}/${lessonCount} সম্পন্ন` : `${lessonCount}টি লেসন`}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span className="cat-arrow">›</span>
+                                    </button>
+                                );
+                            })}
                         </div>
-                    ) : (
-                        <button className="sidebar-btn" onClick={() => setIsLoginModalOpen(true)} style={{ background: 'var(--primary)', color: 'white' }}>
-                            লগইন করুন
-                        </button>
-                    )}
-                </div>
-                */}
-            </aside>
+                    </div>
+
+                    <div className="menu-footer-card">
+                        <div className="menu-progress-header">
+                            <span className="menu-progress-label">📊 সামগ্রিক অগ্রগতি</span>
+                            <span className="menu-progress-val">{totalCompletedCount} সম্পন্ন</span>
+                        </div>
+                        <div className="menu-progress-bar-bg">
+                            <div 
+                                className="menu-progress-bar-fill" 
+                                style={{ width: `${Math.min(100, Math.max(6, totalCompletedCount * 5))}%` }}
+                            ></div>
+                        </div>
+                        <div className="menu-footer-tag">✨ নিয়মিত টাইপিং অনুশীলন করুন</div>
+                    </div>
+                </aside>
             )}
             
             <div className="typing-board-container">
