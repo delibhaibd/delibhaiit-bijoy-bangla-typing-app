@@ -560,47 +560,92 @@ export default function TypingBoard({ isDarkMode = true }) {
             
             <div className="typing-board-container">
                 {!currentSubLessonId ? (
-                    <div className="sub-lesson-list">
-                        <h2>{currentCategory?.title} - প্র্যাকটিস তালিকা</h2>
-                        <p className="sub-lesson-subtitle">আপনার পছন্দমত লেসন বেছে নিয়ে টাইপিং শুরু করুন</p>
+                    <div className="sub-lesson-list-premium">
+                        {(() => {
+                            const totalCatLessons = currentCategory?.subLessons?.length || 0;
+                            const completedInCat = currentCategory?.subLessons?.filter(sl => completedLessons[sl.id]?.status === 'completed').length || 0;
+                            const catPercent = totalCatLessons > 0 ? Math.round((completedInCat / totalCatLessons) * 100) : 0;
+
+                            return (
+                                <div className="sub-lesson-hero-card">
+                                    <div className="hero-left">
+                                        <div className="hero-category-icon">
+                                            {getCategoryIcon(currentCategory?.id)}
+                                        </div>
+                                        <div className="hero-text-group">
+                                            <div className="hero-badge-pill">
+                                                {typingMode === 'bn' ? '🇧🇩 বাংলা টাইপিং' : (typingMode === 'ar' ? '🇸🇦 আরবি টাইপিং' : '🇬🇧 English Typing')}
+                                            </div>
+                                            <h2 className="hero-title">{currentCategory?.title}</h2>
+                                            <p className="hero-subtitle">আপনার পছন্দমত লেসন বেছে নিয়ে টাইপিং শুরু করুন</p>
+                                        </div>
+                                    </div>
+                                    <div className="hero-stats-box">
+                                        <div className="hero-progress-circle-area">
+                                            <div className="hero-stat-number">{completedInCat}/{totalCatLessons}</div>
+                                            <div className="hero-stat-label">লেসন সম্পন্ন</div>
+                                        </div>
+                                        <div className="hero-progress-bar-wrap">
+                                            <div className="hero-progress-bar-fill" style={{ width: `${Math.max(6, catPercent)}%` }}></div>
+                                        </div>
+                                        <div className="hero-percent-text">{catPercent}% সমাপ্ত</div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
                         
-                        <div className="progressive-buttons-container">
+                        <div className="progressive-cards-grid">
                             {currentCategory?.subLessons.map((subLesson, index) => {
                                 const lessonStats = completedLessons[subLesson.id];
                                 const isCompleted = lessonStats?.status === 'completed';
                                 
                                 return (
-                                    <div key={subLesson.id} className="lesson-card">
-                                        <div className="lesson-card-main">
-                                            <div className="lesson-card-header">
-                                                <div className="lesson-card-title-area">
-                                                    <span className="lesson-number">{index + 1}</span>
-                                                    <span className="lesson-title">{subLesson.title}</span>
+                                    <div 
+                                        key={subLesson.id} 
+                                        className={`lesson-card-premium ${isCompleted ? 'completed' : ''}`}
+                                        onClick={() => setCurrentSubLessonId(subLesson.id)}
+                                    >
+                                        <div className="lesson-card-top">
+                                            <div className="lesson-badge-and-title">
+                                                <div className={`lesson-index-badge ${isCompleted ? 'completed' : ''}`}>
+                                                    {isCompleted ? '✓' : (index + 1)}
                                                 </div>
-                                                <button 
-                                                    className={`lesson-action-btn ${isCompleted ? 'resume-btn' : 'start-btn'}`}
-                                                    onClick={() => setCurrentSubLessonId(subLesson.id)}
-                                                >
-                                                    {isCompleted ? '▶ Resume' : '▶ Start'}
-                                                </button>
+                                                <div className="lesson-title-meta">
+                                                    <span className="lesson-step-tag">ধাপ {index + 1}</span>
+                                                    <h3 className="lesson-card-title">{subLesson.title}</h3>
+                                                </div>
                                             </div>
-                                            
-                                            <div className="lesson-card-divider"></div>
+                                            <button 
+                                                type="button"
+                                                className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : 'start-btn'}`}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setCurrentSubLessonId(subLesson.id);
+                                                }}
+                                            >
+                                                {isCompleted ? '▶ অনুশীলন' : '▶ শুরু করুন'}
+                                            </button>
+                                        </div>
 
-                                            <div className="lesson-stats">
-                                                <span className="stat-item">Avg Speed: {lessonStats ? lessonStats.wpm : '--'} WPM</span>
-                                                <span className="stat-item">Avg Acc: {lessonStats ? lessonStats.accuracy : '--'}%</span>
-                                                <span className="stat-item">Time: {lessonStats ? lessonStats.time : '--:--'}</span>
+                                        <div className="lesson-card-divider-modern"></div>
+
+                                        <div className="lesson-card-metrics">
+                                            <div className="metric-pill">
+                                                <span className="metric-icon">⚡</span>
+                                                <span className="metric-val">{lessonStats?.wpm ? `${lessonStats.wpm} WPM` : '-- WPM'}</span>
+                                            </div>
+                                            <div className="metric-pill">
+                                                <span className="metric-icon">🎯</span>
+                                                <span className="metric-val">{lessonStats?.accuracy ? `${lessonStats.accuracy}%` : '--%'}</span>
+                                            </div>
+                                            <div className="metric-pill">
+                                                <span className="metric-icon">⏱️</span>
+                                                <span className="metric-val">{lessonStats?.time || '--:--'}</span>
                                             </div>
                                         </div>
-                                        
-                                        <div className="lesson-progress-bar">
-                                            {Array.from({ length: 10 }).map((_, i) => (
-                                                <div 
-                                                    key={i} 
-                                                    className={`progress-segment ${isCompleted ? 'filled' : ''}`}
-                                                ></div>
-                                            ))}
+
+                                        <div className="lesson-card-bottom-track">
+                                            <div className={`track-fill ${isCompleted ? 'filled' : ''}`}></div>
                                         </div>
                                     </div>
                                 );
