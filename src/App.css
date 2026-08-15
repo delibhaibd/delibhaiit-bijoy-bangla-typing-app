@@ -131,16 +131,52 @@ body[data-theme="light"] {
 }
 
 .app-header h1.brand-domain-title {
-  font-size: 3.2rem;
-  font-weight: 800;
-  margin: 0 0 0.6rem 0;
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.8px;
+  font-family: 'Outfit', 'Inter', 'Roboto', system-ui, -apple-system, sans-serif;
+  line-height: 1.15;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+}
+
+.brand-prefix {
+  color: #f1f3f4;
+  font-weight: 900;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+}
+
+body[data-theme="light"] .brand-prefix {
+  color: #202124;
+}
+
+.brand-highlight {
+  background: linear-gradient(135deg, #60a5fa 0%, #0371c6 50%, #1a73e8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-family: 'Roboto', sans-serif;
-  text-shadow: 0 10px 30px rgba(168, 85, 247, 0.2);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+
+body[data-theme="light"] .brand-highlight {
+  background: linear-gradient(135deg, #0284c7 0%, #0371c6 60%, #1a73e8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brand-tld {
+  color: #9aa0a6;
+  font-weight: 800;
+  font-size: 0.82em;
+}
+
+body[data-theme="light"] .brand-tld {
+  color: #5f6368;
 }
 
 .app-header p.brand-domain-subtitle {
@@ -154,7 +190,7 @@ body[data-theme="light"] {
 }
 
 .app-header p.brand-domain-subtitle span {
-  color: var(--primary);
+  color: #0371c6;
   font-weight: 700;
 }
 

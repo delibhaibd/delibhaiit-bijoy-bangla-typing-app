@@ -23,7 +23,11 @@ function App() {
         </div>
       </div>
       <header className="app-header">
-        <h1 className="brand-domain-title">Typing.deliBhaiit.com</h1>
+        <h1 className="brand-domain-title">
+          <span className="brand-prefix">Typing.</span>
+          <span className="brand-highlight">deliBhaiit</span>
+          <span className="brand-tld">.com</span>
+        </h1>
         <p className="brand-domain-subtitle">
           মাত্র ১২ ঘন্টার প্র্যাক্টিসে শিখুন কম্পিউটার কী-বোর্ড টাইপিং। কোন সূত্র মুখস্থ করা ছাড়াই শিখুন তিনটি ভাষা- <span>ইংরেজি</span> | <span>বাংলা</span> | <span>আরবী</span>
         </p>
