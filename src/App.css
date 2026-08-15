@@ -2387,7 +2387,7 @@ body[data-theme="light"] .form-group input {
   }
 
   .bn-char {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .char-box {
@@ -2914,7 +2914,7 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
 
   .char-box {
@@ -2941,7 +2941,7 @@ body[data-theme="light"] .back-btn:hover {
   }
 
   .bn-char {
-    font-size: 1.25rem;
+    font-size: 1.8rem;
   }
 
   .virtual-keyboard {
@@ -2967,7 +2967,7 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
   }
   
   .key-active, .key-error {
