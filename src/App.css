@@ -1181,17 +1181,17 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .bn-char {
-  font-size: 2.8rem;
+  font-size: 4.5rem;
   font-weight: normal;
   font-family: 'SolaimanLipi', 'Siyam Rupali', 'Vrinda', 'Tiro Bangla', serif;
   letter-spacing: normal;
   word-spacing: normal;
 }
 
-/* Make Bengali and Arabic characters 30% larger as they are naturally smaller than Latin glyphs */
+/* Make Bengali and Arabic characters 35% larger as they are naturally smaller than Latin glyphs */
 .text-display.lang-bn .bn-char,
 .text-display.lang-ar .bn-char {
-  font-size: 1.3em;
+  font-size: 1.35em;
 }
 
 /* Practice mode needs smaller boxes to fit long sentences */
@@ -1200,7 +1200,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .practice-mode .bn-char {
-  font-size: 1.6rem;
+  font-size: 3.5rem;
 }
 
 .char-box.error-box {
@@ -2397,7 +2397,7 @@ body[data-theme="light"] .form-group input {
   }
 
   .bn-char {
-    font-size: 2.6rem;
+    font-size: 3.8rem;
   }
 
   .char-box {
@@ -2686,7 +2686,7 @@ body[data-theme="light"] .back-btn:hover {
 .text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }
 .text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.8); transform: none; box-shadow: none; border-bottom: 2px solid var(--error); border-radius: 4px; }
 .text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.8); }
-.text-display.practice-mode .bn-char { font-size: 2.8rem; }
+.text-display.practice-mode .bn-char { font-size: 3.5rem; }
 
 /* Light mode overrides for practice view */
 [data-theme='light'] .text-display.practice-mode {
@@ -2924,7 +2924,7 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 2.6rem;
+    font-size: 3rem;
   }
 
   .char-box {
@@ -2951,7 +2951,7 @@ body[data-theme="light"] .back-btn:hover {
   }
 
   .bn-char {
-    font-size: 2.4rem;
+    font-size: 3rem;
   }
 
   .virtual-keyboard {
@@ -2977,7 +2977,7 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 2.4rem;
+    font-size: 2.6rem;
   }
   
   .key-active, .key-error {
