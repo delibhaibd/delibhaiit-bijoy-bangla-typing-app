@@ -1185,6 +1185,12 @@ body[data-theme="light"] .key-pressed-hud-pill {
   word-spacing: normal;
 }
 
+/* Make Bengali and Arabic characters 30% larger as they are naturally smaller than Latin glyphs */
+.text-display.lang-bn .bn-char,
+.text-display.lang-ar .bn-char {
+  font-size: 1.3em;
+}
+
 /* Practice mode needs smaller boxes to fit long sentences */
 .practice-mode .char-box {
   padding: 8px 12px;

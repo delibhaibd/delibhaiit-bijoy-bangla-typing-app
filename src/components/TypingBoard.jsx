@@ -874,7 +874,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                         </div>
 
                         <div 
-                            className={`text-display text-display-premium ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
+                            className={`text-display text-display-premium lang-${typingMode} ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
                             dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
                         >
                             {(() => {
