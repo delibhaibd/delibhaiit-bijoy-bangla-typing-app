@@ -175,70 +175,72 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             
             {!isNumpadMode && (
                 <div className="virtual-keyboard" style={{ flex: 1, margin: '0', maxWidth: 'none', position: 'relative' }}>
-                    {/* Touch Typing Hands Overlay */}
-                    <div className="typing-hands-overlay">
-                        <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
-                            <defs>
-                                <path id="hand-shape" className="typing-hand-shape" d="
-                                    M 50,240 
-                                    A 75,75 0 0,0 200,240 
-                                    L 200,195
-                                    A 15,15 0 0,0 170,195
-                                    L 170,80
-                                    A 15,15 0 0,0 140,80
-                                    L 140,60
-                                    A 15,15 0 0,0 110,60
-                                    L 110,105
-                                    A 15,15 0 0,0 80,105
-                                    L 80,150
-                                    A 15,15 0 0,0 50,150
-                                    Z" 
-                                />
-                                <path id="hand-dividers" className="typing-hand-dividers" d="
-                                    M 80,150 L 80,225 
-                                    M 110,105 L 110,225 
-                                    M 140,80 L 140,225 
-                                    M 170,195 L 170,230"
-                                />
-                            </defs>
+                    {/* Touch Typing Hands Overlay - only shown when keyboard suggestions/guidance are active */}
+                    {!isRandomMode && expectedKey && expectedKey !== '-' && (
+                        <div className="typing-hands-overlay">
+                            <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
+                                <defs>
+                                    <path id="hand-shape" className="typing-hand-shape" d="
+                                        M 50,240 
+                                        A 75,75 0 0,0 200,240 
+                                        L 200,195
+                                        A 15,15 0 0,0 170,195
+                                        L 170,80
+                                        A 15,15 0 0,0 140,80
+                                        L 140,60
+                                        A 15,15 0 0,0 110,60
+                                        L 110,105
+                                        A 15,15 0 0,0 80,105
+                                        L 80,150
+                                        A 15,15 0 0,0 50,150
+                                        Z" 
+                                    />
+                                    <path id="hand-dividers" className="typing-hand-dividers" d="
+                                        M 80,150 L 80,225 
+                                        M 110,105 L 110,225 
+                                        M 140,80 L 140,225 
+                                        M 170,195 L 170,230"
+                                    />
+                                </defs>
 
-                            {/* Left Hand Group */}
-                            <g transform="translate(10, 0)">
-                                <use href="#hand-shape" />
-                                <use href="#hand-dividers" />
-                                {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
-                                    const highlightColor = getFingerHighlight('left', fingerName);
-                                    if (!highlightColor) return null;
-                                    return (
-                                        <path
-                                            key={fingerName}
-                                            d={pathD}
-                                            fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
-                                            className="typing-finger-active"
-                                        />
-                                    );
-                                })}
-                            </g>
+                                {/* Left Hand Group */}
+                                <g transform="translate(10, 0)">
+                                    <use href="#hand-shape" />
+                                    <use href="#hand-dividers" />
+                                    {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
+                                        const highlightColor = getFingerHighlight('left', fingerName);
+                                        if (!highlightColor) return null;
+                                        return (
+                                            <path
+                                                key={fingerName}
+                                                d={pathD}
+                                                fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
+                                                className="typing-finger-active"
+                                            />
+                                        );
+                                    })}
+                                </g>
 
-                            {/* Right Hand Group (Flipped Horizontally) */}
-                            <g transform="translate(490, 0) scale(-1, 1)">
-                                <use href="#hand-shape" />
-                                <use href="#hand-dividers" />
-                                {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
-                                    const highlightColor = getFingerHighlight('right', fingerName);
-                                    if (!highlightColor) return null;
-                                    return (
-                                        <path
-                                            key={fingerName}
-                                            d={pathD}
-                                            fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
-                                            className="typing-finger-active"
-                                        />
-                                    );
-                                })}
-                            </g>
-                        </svg>
-                    </div>
+                                {/* Right Hand Group (Flipped Horizontally) */}
+                                <g transform="translate(490, 0) scale(-1, 1)">
+                                    <use href="#hand-shape" />
+                                    <use href="#hand-dividers" />
+                                    {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
+                                        const highlightColor = getFingerHighlight('right', fingerName);
+                                        if (!highlightColor) return null;
+                                        return (
+                                            <path
+                                                key={fingerName}
+                                                d={pathD}
+                                                fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
+                                                className="typing-finger-active"
+                                            />
+                                        );
+                                    })}
+                                </g>
+                            </svg>
+                        </div>
+                    )}
 
                     {KEYBOARD_ROWS.map((row, rowIndex) => (
                         <div key={rowIndex} className="keyboard-row">

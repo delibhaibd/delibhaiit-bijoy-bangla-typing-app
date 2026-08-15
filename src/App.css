@@ -1139,27 +1139,88 @@ body[data-theme="light"] .key-pressed-hud-pill {
   word-spacing: normal;
 }
 
-/* Practice mode needs smaller boxes to fit long sentences */
+/* Practice mode for full sentences: seamless continuous typography without isolated boxes */
+.text-display.practice-mode {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  padding: 1.25rem 2rem;
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  min-height: 120px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme='light'] .text-display.practice-mode {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(226, 232, 240, 0.9);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
 .practice-mode .char-box {
-  padding: 8px 12px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  box-shadow: none;
+  padding: 2px 0;
+  margin: 0;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+[data-theme='light'] .practice-mode .char-box {
+  background: transparent;
+  box-shadow: none;
+}
+
+.practice-mode .char-box.char-space {
+  width: 14px;
+  min-width: 14px;
 }
 
 .practice-mode .bn-char {
-  font-size: 1.6rem;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.25;
+  letter-spacing: 0;
 }
 
-.char-box.error-box {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: var(--error);
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+.practice-mode .char-box.correct .bn-char {
+  color: #10b981;
 }
 
-.char-box.error-box .bn-char {
+.practice-mode .char-box.active {
+  background: rgba(99, 102, 241, 0.2);
+  border-bottom: 3px solid var(--primary);
+}
+
+.practice-mode .char-box.active .bn-char {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+[data-theme='light'] .practice-mode .char-box.active .bn-char {
+  color: #0f172a;
+}
+
+.practice-mode .char-box.error-box {
+  background: rgba(239, 68, 68, 0.25);
+  border-bottom: 3px solid var(--error);
+  transform: none;
+  box-shadow: none;
+}
+
+.practice-mode .char-box.error-box .bn-char {
   color: var(--error);
-}
-.char-box.error-box .qwerty-hint {
-  color: var(--text-main);
 }
 
 .error-alert-box {

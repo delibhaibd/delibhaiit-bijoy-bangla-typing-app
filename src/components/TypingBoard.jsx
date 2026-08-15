@@ -88,35 +88,27 @@ export default function TypingBoard({ isDarkMode = true }) {
 
     const practicePageBounds = React.useMemo(() => {
         if (currentCategoryId !== 'practice') return [];
-        const MAX_CHARS = 18;
         const bounds = [];
         let startIndex = 0;
-        let currentLength = 0;
-        let lastSpaceIndex = -1;
 
         for (let i = 0; i < lessonData.length; i++) {
-            currentLength++;
             const char = lessonData[i].bn || lessonData[i].char;
-            if (char === ' ') {
-                lastSpaceIndex = i;
-            }
-
-            if (currentLength >= MAX_CHARS && i < lessonData.length - 1) {
-                if (lastSpaceIndex !== -1 && lastSpaceIndex > startIndex) {
-                    bounds.push({ start: startIndex, end: lastSpaceIndex + 1 });
-                    startIndex = lastSpaceIndex + 1;
-                    currentLength = i - startIndex + 1;
-                } else {
-                    bounds.push({ start: startIndex, end: i + 1 });
-                    startIndex = i + 1;
-                    currentLength = 0;
+            // Sentence endings in Bangla: '।' (দাঁড়ি), '?', '!', '\n'
+            if (char === '।' || char === '?' || char === '!' || char === '\n' || i === lessonData.length - 1) {
+                let endIndex = i + 1;
+                // Include trailing space if there is one right after the punctuation
+                if (endIndex < lessonData.length && (lessonData[endIndex].bn === ' ' || lessonData[endIndex].char === ' ')) {
+                    endIndex++;
                 }
+                bounds.push({ start: startIndex, end: endIndex });
+                startIndex = endIndex;
+                i = endIndex - 1;
             }
         }
         if (startIndex < lessonData.length) {
             bounds.push({ start: startIndex, end: lessonData.length });
         }
-        return bounds;
+        return bounds.length > 0 ? bounds : [{ start: 0, end: lessonData.length }];
     }, [lessonData, currentCategoryId]);
 
     const screenBounds = React.useMemo(() => {
@@ -558,13 +550,12 @@ export default function TypingBoard({ isDarkMode = true }) {
         setStartTime(null);
         setCompleted(false);
         setHasError(false);
-        setTotalTypedChars(0);
-        setTotalCorrectChars(0);
-        setTotalErrors(0);
-        setLessonHistory([]);
-        setIsAutoAdvancing(false);
-        resetLessonResults();
-        resetSpeedTest();
+        setWrongIndex(-1);
+        setErrorIndex(-1);
+        setTotalKeystrokes(0);
+        setCorrectKeystrokes(0);
+        setWpm(0);
+        setAccuracy(0);
     };
 
     const handleCategoryClick = (catId) => {
@@ -575,13 +566,12 @@ export default function TypingBoard({ isDarkMode = true }) {
         setStartTime(null);
         setCompleted(false);
         setHasError(false);
-        setTotalTypedChars(0);
-        setTotalCorrectChars(0);
-        setTotalErrors(0);
-        setLessonHistory([]);
-        setIsAutoAdvancing(false);
-        resetLessonResults();
-        resetSpeedTest();
+        setWrongIndex(-1);
+        setErrorIndex(-1);
+        setTotalKeystrokes(0);
+        setCorrectKeystrokes(0);
+        setWpm(0);
+        setAccuracy(0);
     };
 
     return (
@@ -872,31 +862,33 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     </div>
 
                                     <div className="hud-card hud-progress">
-                                        <div className="hud-card-icon-wrap">📈</div>
-                                        <div className="hud-card-body">
-                                            <span className="hud-card-label">লেসন প্রগ্রেস</span>
-                                            <span className="hud-card-value">{progressPct}<small>%</small></span>
+                                        <div className="hud-card-icon-wrap">📊</div>
+                                        <div className="hud-card-body" style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                                                <span className="hud-card-label">লেসন প্রগ্রেস</span>
+                                                <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                                                    {effectiveIndex}/{lessonData.length} অক্ষর
+                                                </span>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+                                                <span className="hud-card-value" style={{ fontSize: '1.2rem', lineHeight: 1 }}>{progressPct}<small>%</small></span>
+                                                <div style={{ flex: 1, height: '6px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '6px', overflow: 'hidden' }}>
+                                                    <div 
+                                                        style={{ 
+                                                            height: '100%', 
+                                                            width: `${Math.max(progressPct > 0 ? 3 : 0, progressPct)}%`, 
+                                                            background: 'linear-gradient(90deg, #10b981 0%, #06b6d4 100%)',
+                                                            borderRadius: '6px',
+                                                            transition: 'width 0.3s ease'
+                                                        }}
+                                                    ></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             );
                         })()}
-
-                        {/* Live active lesson progress bar */}
-                        <div className="active-lesson-progress-container">
-                            <div className="active-lesson-progress-info">
-                                <span className="active-progress-label">📊 লেসন অগ্রগতি ট্র্যাক</span>
-                                <span className="active-progress-percent">
-                                    {Math.round(((hasError ? errorIndex : currentIndex) / (lessonData.length || 1)) * 100)}% ({hasError ? errorIndex : currentIndex}/{lessonData.length} অক্ষর)
-                                </span>
-                            </div>
-                            <div className="active-lesson-progress-bar">
-                                <div 
-                                    className="active-lesson-progress-fill" 
-                                    style={{ width: `${Math.max(1, Math.round(((hasError ? errorIndex : currentIndex) / (lessonData.length || 1)) * 100))}%` }}
-                                ></div>
-                            </div>
-                        </div>
 
                         <div 
                             className={`text-display text-display-premium lang-${typingMode} ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
@@ -925,7 +917,13 @@ export default function TypingBoard({ isDarkMode = true }) {
 
                                 return lessonData.slice(startIndex, endIndex).map((item, i) => {
                                     const actualIndex = startIndex + i;
+                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || currentCategoryId === 'arabic-sentences' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence);
+                                    const char = item.char || item.bn;
+                                    const isSpace = char === ' ';
+                                    const displayChar = isSpace ? '\u00A0' : char;
+                                    
                                     let className = 'char-box ';
+                                    if (isSpace) className += 'char-space ';
                                     
                                     if (actualIndex < currentIndex && !(hasError && actualIndex === errorIndex)) {
                                         className += 'correct';
@@ -940,9 +938,6 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     if (actualIndex === wrongIndex) className += ' wrong';
                                     if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence);
-                                    const char = item.char || item.bn;
-                                    const displayChar = char === ' ' ? (isPracticeMode ? ' ' : '\u00A0') : char;
                                     const expectedKeys = item.keys || [item.key];
                                     const isConjunct = currentCategoryId === 'conjuncts';
                                     
