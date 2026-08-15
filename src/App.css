@@ -3159,6 +3159,38 @@ body[data-theme="light"] .mobile-categories-select {
   }
 }
 
+/* Typing Hands Guide */
+.typing-hands-guide {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.typing-hand-shape {
+  fill: #0c0d0e;
+  stroke: #555a60;
+  stroke-width: 3;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+[data-theme='light'] .typing-hand-shape {
+  fill: #f3f4f6;
+  stroke: #d1d5db;
+}
+
+.typing-hand-highlight {
+  stroke: #555a60;
+  stroke-width: 3;
+  transition: fill 0.2s ease;
+}
+
+[data-theme='light'] .typing-hand-highlight {
+  stroke: #d1d5db;
+}
+
+
 
 
 

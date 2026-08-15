@@ -38,7 +38,30 @@ const KEYBOARD_ROWS = [
     ]
 ];
 
+const FINGER_PATHS = {
+    'pinky': "M 50,240 L 50,150 A 15,15 0 0,1 80,150 L 80,240 Z",
+    'ring': "M 80,240 L 80,105 A 15,15 0 0,1 110,105 L 110,240 Z",
+    'middle': "M 110,240 L 110,60 A 15,15 0 0,1 140,60 L 140,240 Z",
+    'index': "M 140,240 L 140,80 A 15,15 0 0,1 170,80 L 170,240 Z",
+    'thumb': "M 170,240 L 170,195 A 15,15 0 0,1 200,195 L 200,240 Z"
+};
+
 export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn' }) {
+    const expectedFinger = getFingerForKey(expectedKey);
+    const wrongFinger = getFingerForKey(wrongKey);
+
+    const getFingerHighlight = (hand, fingerName) => {
+        const fingerKey = fingerName === 'thumb' ? 'thumb' : `${hand === 'left' ? 'l' : 'r'}-${fingerName}`;
+        
+        if (wrongFinger === fingerKey) {
+            return '#ef4444'; // Red error
+        }
+        if (expectedFinger === fingerKey) {
+            return '#437ec4'; // Blue highlight
+        }
+        return null;
+    };
+
     let requiresShift = false;
     let targetKey = expectedKey;
 
@@ -140,27 +163,88 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         }}>
             
             {!isNumpadMode && (
-                <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none' }}>
-                    {KEYBOARD_ROWS.map((row, rowIndex) => (
-                        <div key={rowIndex} className="keyboard-row">
-                            {row.map((btn, btnIndex) => (
-                                <div 
-                                    key={btnIndex} 
-                                    className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
-                                >
-                                    {typingMode === 'ar' && btn.ar ? (
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
-                                        </div>
-                                    ) : (
-                                        <span>{btn.label}</span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    ))}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '15px' }}>
+                    {/* Touch Typing Hands Guide */}
+                    <div className="typing-hands-guide">
+                        <svg viewBox="0 50 500 280" style={{ maxWidth: '400px', width: '100%', height: 'auto' }}>
+                            <defs>
+                                <path id="hand-shape" className="typing-hand-shape" d="
+                                    M 40,240 
+                                    A 80,80 0 0,0 200,240 
+                                    L 200,195
+                                    A 15,15 0 0,0 170,195
+                                    L 170,80
+                                    A 15,15 0 0,0 140,80
+                                    L 140,60
+                                    A 15,15 0 0,0 110,60
+                                    L 110,105
+                                    A 15,15 0 0,0 80,105
+                                    L 80,150
+                                    A 15,15 0 0,0 50,150
+                                    L 50,240 
+                                    Z" 
+                                />
+                            </defs>
+
+                            {/* Left Hand Group */}
+                            <g transform="translate(10, 0)">
+                                <use href="#hand-shape" />
+                                {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
+                                    const highlightColor = getFingerHighlight('left', fingerName);
+                                    if (!highlightColor) return null;
+                                    return (
+                                        <path
+                                            key={fingerName}
+                                            d={pathD}
+                                            fill={highlightColor}
+                                            className="typing-hand-highlight"
+                                        />
+                                    );
+                                })}
+                            </g>
+
+                            {/* Right Hand Group (Flipped Horizontally) */}
+                            <g transform="translate(490, 0) scale(-1, 1)">
+                                <use href="#hand-shape" />
+                                {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
+                                    const highlightColor = getFingerHighlight('right', fingerName);
+                                    if (!highlightColor) return null;
+                                    return (
+                                        <path
+                                            key={fingerName}
+                                            d={pathD}
+                                            fill={highlightColor}
+                                            className="typing-hand-highlight"
+                                        />
+                                    );
+                                })}
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none' }}>
+                        {KEYBOARD_ROWS.map((row, rowIndex) => (
+                            <div key={rowIndex} className="keyboard-row">
+                                {row.map((btn, btnIndex) => (
+                                    <div 
+                                        key={btnIndex} 
+                                        className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
+                                    >
+                                        {typingMode === 'ar' && btn.ar ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
+                                            </div>
+                                        ) : (
+                                            <span>{btn.label}</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
+
             
             {isNumpadMode && (
                 <div className="virtual-numpad virtual-keyboard" style={{
