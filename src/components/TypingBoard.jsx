@@ -88,7 +88,7 @@ export default function TypingBoard({ isDarkMode = true }) {
 
     const practicePageBounds = React.useMemo(() => {
         if (currentCategoryId !== 'practice') return [];
-        const MAX_CHARS = 40;
+        const MAX_CHARS = 18;
         const bounds = [];
         let startIndex = 0;
         let currentLength = 0;
@@ -152,7 +152,7 @@ export default function TypingBoard({ isDarkMode = true }) {
             screenTitle = currentSubLesson.screens[screenOrPage]?.title || '';
         } else if (currentSubLessonId) {
             const effectiveIndex = hasError ? errorIndex : currentIndex;
-            screenOrPage = Math.floor(effectiveIndex / 14);
+            screenOrPage = Math.floor(effectiveIndex / 7);
         }
 
         const pageKey = `${typingMode}_${currentCategoryId}_${currentSubLessonId || 'menu'}_p${screenOrPage}_${screenTitle}`;
@@ -798,7 +798,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 const totalPages = screenBounds.length || 1;
                                 screenInfo = `${currentPage}/${totalPages}`;
                             } else {
-                                const PAGE_SIZE = 14;
+                                const PAGE_SIZE = 7;
                                 const totalPages = Math.ceil(lessonData.length / PAGE_SIZE);
                                 const currentPage = Math.floor(effectiveIndex / PAGE_SIZE) + 1;
                                 screenInfo = `${currentPage}/${totalPages}`;
@@ -865,7 +865,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                         >
                             {(() => {
                                 let startIndex = 0;
-                                let endIndex = 14;
+                                let endIndex = 7;
                                 if (currentCategoryId === 'practice') {
                                     const effectiveIndex = hasError ? errorIndex : currentIndex;
                                     const page = practicePageBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || practicePageBounds[0] || { start: 0, end: lessonData.length };
@@ -877,7 +877,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     startIndex = page.start;
                                     endIndex = page.end;
                                 } else {
-                                    const PAGE_SIZE = 14;
+                                    const PAGE_SIZE = 7;
                                     const effectiveIndex = hasError ? errorIndex : currentIndex;
                                     const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
                                     startIndex = pageIndex * PAGE_SIZE;

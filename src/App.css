@@ -1133,13 +1133,14 @@ body[data-theme="light"] .key-pressed-hud-pill {
 
 .text-display {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  align-content: flex-start;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 3rem;
-  min-height: 200px;
+  margin-bottom: 2rem;
+  min-height: 140px;
   max-width: 100%;
+  overflow-x: hidden;
   animation: pageSlideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
@@ -2677,7 +2678,7 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 
-.text-display.practice-mode { display: block; text-align: left; line-height: 2.5; padding: 20px; white-space: pre-wrap; word-wrap: break-word; min-height: 130px; }
+.text-display.practice-mode { display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; text-align: center; line-height: 1.8; padding: 20px; white-space: nowrap; overflow-x: hidden; min-height: 110px; }
 .text-display.practice-mode .char-box { display: inline; padding: 0; border: none; background: transparent; border-radius: 0; margin: 0; box-shadow: none; }
 .text-display.practice-mode .char-box.active { background: rgba(99, 102, 241, 0.3); transform: none; box-shadow: none; border-bottom: 2px solid var(--primary); }
 .text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }
@@ -2914,10 +2915,18 @@ body[data-theme="light"] .back-btn:hover {
     border-radius: 4px;
   }
   
+  .text-display {
+    gap: 6px;
+    flex-wrap: nowrap;
+    min-height: 100px;
+    margin-bottom: 1.2rem;
+  }
+
   .text-display.practice-mode {
     padding: 12px;
-    min-height: 90px;
+    min-height: 80px;
     margin-bottom: 0.5rem;
+    white-space: nowrap;
   }
   
   .text-display.practice-mode .bn-char {
@@ -2945,6 +2954,7 @@ body[data-theme="light"] .back-btn:hover {
 
   .char-box {
     padding: 4px 8px;
+    flex-shrink: 0;
   }
 
   .bn-char {
