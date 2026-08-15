@@ -115,9 +115,16 @@ export default function TypingBoard({ isDarkMode = true }) {
         if (!currentSubLesson?.screens) return [];
         const bounds = [];
         let startIndex = 0;
-        for (const screen of currentSubLesson.screens) {
+        for (let idx = 0; idx < currentSubLesson.screens.length; idx++) {
+            const screen = currentSubLesson.screens[idx];
             const len = screen.text.length;
-            bounds.push({ start: startIndex, end: startIndex + len, title: screen.title, isSentence: screen.isSentence });
+            bounds.push({ 
+                start: startIndex, 
+                end: startIndex + len, 
+                title: screen.title, 
+                isSentence: screen.isSentence,
+                screenIndex: idx
+            });
             startIndex += len;
         }
         return bounds;
@@ -985,16 +992,40 @@ export default function TypingBoard({ isDarkMode = true }) {
                             })()}
                         </div>
 
-                        <div className="practice-guide-area">
-                            <VirtualKeyboard 
-                                expectedKey={currentExpectedKey} 
-                                wrongKey={hasError ? currentKey : null}
-                                isRandomMode={expectedItem?.isRandom || currentCategoryId === 'conjuncts' || currentCategoryId === 'practice'}
-                                feedbackKey={feedbackKey}
-                                isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
-                                typingMode={typingMode === 'ar' ? 'en' : typingMode}
-                            />
-                        </div>
+                        {(() => {
+                            const effectiveIndex = hasError ? errorIndex : currentIndex;
+                            const expectedItem = lessonData[effectiveIndex];
+                            const expectedKeys = expectedItem?.keys || (expectedItem?.key ? [expectedItem.key] : []);
+                            const currentExpectedKey = expectedKeys[subIndex];
+
+                            const currentScreen = currentSubLesson?.screens ? screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) : null;
+                            const currentScreenIdx = currentScreen ? currentScreen.screenIndex : -1;
+
+                            // English lessons start with initial key tutorials (screens 0-2), then progress into random/mixed drills & combos
+                            const isEnglishRandomPhase = typingMode === 'en' && currentScreen && (
+                                currentScreenIdx >= 3 ||
+                                Boolean(currentScreen.isSentence) ||
+                                /mixed|random|drill|review|speed|combo|switching|alternating|sentence|word|challenge|test/i.test(currentScreen.title || '')
+                            );
+
+                            const isRandomMode = Boolean(expectedItem?.isRandom) || 
+                                                 currentCategoryId === 'conjuncts' || 
+                                                 currentCategoryId === 'practice' || 
+                                                 isEnglishRandomPhase;
+
+                            return (
+                                <div className="practice-guide-area">
+                                    <VirtualKeyboard 
+                                        expectedKey={currentExpectedKey} 
+                                        wrongKey={hasError ? currentKey : null}
+                                        isRandomMode={isRandomMode}
+                                        feedbackKey={feedbackKey}
+                                        isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
+                                        typingMode={typingMode === 'ar' ? 'en' : typingMode}
+                                    />
+                                </div>
+                            );
+                        })()}
 
                         {completed && (
                             <div className="completion-modal-overlay">
