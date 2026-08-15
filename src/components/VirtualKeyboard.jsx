@@ -163,10 +163,10 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         }}>
             
             {!isNumpadMode && (
-                <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none', position: 'relative' }}>
+                <div className="virtual-keyboard" style={{ flex: 1, margin: '0', maxWidth: 'none', position: 'relative' }}>
                     {/* Touch Typing Hands Overlay */}
                     <div className="typing-hands-overlay">
-                        <svg viewBox="0 45 500 275" style={{ width: '100%', height: '95%', maxWidth: '660px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
+                        <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
                             <defs>
                                 <path id="hand-shape" className="typing-hand-shape" d="
                                     M 40,240 

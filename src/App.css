@@ -671,10 +671,10 @@ body[data-theme="light"] .menu-progress-bar-bg {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  padding: 2.2rem;
+  padding: 2.2rem 2.2rem 5rem 2.2rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1502,7 +1502,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: -1.25rem;
   position: relative;
 }
 
@@ -1510,14 +1510,14 @@ body[data-theme="light"] .key-pressed-hud-pill {
 .virtual-keyboard {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 1.5rem;
+  padding: 1rem 1.25rem;
   border-radius: 12px;
   border: 1px solid var(--glass-border);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   user-select: none;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   position: relative;
@@ -3170,7 +3170,7 @@ body[data-theme="light"] .mobile-categories-select {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  transform: translateY(40%);
+  transform: translateY(38%);
   z-index: 4;
 }
 
