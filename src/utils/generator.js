@@ -237,41 +237,8 @@ export function applyPageBackground(pageKey, isDarkMode = true) {
         ? generateProceduralIslamicSVG(rng, isDarkMode)
         : generateProceduralTechSVG(rng, isDarkMode);
 
-    let hue1, hue2, hue3;
-
-    if (isArabicPage) {
-        // Sacred Islamic Ambient Palettes
-        const ISLAMIC_HUES = [42, 152, 215, 185, 38, 142, 225, 48, 350];
-        hue1 = rng.choice(ISLAMIC_HUES);
-        hue2 = (hue1 + rng.choice([40, 60, 120, 180])) % 360;
-        hue3 = (hue2 + rng.choice([30, 70, 90])) % 360;
-    } else {
-        hue1 = rng.intRange(0, 360);
-        hue2 = (hue1 + rng.intRange(40, 140)) % 360;
-        hue3 = (hue2 + rng.intRange(40, 120)) % 360;
-    }
-
-    const glowAlpha1 = isDarkMode ? (isArabicPage ? rng.range(0.18, 0.25) : rng.range(0.15, 0.22)) : rng.range(0.10, 0.15);
-    const glowAlpha2 = isDarkMode ? (isArabicPage ? rng.range(0.10, 0.16) : rng.range(0.08, 0.12)) : rng.range(0.06, 0.10);
-    const glowAlpha3 = isDarkMode ? (isArabicPage ? rng.range(0.08, 0.12) : rng.range(0.06, 0.10)) : rng.range(0.04, 0.08);
-
-    const pos1X = rng.intRange(20, 80);
-    const pos1Y = rng.intRange(0, 35);
-    const pos2X = rng.intRange(65, 95);
-    const pos2Y = rng.intRange(60, 95);
-    const pos3X = rng.intRange(5, 35);
-    const pos3Y = rng.intRange(60, 95);
-
-    const ambientGradients = [
-        `radial-gradient(circle at ${pos1X}% ${pos1Y}%, hsla(${hue1}, 85%, 60%, ${glowAlpha1.toFixed(2)}) 0%, transparent 65%)`,
-        `radial-gradient(circle at ${pos2X}% ${pos2Y}%, hsla(${hue2}, 85%, 60%, ${glowAlpha2.toFixed(2)}) 0%, transparent 55%)`,
-        `radial-gradient(circle at ${pos3X}% ${pos3Y}%, hsla(${hue3}, 85%, 60%, ${glowAlpha3.toFixed(2)}) 0%, transparent 50%)`
-    ];
-
-    const fullImages = [...ambientGradients, pattern.image].join(', ');
-    const fullSizes = `100% 100%, 100% 100%, 100% 100%, ${pattern.size}`;
-
-    document.body.style.backgroundImage = fullImages;
-    document.body.style.backgroundSize = fullSizes;
-    document.body.style.backgroundAttachment = 'fixed';
+    // Keep clean Google AI Studio background (no glow blobs)
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundSize = '';
+    document.body.style.backgroundAttachment = '';
 }
