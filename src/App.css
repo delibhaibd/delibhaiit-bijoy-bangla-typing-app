@@ -1,41 +1,47 @@
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --bg-dark: #212124;
-  --glass-bg: rgba(44, 44, 47, 0.75);
+  --primary: #8ab4f8;
+  --primary-hover: #aecbfa;
+  --bg-dark: #131314;
+  --glass-bg: rgba(30, 31, 32, 0.85);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --success: #10b981;
-  --error: #ef4444;
-  --text-main: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --kbd-bg: #2a2a2d;
-  --kbd-border: #3a3a3e;
-  --key-bg: #212124;
-  --key-border: #2c2c2f;
-  --key-shadow: #141416;
-  --key-text: #f4f4f5;
+  --google-surface: #1e1f20;
+  --google-surface-elevated: #28292a;
+  --google-border: #313335;
+  --success: #34a853;
+  --error: #ea4335;
+  --text-main: #e3e3e3;
+  --text-muted: #9aa0a6;
+  --kbd-bg: #1e1f20;
+  --kbd-border: #313335;
+  --key-bg: #1e1f20;
+  --key-border: #313335;
+  --key-shadow: #0b0b0c;
+  --key-text: #e3e3e3;
 }
 
 body[data-theme="light"] {
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --bg-dark: #e2e8f0; /* Richer slate background to reduce glare */
-  --glass-bg: rgba(255, 255, 255, 0.65); /* More translucent to blend beautifully */
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --success: #059669;
-  --error: #dc2626;
-  --text-main: #1e293b;
-  --text-muted: #475569;
-  --kbd-bg: #e2e8f0;
-  --kbd-border: #cbd5e1;
+  --primary: #1a73e8;
+  --primary-hover: #1557b0;
+  --bg-dark: #f0f4f9;
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --google-surface: #ffffff;
+  --google-surface-elevated: #f8fafd;
+  --google-border: #e0e3e7;
+  --success: #1e8e3e;
+  --error: #d93025;
+  --text-main: #1f1f1f;
+  --text-muted: #5f6368;
+  --kbd-bg: #f0f4f9;
+  --kbd-border: #dfe3e8;
   --key-bg: #ffffff;
-  --key-border: #e2e8f0;
-  --key-shadow: #94a3b8;
-  --key-text: #334155;
+  --key-border: #dfe3e8;
+  --key-shadow: #c4c7c5;
+  --key-text: #1f1f1f;
 }
 
 /* =========================================================
-   DYNAMIC PAGE PATTERNS (8 Unique Modern Static Patterns)
+   GOOGLE AI STUDIO CLEAN BACKGROUND SYSTEM
    ========================================================= */
 
 *, *::before, *::after {
@@ -48,174 +54,29 @@ h1, h2, h3, h4, h5, h6, b, strong, button, input, select, textarea, span, p, div
 
 body {
   margin: 0;
-  font-family: 'Roboto', 'Tiro Bangla', sans-serif;
+  font-family: 'Google Sans', 'Roboto', 'Noto Sans Bengali', 'Tiro Bangla', sans-serif;
   font-weight: 400;
-  background-color: var(--bg-dark);
+  background-color: #131314;
   color: var(--text-main);
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease, background-image 0.4s ease;
-}
-
-/* Default & Pattern 1: Tech Dot Grid Matrix */
-body, body[data-pattern="1"] {
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 85% 85%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 15% 85%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
-    radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
-  background-attachment: fixed;
-}
-body[data-theme="light"], body[data-theme="light"][data-pattern="1"] {
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.12) 0%, transparent 65%),
-    radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
-    radial-gradient(rgba(71, 85, 105, 0.12) 1.2px, transparent 1.2px);
-  background-size: 100% 100%, 100% 100%, 28px 28px;
+    radial-gradient(ellipse 80% 50% at 50% -15%, rgba(66, 133, 244, 0.14) 0%, rgba(138, 180, 248, 0.04) 50%, transparent 75%),
+    radial-gradient(circle at 95% 95%, rgba(66, 133, 244, 0.03) 0%, transparent 40%),
+    radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
   background-attachment: fixed;
 }
 
-/* Pattern 2: Blueprint Engineering Grid & Crosses */
-body[data-pattern="2"] {
+body[data-theme="light"] {
+  background-color: #f0f4f9;
   background-image: 
-    radial-gradient(circle at 50% 10%, rgba(6, 182, 212, 0.16) 0%, transparent 60%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 100% 100%, 36px 36px, 36px 36px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="2"] {
-  background-image: 
-    radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.12) 0%, transparent 60%),
-    linear-gradient(to right, rgba(15, 23, 42, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.07) 1px, transparent 1px);
-  background-size: 100% 100%, 36px 36px, 36px 36px;
-  background-attachment: fixed;
-}
-
-/* Pattern 3: Isometric Diagonal Diamond Weave */
-body[data-pattern="3"] {
-  background-image: 
-    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="3"] {
-  background-image: 
-    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.08) 0%, transparent 55%),
-    linear-gradient(45deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
-    linear-gradient(-45deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-  background-attachment: fixed;
-}
-
-/* Pattern 4: Modern Honeycomb Hex Mesh */
-body[data-pattern="4"] {
-  background-image: 
-    radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.14) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 14px 14px, rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 28px 28px, rgba(255, 255, 255, 0.08) 1.5px, transparent 1.5px);
-  background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="4"] {
-  background-image: 
-    radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.09) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.07) 0%, transparent 50%),
-    radial-gradient(circle at 14px 14px, rgba(15, 23, 42, 0.12) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 28px 28px, rgba(15, 23, 42, 0.08) 1.5px, transparent 1.5px);
-  background-size: 100% 100%, 100% 100%, 28px 28px, 28px 28px;
-  background-attachment: fixed;
-}
-
-/* Pattern 5: Clean Minimalist Micro-Checker / Tiles */
-body[data-pattern="5"] {
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.18) 0%, transparent 60%),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.04) 75%);
-  background-size: 100% 100%, 40px 40px, 40px 40px, 40px 40px, 40px 40px;
-  background-position: 0 0, 0 0, 0 20px, 20px -20px, -20px 0px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="5"] {
-  background-image: 
-    radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
-    linear-gradient(45deg, rgba(15, 23, 42, 0.04) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(15, 23, 42, 0.04) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(15, 23, 42, 0.04) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(15, 23, 42, 0.04) 75%);
-  background-size: 100% 100%, 40px 40px, 40px 40px, 40px 40px, 40px 40px;
-  background-position: 0 0, 0 0, 0 20px, 20px -20px, -20px 0px;
-  background-attachment: fixed;
-}
-
-/* Pattern 6: Bauhaus Horizontal Rhythm Lines */
-body[data-pattern="6"] {
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.18) 0%, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.12) 0%, transparent 55%),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0px, rgba(255, 255, 255, 0.045) 1px, transparent 1px, transparent 24px);
-  background-size: 100% 100%, 100% 100%, 100% 24px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="6"] {
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(168, 85, 247, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 55%),
-    repeating-linear-gradient(0deg, rgba(15, 23, 42, 0.05) 0px, rgba(15, 23, 42, 0.05) 1px, transparent 1px, transparent 24px);
-  background-size: 100% 100%, 100% 100%, 100% 24px;
-  background-attachment: fixed;
-}
-
-/* Pattern 7: Cosmic Deep Space Constellation Points */
-body[data-pattern="7"] {
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 60%),
-    radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
-    radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1px),
-    radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
-  background-size: 100% 100%, 100% 100%, 20px 20px, 44px 44px;
-  background-position: 0 0, 0 0, 0 0, 22px 22px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="7"] {
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
-    radial-gradient(rgba(15, 23, 42, 0.18) 1px, transparent 1px),
-    radial-gradient(rgba(15, 23, 42, 0.1) 1.5px, transparent 1.5px);
-  background-size: 100% 100%, 100% 100%, 20px 20px, 44px 44px;
-  background-position: 0 0, 0 0, 0 0, 22px 22px;
-  background-attachment: fixed;
-}
-
-/* Pattern 8: Modern Circular Ripple / Topographic Grid */
-body[data-pattern="8"] {
-  background-image: 
-    radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.18) 0%, transparent 55%),
-    radial-gradient(circle at 70% 70%, rgba(99, 102, 241, 0.15) 0%, transparent 55%),
-    radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
-  background-attachment: fixed;
-}
-body[data-theme="light"][data-pattern="8"] {
-  background-image: 
-    radial-gradient(circle at 30% 30%, rgba(20, 184, 166, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 70% 70%, rgba(79, 70, 229, 0.1) 0%, transparent 55%),
-    radial-gradient(circle, rgba(15, 23, 42, 0.09) 1px, transparent 1px),
-    linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+    radial-gradient(ellipse 80% 50% at 50% -15%, rgba(26, 115, 232, 0.08) 0%, rgba(66, 133, 244, 0.02) 50%, transparent 75%),
+    radial-gradient(circle at 95% 95%, rgba(26, 115, 232, 0.03) 0%, transparent 40%),
+    radial-gradient(rgba(31, 31, 31, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
   background-attachment: fixed;
 }
 
@@ -325,23 +186,23 @@ main {
   max-width: 290px;
   flex-shrink: 0;
   box-sizing: border-box;
-  background: rgba(15, 23, 42, 0.72);
+  background: var(--glass-bg);
   padding: 1.5rem 1.3rem;
-  border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
   display: flex;
   flex-direction: column;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
 }
 
 body[data-theme="light"] .sidebar.premium-sidebar {
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .sidebar.premium-sidebar::before {
@@ -351,7 +212,7 @@ body[data-theme="light"] .sidebar.premium-sidebar {
   left: 10%;
   right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, rgba(138, 180, 248, 0.6), transparent);
   pointer-events: none;
 }
 
@@ -362,11 +223,11 @@ body[data-theme="light"] .sidebar.premium-sidebar {
   justify-content: space-between;
   padding-bottom: 1.1rem;
   margin-bottom: 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 body[data-theme="light"] .sidebar-header-premium {
-  border-bottom-color: rgba(0, 0, 0, 0.06);
+  border-bottom-color: var(--glass-border);
 }
 
 .sidebar-header-title-box {
@@ -382,10 +243,10 @@ body[data-theme="light"] .sidebar-header-premium {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(79, 70, 229, 0.1) 100%);
-  border: 1px solid rgba(99, 102, 241, 0.35);
-  border-radius: 11px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  background: rgba(138, 180, 248, 0.12);
+  border: 1px solid rgba(138, 180, 248, 0.25);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(138, 180, 248, 0.15);
 }
 
 .sidebar-title-main {
@@ -465,9 +326,9 @@ body[data-theme="light"] .lang-pill:hover {
 }
 
 .lang-pill.active {
-  background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+  background: #1a73e8;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(26, 115, 232, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transform: scale(1.02);
 }
 
@@ -502,9 +363,9 @@ body[data-theme="light"] .lang-pill:hover {
   justify-content: space-between;
   width: 100%;
   padding: 0.8rem 0.95rem;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
+  border-radius: 12px;
   color: var(--text-main);
   text-align: left;
   cursor: pointer;
@@ -514,35 +375,35 @@ body[data-theme="light"] .lang-pill:hover {
 }
 
 body[data-theme="light"] .sidebar-btn {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(203, 213, 225, 0.7);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(224, 227, 231, 0.9);
 }
 
 .sidebar-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(99, 102, 241, 0.35);
-  transform: translateX(5px);
-  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(138, 180, 248, 0.35);
+  transform: translateX(4px);
+  box-shadow: 0 4px 14px -3px rgba(0, 0, 0, 0.3);
 }
 
 body[data-theme="light"] .sidebar-btn:hover {
   background: #ffffff;
   border-color: var(--primary);
-  box-shadow: 0 6px 16px -4px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 4px 14px -3px rgba(26, 115, 232, 0.15);
 }
 
 .sidebar-btn.active {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(79, 70, 229, 0.12) 100%);
-  border-color: rgba(99, 102, 241, 0.65);
+  background: rgba(138, 180, 248, 0.12);
+  border-color: rgba(138, 180, 248, 0.5);
   color: var(--text-main);
-  box-shadow: 0 8px 22px -5px rgba(99, 102, 241, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 18px -4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateX(4px);
 }
 
 body[data-theme="light"] .sidebar-btn.active {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.16) 0%, rgba(79, 70, 229, 0.08) 100%);
+  background: rgba(26, 115, 232, 0.1);
   border-color: var(--primary);
-  box-shadow: 0 8px 20px -5px rgba(99, 102, 241, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 6px 16px -4px rgba(26, 115, 232, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .sidebar-btn.active::before {
@@ -552,9 +413,14 @@ body[data-theme="light"] .sidebar-btn.active {
   top: 14%;
   bottom: 14%;
   width: 3.5px;
-  background: linear-gradient(to bottom, #818cf8, #4f46e5);
+  background: #8ab4f8;
   border-radius: 0 4px 4px 0;
-  box-shadow: 0 0 10px #6366f1;
+  box-shadow: 0 0 8px rgba(138, 180, 248, 0.6);
+}
+
+body[data-theme="light"] .sidebar-btn.active::before {
+  background: #1a73e8;
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.5);
 }
 
 .cat-btn-content {
