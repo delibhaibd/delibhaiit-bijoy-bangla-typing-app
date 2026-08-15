@@ -191,12 +191,11 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                                 <use href="#hand-shape" />
                                 {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
                                     const highlightColor = getFingerHighlight('left', fingerName);
-                                    if (!highlightColor) return null;
                                     return (
                                         <path
                                             key={fingerName}
                                             d={pathD}
-                                            fill={highlightColor}
+                                            fill={highlightColor || 'none'}
                                             className="typing-hand-highlight"
                                         />
                                     );
@@ -208,12 +207,11 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                                 <use href="#hand-shape" />
                                 {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
                                     const highlightColor = getFingerHighlight('right', fingerName);
-                                    if (!highlightColor) return null;
                                     return (
                                         <path
                                             key={fingerName}
                                             d={pathD}
-                                            fill={highlightColor}
+                                            fill={highlightColor || 'none'}
                                             className="typing-hand-highlight"
                                         />
                                     );
