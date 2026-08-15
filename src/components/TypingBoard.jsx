@@ -800,22 +800,24 @@ export default function TypingBoard({ isDarkMode = true }) {
                             </button>
                         </div>
 
-                        <div className="practice-status-strip">
-                            {hasError ? (
-                                <div className="practice-error-banner">
-                                    <span className="error-pulse-icon">⚠️</span>
-                                    <div className="error-msg-wrap">
-                                        <span className="error-lead">ভুল বাটন চাপছেন!</span>
-                                        <span className="error-sub">ঠিক করতে কীবোর্ডের <kbd className="hud-kbd">Backspace</kbd> বাটন চাপুন</span>
+                        {(hasError || (!startTime && currentIndex === 0 && totalKeystrokes === 0)) && (
+                            <div className="practice-status-strip">
+                                {hasError ? (
+                                    <div className="practice-error-banner">
+                                        <span className="error-pulse-icon">⚠️</span>
+                                        <div className="error-msg-wrap">
+                                            <span className="error-lead">ভুল বাটন চাপছেন!</span>
+                                            <span className="error-sub">ঠিক করতে কীবোর্ডের <kbd className="hud-kbd">Backspace</kbd> বাটন চাপুন</span>
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className="practice-instruction-banner">
-                                    <span className="instruction-bulb">💡</span>
-                                    <span className="instruction-text">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি দেখে সঠিক আঙুল দিয়ে টাইপ করুন</span>
-                                </div>
-                            )}
-                        </div>
+                                ) : (
+                                    <div className="practice-instruction-banner">
+                                        <span className="instruction-bulb">💡</span>
+                                        <span className="instruction-text">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি দেখে সঠিক আঙুল দিয়ে টাইপ করুন</span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         {/* Modern HUD Stats Grid */}
                         {(() => {
