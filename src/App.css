@@ -850,10 +850,10 @@ body[data-theme="light"] .practice-retry-btn {
   gap: 10px;
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.2);
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 12px;
   color: var(--text-muted);
-  font-size: 0.92rem;
+  font-size: 1.1rem;
   text-align: center;
 }
 
@@ -890,7 +890,8 @@ body[data-theme="light"] .practice-instruction-banner {
 
 .error-lead {
   color: #fca5a5;
-  font-size: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 body[data-theme="light"] .error-lead {
@@ -899,7 +900,7 @@ body[data-theme="light"] .error-lead {
 
 .error-sub {
   color: var(--text-main);
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1002,21 +1003,22 @@ body[data-theme="light"] .hud-card {
 }
 
 .hud-card-label {
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .hud-card-value {
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   color: var(--text-main);
   line-height: 1.1;
   letter-spacing: -0.3px;
+  font-weight: 600;
 }
 
 .hud-card-value small {
-  font-size: 0.82rem;
+  font-size: 1rem;
   color: var(--text-muted);
   margin-left: 4px;
 }
@@ -1040,7 +1042,7 @@ body[data-theme="light"] .active-lesson-progress-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
   margin-bottom: 8px;
 }
@@ -1124,10 +1126,11 @@ body[data-theme="light"] .key-pressed-hud-pill {
 .hud-key-badge {
   background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
   color: #ffffff;
-  padding: 2px 12px;
+  padding: 4px 16px;
   border-radius: 8px;
   font-family: monospace;
-  font-size: 0.95rem;
+  font-size: 1.25rem;
+  font-weight: bold;
   box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 
@@ -1304,7 +1307,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .qwerty-hint {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--text-muted);
   font-weight: normal;
   font-family: monospace;
@@ -1350,7 +1353,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 .keyboard-info {
   text-align: center;
   color: var(--text-muted);
-  font-size: 1.1rem;
+  font-size: 1.25rem;
 }
 
 .key-pressed {
@@ -1360,7 +1363,8 @@ body[data-theme="light"] .key-pressed-hud-pill {
   color: var(--text-main);
   border-radius: 8px;
   font-family: monospace;
-  font-weight: normal;
+  font-weight: bold;
+  font-size: 1.25rem;
   border: 1px solid var(--glass-border);
 }
 
@@ -1597,9 +1601,9 @@ body[data-theme="light"] .key-pressed-hud-pill {
   align-items: center;
   justify-content: center;
   font-family: 'Roboto', -apple-system, sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   font-weight: 500;
-  height: 52px; 
+  height: 56px; 
   flex: 1;
   min-width: 0;
   width: auto;
@@ -2908,8 +2912,8 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .key {
-    height: 42px;
-    font-size: 0.8rem;
+    height: 48px;
+    font-size: 1rem;
     border-radius: 4px;
   }
   
@@ -2960,8 +2964,8 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .key {
-    height: 34px;
-    font-size: 0.65rem;
+    height: 40px;
+    font-size: 0.8rem;
     border-radius: 3px;
     padding: 0;
   }
