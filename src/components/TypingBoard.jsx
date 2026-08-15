@@ -488,6 +488,14 @@ export default function TypingBoard({ isDarkMode = true }) {
         return arMap[key] || key;
     };
 
+    const expectedItem = lessonData[currentIndex];
+    const expectedKeys = expectedItem ? (expectedItem.keys || [expectedItem.key]) : [];
+    let currentExpectedKey = expectedKeys[subIndex];
+
+    if (hasError) {
+        currentExpectedKey = 'Backspace';
+    }
+
     const getCategoryIcon = (catId, forSelect = false) => {
         if (catId === 'consonants') {
             if (forSelect) return 'ক';
