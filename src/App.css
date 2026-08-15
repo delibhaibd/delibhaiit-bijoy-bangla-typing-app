@@ -3198,5 +3198,97 @@ body[data-theme="light"] .mobile-categories-select {
   }
 }
 
+/* =========================================================
+   FULL KEYBOARD & HANDS FINGER VECTOR GUIDE
+   ========================================================= */
+
+.hands-guide-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.8rem;
+  width: 100%;
+  max-width: 780px;
+}
+
+.hands-guide-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(3, 113, 198, 0.12);
+  border: 1px solid rgba(3, 113, 198, 0.3);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.92rem;
+  color: #8ab4f8;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+body[data-theme="light"] .hands-guide-badge {
+  background: rgba(3, 113, 198, 0.08);
+  border-color: rgba(3, 113, 198, 0.35);
+  color: #0371c6;
+}
+
+.hands-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  height: auto;
+  max-height: 220px;
+  display: flex;
+  justify-content: center;
+}
+
+.hands-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 220px;
+}
+
+.hand-base {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body[data-theme="light"] .hand-base {
+  stroke: #9aa0a6;
+}
+
+.finger {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.25);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.15s ease;
+}
+
+body[data-theme="light"] .finger {
+  stroke: #9aa0a6;
+}
+
+/* Highlighted Finger */
+.finger.active-finger {
+  stroke: #0371c6 !important;
+  stroke-width: 4.5 !important;
+}
+
+body[data-theme="light"] .finger.active-finger {
+  stroke: #0371c6 !important;
+  stroke-width: 4.5 !important;
+}
+
+@media (max-width: 600px) {
+  .hands-wrapper {
+    max-height: 160px;
+  }
+}
+
+
 
 
