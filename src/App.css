@@ -3159,35 +3159,41 @@ body[data-theme="light"] .mobile-categories-select {
   }
 }
 
-/* Typing Hands Guide */
-.typing-hands-guide {
-  width: 100%;
+/* Typing Hands Overlay */
+.typing-hands-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  align-items: center;
+  z-index: 4;
 }
 
 .typing-hand-shape {
-  fill: none;
-  stroke: #555a60;
-  stroke-width: 3;
+  fill: rgba(15, 23, 42, 0.2);
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 2.5;
   stroke-linejoin: round;
-  transition: fill 0.3s ease, stroke 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 [data-theme='light'] .typing-hand-shape {
-  fill: none;
-  stroke: #d1d5db;
+  fill: rgba(243, 244, 246, 0.2);
+  stroke: rgba(75, 85, 99, 0.4);
 }
 
 .typing-hand-highlight {
-  stroke: #555a60;
-  stroke-width: 3;
-  transition: fill 0.2s ease;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 2.5;
+  transition: fill 0.15s ease, stroke 0.15s ease;
 }
 
 [data-theme='light'] .typing-hand-highlight {
-  stroke: #d1d5db;
+  stroke: rgba(75, 85, 99, 0.5);
 }
 
 
