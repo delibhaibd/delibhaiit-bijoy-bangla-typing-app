@@ -1181,17 +1181,17 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .bn-char {
-  font-size: 4.5rem;
+  font-size: 32px;
   font-weight: normal;
   font-family: 'SolaimanLipi', 'Siyam Rupali', 'Vrinda', 'Tiro Bangla', serif;
   letter-spacing: normal;
   word-spacing: normal;
 }
 
-/* Make Bengali and Arabic characters 35% larger as they are naturally smaller than Latin glyphs */
+/* Align Bengali and Arabic characters slightly to match Latin glyph height */
 .text-display.lang-bn .bn-char,
 .text-display.lang-ar .bn-char {
-  font-size: 1.35em;
+  font-size: 1.1em;
 }
 
 /* Practice mode needs smaller boxes to fit long sentences */
@@ -1200,7 +1200,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .practice-mode .bn-char {
-  font-size: 7rem;
+  font-size: 28px;
 }
 
 .char-box.error-box {
@@ -1307,7 +1307,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .qwerty-hint {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text-muted);
   font-weight: normal;
   font-family: monospace;
@@ -2397,7 +2397,7 @@ body[data-theme="light"] .form-group input {
   }
 
   .bn-char {
-    font-size: 3.8rem;
+    font-size: 32px;
   }
 
   .char-box {
@@ -2680,13 +2680,13 @@ body[data-theme="light"] .back-btn:hover {
 }
 
 
-.text-display.practice-mode { display: block; text-align: left; line-height: 1.3; padding: 20px; white-space: pre-wrap; word-wrap: break-word; min-height: 130px; }
+.text-display.practice-mode { display: block; text-align: left; line-height: 1.6; padding: 20px; white-space: pre-wrap; word-wrap: break-word; min-height: 130px; }
 .text-display.practice-mode .char-box { display: inline; padding: 0; border: none; background: transparent; border-radius: 0; margin: 0; box-shadow: none; }
 .text-display.practice-mode .char-box.active { background: rgba(99, 102, 241, 0.3); transform: none; box-shadow: none; border-bottom: 2px solid var(--primary); }
 .text-display.practice-mode .char-box.correct { background: transparent; color: var(--success); }
 .text-display.practice-mode .char-box.error-box { background: rgba(239, 68, 68, 0.8); transform: none; box-shadow: none; border-bottom: 2px solid var(--error); border-radius: 4px; }
 .text-display.practice-mode .char-box.wrong { background: rgba(239, 68, 68, 0.8); }
-.text-display.practice-mode .bn-char { font-size: 7rem; }
+.text-display.practice-mode .bn-char { font-size: 28px; }
 
 /* Light mode overrides for practice view */
 [data-theme='light'] .text-display.practice-mode {
@@ -2924,7 +2924,7 @@ body[data-theme="light"] .back-btn:hover {
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 6rem;
+    font-size: 26px;
   }
 
   .char-box {
@@ -2951,7 +2951,7 @@ body[data-theme="light"] .back-btn:hover {
   }
 
   .bn-char {
-    font-size: 3rem;
+    font-size: 32px;
   }
 
   .virtual-keyboard {
@@ -2973,11 +2973,11 @@ body[data-theme="light"] .back-btn:hover {
   .text-display.practice-mode {
     padding: 10px;
     min-height: 70px;
-    line-height: 1.3;
+    line-height: 1.5;
   }
   
   .text-display.practice-mode .bn-char {
-    font-size: 5.2rem;
+    font-size: 24px;
   }
   
   .key-active, .key-error {
