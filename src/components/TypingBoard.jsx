@@ -976,14 +976,6 @@ export default function TypingBoard({ isDarkMode = true }) {
                             />
                         </div>
 
-                        <div className="practice-hud-footer">
-                            <div className="key-pressed-hud-pill">
-                                <span className="hud-lead-icon">⌨️</span>
-                                <span className="hud-lead-text">বর্তমান চাপছেন:</span>
-                                <span className="hud-key-badge">{currentKey || '—'}</span>
-                            </div>
-                        </div>
-
                         {completed && (
                             <div className="completion-modal-overlay">
                                 <div className="completion-modal-premium">
