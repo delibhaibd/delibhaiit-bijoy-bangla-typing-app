@@ -642,20 +642,6 @@ export default function TypingBoard({ isDarkMode = true }) {
                             <span className="select-chevron">▼</span>
                         </div>
                     </div>
-
-                    <div className="menu-footer-card">
-                        <div className="menu-progress-header">
-                            <span className="menu-progress-label">📊 সামগ্রিক অগ্রগতি</span>
-                            <span className="menu-progress-val">{totalCompletedCount} সম্পন্ন</span>
-                        </div>
-                        <div className="menu-progress-bar-bg">
-                            <div 
-                                className="menu-progress-bar-fill" 
-                                style={{ width: `${Math.min(100, Math.max(6, totalCompletedCount * 5))}%` }}
-                            ></div>
-                        </div>
-                        <div className="menu-footer-tag">✨ নিয়মিত টাইপিং অনুশীলন করুন</div>
-                    </div>
                 </aside>
             )}
             
