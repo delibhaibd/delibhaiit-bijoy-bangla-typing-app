@@ -2,10 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { categories } from '../data/lessons';
 import { englishCategories } from '../data/englishLessons';
 import { arabicCategories } from '../data/arabicLessons';
-import { useSound } from '../hooks/useSound';
-import { getFingerForKey } from '../utils/fingerMapping';
 import VirtualKeyboard from './VirtualKeyboard';
-import HandsGuide from './HandsGuide';
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './LoginModal';
 import confetti from 'canvas-confetti';
@@ -999,10 +996,6 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 feedbackKey={feedbackKey}
                                 isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
                                 typingMode={typingMode === 'ar' ? 'en' : typingMode}
-                            />
-                            <HandsGuide 
-                                expectedKey={currentExpectedKey}
-                                isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
                             />
                         </div>
 

@@ -1648,43 +1648,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 .flex-2-25 { flex: 2.25; width: auto; }
 .flex-6 { flex: 6; width: auto; }
 
-/* Hands UI */
-.hands-container {
-  position: absolute;
-  bottom: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0.85;
-  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
-}
 
-.hand {
-  width: 360px;
-  height: auto;
-}
-
-.finger-group {
-  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.finger-group.pressing {
-  transform: scale(0.95) translateY(-15px);
-}
-
-.glow-overlay {
-  transition: opacity 0.15s ease;
-}
-
-.finger-group.pressing .glow-overlay {
-  opacity: 0.6 !important;
-}
 
 /* --- Luxury Progressive Sub-Lesson List UI --- */
 
@@ -2408,10 +2372,7 @@ body[data-theme="light"] .form-group input {
   .flex-2-25 { flex: 2.25; width: auto; }
   .flex-6 { flex: 6; width: auto; }
   
-  /* Hide hands on mobile as they block view and scroll */
-  .hands-container {
-    display: none;
-  }
+
 
   /* Modal Mobile Fix */
   .completion-modal-premium {
@@ -3198,147 +3159,7 @@ body[data-theme="light"] .mobile-categories-select {
   }
 }
 
-/* =========================================================
-   TOUCH TYPING HANDS VISUALIZER
-   ========================================================= */
 
-.touch-hands-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  width: 100%;
-  max-width: 780px;
-}
-
-.hands-guide-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(3, 113, 198, 0.12);
-  border: 1px solid rgba(3, 113, 198, 0.3);
-  padding: 5px 14px;
-  border-radius: 20px;
-  font-size: 0.92rem;
-  color: #8ab4f8;
-  margin-bottom: 12px;
-  font-weight: 600;
-}
-
-body[data-theme="light"] .hands-guide-badge {
-  background: rgba(3, 113, 198, 0.08);
-  border-color: rgba(3, 113, 198, 0.35);
-  color: #0371c6;
-}
-
-.touch-hands-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 48px;
-  padding: 16px 24px;
-  background: rgba(18, 19, 24, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-body[data-theme="light"] .touch-hands-wrapper {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-}
-
-.hand-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.touch-hand-svg {
-  width: 130px;
-  height: 160px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-body[data-theme="light"] .touch-hand-svg {
-  filter: none;
-}
-
-.hand-name-label {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-weight: 500;
-}
-
-/* Hand base & outline styling */
-.palm-outline {
-  fill: none;
-  stroke: #2e3039;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-body[data-theme="light"] .palm-outline {
-  stroke: #cbd5e1;
-}
-
-.finger-path {
-  fill: #16181f;
-  stroke: #2e3039;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: fill 0.15s ease, stroke 0.15s ease, filter 0.15s ease;
-}
-
-body[data-theme="light"] .finger-path {
-  fill: #f1f5f9;
-  stroke: #cbd5e1;
-}
-
-/* Active Highlight (SpeedCoder Blue / #0371c6) */
-.finger-path.active {
-  fill: #0371c6 !important;
-  stroke: #60a5fa !important;
-}
-
-body[data-theme="light"] .finger-path.active {
-  fill: #0371c6 !important;
-  stroke: #025697 !important;
-}
-
-@media (max-width: 600px) {
-  .touch-hands-wrapper {
-    gap: 20px;
-    padding: 10px 14px;
-  }
-
-  .touch-hand-svg {
-    width: 95px;
-    height: 120px;
-  }
-
-  .hand-name-label {
-    font-size: 0.72rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .touch-hands-wrapper {
-    gap: 12px;
-    padding: 8px 10px;
-  }
-
-  .touch-hand-svg {
-    width: 78px;
-    height: 100px;
-  }
-}
 
 
 
