@@ -8,6 +8,8 @@ import LoginModal from './LoginModal';
 import confetti from 'canvas-confetti';
 import { applyPageBackground } from '../utils/generator';
 import FlagIcon from './FlagIcon';
+import { useSound } from '../hooks/useSound';
+
 
 export default function TypingBoard({ isDarkMode = true }) {
     const { user, logout } = useAuth();
