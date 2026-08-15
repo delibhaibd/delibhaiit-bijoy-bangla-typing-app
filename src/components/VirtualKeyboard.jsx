@@ -38,30 +38,15 @@ const KEYBOARD_ROWS = [
     ]
 ];
 
-const FINGER_PATHS = {
-    'pinky': "M 50,240 L 50,150 A 15,15 0 0,1 80,150 L 80,240 Z",
-    'ring': "M 80,240 L 80,105 A 15,15 0 0,1 110,105 L 110,240 Z",
-    'middle': "M 110,240 L 110,60 A 15,15 0 0,1 140,60 L 140,240 Z",
-    'index': "M 140,240 L 140,80 A 15,15 0 0,1 170,80 L 170,240 Z",
-    'thumb': "M 170,240 L 170,195 A 15,15 0 0,1 200,195 L 200,240 Z"
+const FINGER_FILL_PATHS = {
+    'pinky': "M 50,240 L 50,150 A 15,15 0 0,1 80,150 L 80,225 C 70,235 60,238 50,240 Z",
+    'ring': "M 80,225 L 80,105 A 15,15 0 0,1 110,105 L 110,225 C 100,235 90,235 80,225 Z",
+    'middle': "M 110,225 L 110,60 A 15,15 0 0,1 140,60 L 140,225 C 130,235 120,235 110,225 Z",
+    'index': "M 140,225 L 140,80 A 15,15 0 0,1 170,80 L 170,225 C 160,235 150,235 140,225 Z",
+    'thumb': "M 170,225 L 170,195 A 15,15 0 0,1 200,195 L 200,240 C 190,240 180,235 170,225 Z"
 };
 
 export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn' }) {
-    const expectedFinger = getFingerForKey(expectedKey);
-    const wrongFinger = getFingerForKey(wrongKey);
-
-    const getFingerHighlight = (hand, fingerName) => {
-        const fingerKey = fingerName === 'thumb' ? 'thumb' : `${hand === 'left' ? 'l' : 'r'}-${fingerName}`;
-        
-        if (wrongFinger === fingerKey) {
-            return '#ef4444'; // Red error
-        }
-        if (expectedFinger === fingerKey) {
-            return '#437ec4'; // Blue highlight
-        }
-        return null;
-    };
-
     let requiresShift = false;
     let targetKey = expectedKey;
 
@@ -91,9 +76,35 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         normalizedWrongKey = shiftMap[wrongKey];
     }
 
-    const targetFinger = getFingerForKey(expectedKey);
+    const expectedFinger = getFingerForKey(expectedKey);
+    const wrongFinger = getFingerForKey(wrongKey);
+
+    const targetFinger = expectedFinger || getFingerForKey(targetKey);
     const isRightHandKey = targetFinger && targetFinger.startsWith('r-');
     const isLeftHandKey = targetFinger && targetFinger.startsWith('l-');
+
+    const getFingerHighlight = (hand, fingerName) => {
+        const fingerKey = fingerName === 'thumb' ? 'thumb' : `${hand === 'left' ? 'l' : 'r'}-${fingerName}`;
+        
+        if (wrongFinger === fingerKey) {
+            return '#ef4444'; // Red error
+        }
+        if (expectedFinger === fingerKey) {
+            return '#437ec4'; // Blue highlight
+        }
+
+        // Touch typing Shift rule: opposite hand pinky presses Shift
+        if (requiresShift) {
+            if (isRightHandKey && hand === 'left' && fingerName === 'pinky') {
+                return '#437ec4'; // Left pinky presses Left Shift for right-hand characters
+            }
+            if (isLeftHandKey && hand === 'right' && fingerName === 'pinky') {
+                return '#437ec4'; // Right pinky presses Right Shift for left-hand characters
+            }
+        }
+
+        return null;
+    };
 
     const isActive = (key, isNumpadKey = false) => {
         if (isRandomMode) {
@@ -169,8 +180,8 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                         <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
                             <defs>
                                 <path id="hand-shape" className="typing-hand-shape" d="
-                                    M 40,240 
-                                    A 80,80 0 0,0 200,240 
+                                    M 50,240 
+                                    A 75,75 0 0,0 200,240 
                                     L 200,195
                                     A 15,15 0 0,0 170,195
                                     L 170,80
@@ -181,22 +192,29 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                                     A 15,15 0 0,0 80,105
                                     L 80,150
                                     A 15,15 0 0,0 50,150
-                                    L 50,240 
                                     Z" 
+                                />
+                                <path id="hand-dividers" className="typing-hand-dividers" d="
+                                    M 80,150 L 80,225 
+                                    M 110,105 L 110,225 
+                                    M 140,80 L 140,225 
+                                    M 170,195 L 170,230"
                                 />
                             </defs>
 
                             {/* Left Hand Group */}
                             <g transform="translate(10, 0)">
                                 <use href="#hand-shape" />
-                                {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
+                                <use href="#hand-dividers" />
+                                {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
                                     const highlightColor = getFingerHighlight('left', fingerName);
+                                    if (!highlightColor) return null;
                                     return (
                                         <path
                                             key={fingerName}
                                             d={pathD}
-                                            fill={highlightColor ? `${highlightColor}cc` : 'none'}
-                                            className="typing-hand-highlight"
+                                            fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
+                                            className="typing-finger-active"
                                         />
                                     );
                                 })}
@@ -205,14 +223,16 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                             {/* Right Hand Group (Flipped Horizontally) */}
                             <g transform="translate(490, 0) scale(-1, 1)">
                                 <use href="#hand-shape" />
-                                {Object.entries(FINGER_PATHS).map(([fingerName, pathD]) => {
+                                <use href="#hand-dividers" />
+                                {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
                                     const highlightColor = getFingerHighlight('right', fingerName);
+                                    if (!highlightColor) return null;
                                     return (
                                         <path
                                             key={fingerName}
                                             d={pathD}
-                                            fill={highlightColor ? `${highlightColor}cc` : 'none'}
-                                            className="typing-hand-highlight"
+                                            fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
+                                            className="typing-finger-active"
                                         />
                                     );
                                 })}

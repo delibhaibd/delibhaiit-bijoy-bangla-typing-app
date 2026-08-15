@@ -2,7 +2,7 @@ export const fingerMap = {
     // Left Pinky
     '`': 'l-pinky', '1': 'l-pinky', 'q': 'l-pinky', 'a': 'l-pinky', 'z': 'l-pinky',
     '~': 'l-pinky', '!': 'l-pinky', 'Q': 'l-pinky', 'A': 'l-pinky', 'Z': 'l-pinky',
-    'Shift': 'l-pinky', 'Tab': 'l-pinky', 'CapsLock': 'l-pinky', 'Control': 'l-pinky',
+    'Shift': 'l-pinky', 'LShift': 'l-pinky', 'Tab': 'l-pinky', 'CapsLock': 'l-pinky', 'Control': 'l-pinky',
 
     // Left Ring
     '2': 'l-ring', 'w': 'l-ring', 's': 'l-ring', 'x': 'l-ring',
@@ -34,7 +34,7 @@ export const fingerMap = {
     // Right Pinky
     '0': 'r-pinky', '-': 'r-pinky', '=': 'r-pinky', 'p': 'r-pinky', '[': 'r-pinky', ']': 'r-pinky', '\\': 'r-pinky', ';': 'r-pinky', "'": 'r-pinky', '/': 'r-pinky',
     ')': 'r-pinky', '_': 'r-pinky', '+': 'r-pinky', 'P': 'r-pinky', '{': 'r-pinky', '}': 'r-pinky', '|': 'r-pinky', ':': 'r-pinky', '"': 'r-pinky', '?': 'r-pinky',
-    'Enter': 'r-pinky', 'Backspace': 'r-pinky'
+    'RShift': 'r-pinky', 'Enter': 'r-pinky', 'Backspace': 'r-pinky'
 };
 
 export const getFingerForKey = (key) => {
