@@ -1,132 +1,134 @@
 import React from 'react';
 
-const KEY_FINGER_MAP = {
-  // Left Pinky (LP)
-  '`': 'LP', '~': 'LP', '1': 'LP', '!': 'LP', 'q': 'LP', 'Q': 'LP', 'a': 'LP', 'A': 'LP', 'z': 'LP', 'Z': 'LP', 
-  'tab': 'LP', 'Tab': 'LP', 'capslock': 'LP', 'CapsLock': 'LP', 'shift': 'LP', 'Shift': 'LP', 'LShift': 'LP', 'control': 'LP', 'Control': 'LP',
-  
-  // Left Ring (LR)
-  '2': 'LR', '@': 'LR', 'w': 'LR', 'W': 'LR', 's': 'LR', 'S': 'LR', 'x': 'LR', 'X': 'LR',
-  
-  // Left Middle (LM)
-  '3': 'LM', '#': 'LM', 'e': 'LM', 'E': 'LM', 'd': 'LM', 'D': 'LM', 'c': 'LM', 'C': 'LM',
-  
-  // Left Index (LI)
-  '4': 'LI', '$': 'LI', '5': 'LI', '%': 'LI', 'r': 'LI', 'R': 'LI', 't': 'LI', 'T': 'LI', 
-  'f': 'LI', 'F': 'LI', 'g': 'LI', 'G': 'LI', 'v': 'LI', 'V': 'LI', 'b': 'LI', 'B': 'LI',
-  
-  // Thumbs (LT / RT)
-  ' ': 'RT', 'Space': 'RT', 'space': 'RT', 'alt': 'LT', 'Alt': 'LT',
-  
-  // Right Index (RI)
-  '6': 'RI', '^': 'RI', '7': 'RI', '&': 'RI', 'y': 'RI', 'Y': 'RI', 'u': 'RI', 'U': 'RI', 
-  'h': 'RI', 'H': 'RI', 'j': 'RI', 'J': 'RI', 'n': 'RI', 'N': 'RI', 'm': 'RI', 'M': 'RI',
-  
-  // Right Middle (RM)
-  '8': 'RM', '*': 'RM', 'i': 'RM', 'I': 'RM', 'k': 'RM', 'K': 'RM', ',': 'RM', '<': 'RM',
-  
-  // Right Ring (RR)
-  '9': 'RR', '(': 'RR', 'o': 'RR', 'O': 'RR', 'l': 'RR', 'L': 'RR', '.': 'RR', '>': 'RR',
-  
-  // Right Pinky (RP)
-  '0': 'RP', ')': 'RP', '-': 'RP', '_': 'RP', '=': 'RP', '+': 'RP', 
-  'p': 'RP', 'P': 'RP', '[': 'RP', '{': 'RP', ']': 'RP', '}': 'RP', 
-  '\\': 'RP', '|': 'RP', ';': 'RP', ':': 'RP', "'": 'RP', '"': 'RP', 
-  '/': 'RP', '?': 'RP', 'enter': 'RP', 'Enter': 'RP', 'backspace': 'RP', 'Backspace': 'RP', 'RShift': 'RP'
+const FINGER_KEY_MAP = {
+  'left-pinky': ['`', '~', '1', '!', 'q', 'Q', 'a', 'A', 'z', 'Z', 'Tab', 'tab', 'CapsLock', 'capslock', 'Shift', 'shift', 'Control', 'control', 'Alt', 'alt', 'LShift'],
+  'left-ring': ['2', '@', 'w', 'W', 's', 'S', 'x', 'X'],
+  'left-middle': ['3', '#', 'e', 'E', 'd', 'D', 'c', 'C'],
+  'left-index': ['4', '$', '5', '%', 'r', 'R', 't', 'T', 'f', 'F', 'g', 'G', 'v', 'V', 'b', 'B'],
+  'left-thumb': [' ', 'Space', 'space'],
+  'right-thumb': [' ', 'Space', 'space'],
+  'right-index': ['6', '^', '7', '&', 'y', 'Y', 'u', 'U', 'h', 'H', 'j', 'J', 'n', 'N', 'm', 'M'],
+  'right-middle': ['8', '*', 'i', 'I', 'k', 'K', ',', '<'],
+  'right-ring': ['9', '(', 'o', 'O', 'l', 'L', '.', '>'],
+  'right-pinky': ['0', ')', '-', '_', '=', '+', 'p', 'P', '[', '{', ']', '}', '\\', '|', ';', ':', '\'', '"', '/', '?', 'Enter', 'enter', 'Backspace', 'backspace', 'RShift']
 };
 
 const FINGER_LABELS_BN = {
-  'LP': 'বাম হাত: কনিষ্ঠা (Left Pinky)',
-  'LR': 'বাম হাত: অনামিকা (Left Ring)',
-  'LM': 'বাম হাত: মধ্যমা (Left Middle)',
-  'LI': 'বাম হাত: তর্জনী (Left Index)',
-  'LT': 'বাম হাত: বৃদ্ধাঙ্গুলি (Left Thumb)',
-  'RT': 'ডান হাত: বৃদ্ধাঙ্গুলি (Right Thumb)',
-  'RI': 'ডান হাত: তর্জনী (Right Index)',
-  'RM': 'ডান হাত: মধ্যমা (Right Middle)',
-  'RR': 'ডান হাত: অনামিকা (Right Ring)',
-  'RP': 'ডান হাত: কনিষ্ঠা (Right Pinky)',
+  'left-pinky': 'বাম হাত: কনিষ্ঠা (Left Pinky)',
+  'left-ring': 'বাম হাত: অনামিকা (Left Ring)',
+  'left-middle': 'বাম হাত: মধ্যমা (Left Middle)',
+  'left-index': 'বাম হাত: তর্জনী (Left Index)',
+  'left-thumb': 'বৃদ্ধাঙ্গুলি (Thumb: Space)',
+  'right-thumb': 'বৃদ্ধাঙ্গুলি (Thumb: Space)',
+  'right-index': 'ডান হাত: তর্জনী (Right Index)',
+  'right-middle': 'ডান হাত: মধ্যমা (Right Middle)',
+  'right-ring': 'ডান হাত: অনামিকা (Right Ring)',
+  'right-pinky': 'ডান হাত: কনিষ্ঠা (Right Pinky)',
 };
+
+function getActiveFinger(key) {
+  if (!key) return null;
+  for (const [fingerId, keys] of Object.entries(FINGER_KEY_MAP)) {
+    if (keys.includes(key) || keys.includes(key.toLowerCase()) || keys.includes(key.toUpperCase())) {
+      return fingerId;
+    }
+  }
+  return null;
+}
 
 export default function HandsGuide({ expectedKey, isNumpadMode = false }) {
   if (isNumpadMode) return null;
 
-  const fingerCode = expectedKey ? KEY_FINGER_MAP[expectedKey] || KEY_FINGER_MAP[expectedKey.toLowerCase()] : null;
-  const fingerName = fingerCode ? FINGER_LABELS_BN[fingerCode] : null;
+  const activeFinger = getActiveFinger(expectedKey);
+  const fingerLabel = activeFinger ? FINGER_LABELS_BN[activeFinger] : null;
 
   return (
-    <div className="hands-guide-container">
-      {fingerName && (
+    <div className="touch-hands-container">
+      {fingerLabel && (
         <div className="hands-guide-badge">
           <span className="finger-pulse-dot"></span>
-          <span>{fingerName}</span>
+          <span>{fingerLabel}</span>
         </div>
       )}
 
-      <div className="hands-wrapper">
-        <svg className="hands-svg" viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
-          {/* Left Hand */}
-          <path className="hand-base" d="M 120 280 C 140 210, 160 180, 165 160" />
-          <path 
-            id="finger-LP" 
-            className={`finger ${fingerCode === 'LP' ? 'active-finger' : ''}`} 
-            d="M 165 160 C 168 135, 175 105, 180 105 C 185 105, 190 130, 190 150" 
-          />
-          <path 
-            id="finger-LR" 
-            className={`finger ${fingerCode === 'LR' ? 'active-finger' : ''}`} 
-            d="M 190 150 C 195 125, 202 85, 212 85 C 222 85, 224 115, 224 145" 
-          />
-          <path 
-            id="finger-LM" 
-            className={`finger ${fingerCode === 'LM' ? 'active-finger' : ''}`} 
-            d="M 224 145 C 227 120, 235 75, 246 75 C 256 75, 258 110, 258 145" 
-          />
-          <path 
-            id="finger-LI" 
-            className={`finger ${fingerCode === 'LI' ? 'active-finger' : ''}`} 
-            d="M 258 145 C 263 115, 275 70, 288 70 C 300 70, 300 110, 295 160 C 288 205, 280 235, 300 260" 
-          />
-          <path 
-            id="finger-LT" 
-            className={`finger ${fingerCode === 'LT' ? 'active-finger' : ''}`} 
-            d="M 300 260 C 303 240, 308 200, 318 200 C 326 200, 318 245, 295 280" 
-          />
-          <path className="hand-base" d="M 190 150 C 192 180, 192 205, 190 225" />
-          <path className="hand-base" d="M 224 145 C 226 180, 226 210, 224 235" />
-          <path className="hand-base" d="M 258 145 C 260 180, 258 215, 250 240" />
+      <div className="touch-hands-wrapper">
+        {/* Left Hand */}
+        <div className="hand-box">
+          <svg className="touch-hand-svg" viewBox="0 0 160 200">
+            {/* Left Palm Background */}
+            <path 
+              className="palm-outline" 
+              d="M 20,110 C 20,80 30,70 40,70 L 120,70 C 135,70 140,80 140,110 L 135,185 C 135,195 25,195 25,185 Z" 
+            />
+            
+            {/* Left Fingers */}
+            <path 
+              id="left-pinky" 
+              className={`finger-path ${activeFinger === 'left-pinky' ? 'active' : ''}`} 
+              d="M 22,110 L 22,50 C 22,40 38,40 38,50 L 38,110 Z" 
+            />
+            <path 
+              id="left-ring" 
+              className={`finger-path ${activeFinger === 'left-ring' ? 'active' : ''}`} 
+              d="M 44,110 L 44,28 C 44,18 60,18 60,28 L 60,110 Z" 
+            />
+            <path 
+              id="left-middle" 
+              className={`finger-path ${activeFinger === 'left-middle' ? 'active' : ''}`} 
+              d="M 66,110 L 66,15 C 66,5 82,5 82,15 L 82,110 Z" 
+            />
+            <path 
+              id="left-index" 
+              className={`finger-path ${activeFinger === 'left-index' ? 'active' : ''}`} 
+              d="M 88,110 L 88,25 C 88,15 104,15 104,25 L 104,110 Z" 
+            />
+            <path 
+              id="left-thumb" 
+              className={`finger-path ${activeFinger === 'left-thumb' ? 'active' : ''}`} 
+              d="M 112,120 L 135,90 C 142,82 153,92 145,100 L 125,135 Z" 
+            />
+          </svg>
+          <span className="hand-name-label">বাম হাত (Left Hand)</span>
+        </div>
 
-          {/* Right Hand */}
-          <path className="hand-base" d="M 680 280 C 660 210, 640 180, 635 160" />
-          <path 
-            id="finger-RP" 
-            className={`finger ${fingerCode === 'RP' ? 'active-finger' : ''}`} 
-            d="M 635 160 C 632 135, 625 105, 620 105 C 615 105, 610 130, 610 150" 
-          />
-          <path 
-            id="finger-RR" 
-            className={`finger ${fingerCode === 'RR' ? 'active-finger' : ''}`} 
-            d="M 610 150 C 605 125, 598 85, 588 85 C 578 85, 576 115, 576 145" 
-          />
-          <path 
-            id="finger-RM" 
-            className={`finger ${fingerCode === 'RM' ? 'active-finger' : ''}`} 
-            d="M 576 145 C 573 120, 565 75, 554 75 C 544 75, 542 110, 542 145" 
-          />
-          <path 
-            id="finger-RI" 
-            className={`finger ${fingerCode === 'RI' ? 'active-finger' : ''}`} 
-            d="M 542 145 C 537 115, 525 70, 512 70 C 500 70, 500 110, 505 160 C 512 205, 520 235, 500 260" 
-          />
-          <path 
-            id="finger-RT" 
-            className={`finger ${fingerCode === 'RT' ? 'active-finger' : ''}`} 
-            d="M 500 260 C 497 240, 492 200, 482 200 C 474 200, 482 245, 505 280" 
-          />
-          <path className="hand-base" d="M 610 150 C 608 180, 608 205, 610 225" />
-          <path className="hand-base" d="M 576 145 C 574 180, 574 210, 576 235" />
-          <path className="hand-base" d="M 542 145 C 540 180, 542 215, 550 240" />
-        </svg>
+        {/* Right Hand */}
+        <div className="hand-box">
+          <svg className="touch-hand-svg" viewBox="0 0 160 200">
+            {/* Right Palm Background */}
+            <path 
+              className="palm-outline" 
+              d="M 20,110 C 20,80 25,70 40,70 L 120,70 C 130,70 140,80 140,110 L 135,185 C 135,195 25,195 25,185 Z" 
+            />
+
+            {/* Right Fingers */}
+            <path 
+              id="right-thumb" 
+              className={`finger-path ${activeFinger === 'right-thumb' ? 'active' : ''}`} 
+              d="M 48,120 L 25,90 C 18,82 7,92 15,100 L 35,135 Z" 
+            />
+            <path 
+              id="right-index" 
+              className={`finger-path ${activeFinger === 'right-index' ? 'active' : ''}`} 
+              d="M 56,110 L 56,25 C 56,15 72,15 72,25 L 72,110 Z" 
+            />
+            <path 
+              id="right-middle" 
+              className={`finger-path ${activeFinger === 'right-middle' ? 'active' : ''}`} 
+              d="M 78,110 L 78,15 C 78,5 94,5 94,15 L 94,110 Z" 
+            />
+            <path 
+              id="right-ring" 
+              className={`finger-path ${activeFinger === 'right-ring' ? 'active' : ''}`} 
+              d="M 100,110 L 100,28 C 100,18 116,18 116,28 L 116,110 Z" 
+            />
+            <path 
+              id="right-pinky" 
+              className={`finger-path ${activeFinger === 'right-pinky' ? 'active' : ''}`} 
+              d="M 122,110 L 122,50 C 122,40 138,40 138,50 L 138,110 Z" 
+            />
+          </svg>
+          <span className="hand-name-label">ডান হাত (Right Hand)</span>
+        </div>
       </div>
     </div>
   );

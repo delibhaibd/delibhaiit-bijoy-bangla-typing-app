@@ -3199,14 +3199,14 @@ body[data-theme="light"] .mobile-categories-select {
 }
 
 /* =========================================================
-   FULL KEYBOARD & HANDS FINGER VECTOR GUIDE
+   TOUCH TYPING HANDS VISUALIZER
    ========================================================= */
 
-.hands-guide-container {
+.touch-hands-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   width: 100%;
   max-width: 780px;
 }
@@ -3221,8 +3221,8 @@ body[data-theme="light"] .mobile-categories-select {
   border-radius: 20px;
   font-size: 0.92rem;
   color: #8ab4f8;
-  margin-bottom: 8px;
-  font-weight: 500;
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
 body[data-theme="light"] .hands-guide-badge {
@@ -3231,61 +3231,112 @@ body[data-theme="light"] .hands-guide-badge {
   color: #0371c6;
 }
 
-.hands-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 720px;
-  height: auto;
-  max-height: 220px;
+.touch-hands-wrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 48px;
+  padding: 16px 24px;
+  background: rgba(18, 19, 24, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-.hands-svg {
-  width: 100%;
-  height: 100%;
-  max-height: 220px;
+body[data-theme="light"] .touch-hands-wrapper {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.hand-base {
+.hand-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.touch-hand-svg {
+  width: 130px;
+  height: 160px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+body[data-theme="light"] .touch-hand-svg {
+  filter: none;
+}
+
+.hand-name-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Hand base & outline styling */
+.palm-outline {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.25);
-  stroke-width: 2.2;
+  stroke: #2e3039;
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-body[data-theme="light"] .hand-base {
-  stroke: #9aa0a6;
+body[data-theme="light"] .palm-outline {
+  stroke: #cbd5e1;
 }
 
-.finger {
-  fill: none;
-  stroke: rgba(255, 255, 255, 0.25);
-  stroke-width: 2.2;
+.finger-path {
+  fill: #16181f;
+  stroke: #2e3039;
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: all 0.15s ease;
+  transition: fill 0.15s ease, stroke 0.15s ease, filter 0.15s ease;
 }
 
-body[data-theme="light"] .finger {
-  stroke: #9aa0a6;
+body[data-theme="light"] .finger-path {
+  fill: #f1f5f9;
+  stroke: #cbd5e1;
 }
 
-/* Highlighted Finger */
-.finger.active-finger {
-  stroke: #0371c6 !important;
-  stroke-width: 4.5 !important;
+/* Active Highlight (SpeedCoder Blue / #0371c6) */
+.finger-path.active {
+  fill: #0371c6 !important;
+  stroke: #60a5fa !important;
 }
 
-body[data-theme="light"] .finger.active-finger {
-  stroke: #0371c6 !important;
-  stroke-width: 4.5 !important;
+body[data-theme="light"] .finger-path.active {
+  fill: #0371c6 !important;
+  stroke: #025697 !important;
 }
 
 @media (max-width: 600px) {
-  .hands-wrapper {
-    max-height: 160px;
+  .touch-hands-wrapper {
+    gap: 20px;
+    padding: 10px 14px;
+  }
+
+  .touch-hand-svg {
+    width: 95px;
+    height: 120px;
+  }
+
+  .hand-name-label {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .touch-hands-wrapper {
+    gap: 12px;
+    padding: 8px 10px;
+  }
+
+  .touch-hand-svg {
+    width: 78px;
+    height: 100px;
   }
 }
 
