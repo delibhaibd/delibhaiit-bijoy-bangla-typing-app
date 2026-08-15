@@ -2770,28 +2770,133 @@ body[data-theme="light"] .back-btn:hover {
   width: 100% !important;
 }
 
-/* =========================================
-   Comprehensive Mobile View Fixes
-   ========================================= */
-@media (max-width: 600px) {
+/* =========================================================
+   COMPREHENSIVE RESPONSIVE & MOBILE DESIGN SYSTEM
+   ========================================================= */
+
+/* Mobile Categories Dropdown Styling */
+.mobile-categories-select {
+  width: 100%;
+  padding: 0.85rem 2.4rem 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s ease;
+}
+
+body[data-theme="light"] .mobile-categories-select {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.mobile-only-categories-dropdown-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.select-chevron {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Tablet Layout (<= 1024px) */
+@media (max-width: 1024px) {
+  .app-header h1.brand-domain-title {
+    font-size: 2.8rem;
+  }
+
+  .typing-layout-wrapper {
+    flex-direction: column;
+    gap: 1.2rem;
+    align-items: stretch;
+  }
+
+  .sidebar.premium-sidebar {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    padding: 1.1rem 1.3rem;
+  }
+
+  .sidebar-buttons {
+    display: none;
+  }
+
+  .mobile-only-categories-dropdown-wrap {
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  .menu-footer-card {
+    display: none;
+  }
+}
+
+/* Medium Tablets & Large Phones (<= 768px) */
+@media (max-width: 768px) {
   .app-container {
-    padding: 0.5rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .app-header {
+    margin-bottom: 1.2rem;
+  }
+
+  .app-header h1.brand-domain-title {
+    font-size: 2.2rem;
+    letter-spacing: -0.4px;
+  }
+
+  .app-header p.brand-domain-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 0 4px;
+  }
+
+  .top-controls {
+    margin-bottom: 0.6rem;
   }
 
   .typing-board-container {
-    padding: 0.8rem;
-    border-radius: 12px;
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+  }
+
+  .lesson-card-premium {
+    padding: 1rem 1.1rem;
+    border-radius: 14px;
+  }
+
+  .lesson-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
 
   .lesson-card-right-group {
+    width: 100%;
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
-    gap: 0.8rem;
+    gap: 10px;
   }
 
   .lesson-card-metrics {
     width: 100%;
+    display: flex;
     justify-content: space-between;
     gap: 6px;
   }
@@ -2799,26 +2904,79 @@ body[data-theme="light"] .back-btn:hover {
   .metric-pill {
     flex: 1;
     justify-content: center;
-    font-size: 0.95rem;
     padding: 6px 8px;
+    font-size: 0.88rem;
+    border-radius: 8px;
+  }
+
+  .lesson-btn-modern {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    font-size: 1.05rem;
+    border-radius: 12px;
+  }
+
+  .lesson-card-title {
+    font-size: 1.35rem;
+  }
+
+  .lesson-index-badge {
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+    border-radius: 12px;
+  }
+
+  .practice-hud-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+/* Standard Mobile Phones (<= 600px) */
+@media (max-width: 600px) {
+  .app-header h1.brand-domain-title {
+    font-size: 1.95rem;
+  }
+
+  .typing-board-container {
+    padding: 0.85rem 0.65rem;
+    border-radius: 14px;
+  }
+
+  .sub-lesson-hero-card.only-progress {
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+  }
+
+  .hero-progress-title,
+  .hero-stat-number {
+    font-size: 1.05rem;
   }
 
   .practice-header-premium {
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
+    justify-content: space-between;
+    gap: 0.5rem;
     padding-bottom: 0.8rem;
   }
 
   .practice-header-center {
     order: -1;
     width: 100%;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.2rem;
   }
 
-  .practice-back-btn, .practice-retry-btn {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.85rem;
+  .practice-lesson-heading {
+    font-size: 1.25rem;
+  }
+
+  .practice-back-btn, 
+  .practice-retry-btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.82rem;
+    border-radius: 10px;
   }
 
   .practice-hud-grid {
@@ -2828,114 +2986,189 @@ body[data-theme="light"] .back-btn:hover {
 
   .hud-card {
     padding: 8px 10px;
-    gap: 6px;
+    gap: 8px;
+    border-radius: 12px;
   }
 
   .hud-card-icon-wrap {
     width: 32px;
     height: 32px;
     font-size: 1rem;
+    border-radius: 8px;
   }
 
   .hud-card-label {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 
   .hud-card-value {
     font-size: 1.05rem;
   }
-  
-  .virtual-keyboard {
-    padding: 10px;
-    gap: 4px;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-  }
-  
-  .keyboard-row {
-    gap: 4px;
-  }
-  
-  .key {
-    height: 42px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-  }
-  
-  .text-display {
-    gap: 6px;
-    flex-wrap: nowrap;
-    min-height: 100px;
-    margin-bottom: 1.2rem;
-  }
 
   .text-display.practice-mode {
-    padding: 12px;
-    min-height: 80px;
-    margin-bottom: 0.5rem;
-    white-space: nowrap;
+    padding: 10px;
+    min-height: 75px;
+    margin-bottom: 0.6rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  
+
   .text-display.practice-mode .bn-char {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
   }
 
   .char-box {
-    padding: 6px 10px;
-  }
-  
-  .practice-guide-area {
-    margin-top: 0.5rem;
+    padding: 5px 9px;
+    min-width: 40px;
+    border-radius: 8px;
   }
 
-  .hands-overlay-container {
-    display: none;
+  .qwerty-hint {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+
+  .virtual-keyboard {
+    padding: 8px 4px;
+    gap: 4px;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .keyboard-row {
+    gap: 3px;
+  }
+
+  .key {
+    height: 40px;
+    font-size: 0.78rem;
+    border-radius: 5px;
+    min-width: 0;
   }
 }
 
+/* Small Mobile Phones (<= 480px) */
 @media (max-width: 480px) {
+  .app-container {
+    padding: 0.4rem;
+  }
+
+  .app-header h1.brand-domain-title {
+    font-size: 1.65rem;
+    letter-spacing: -0.3px;
+    word-break: break-word;
+  }
+
+  .app-header p.brand-domain-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
   .typing-board-container {
-    padding: 0.5rem;
-    border-radius: 8px;
+    padding: 0.6rem 0.45rem;
+    border-radius: 12px;
   }
 
-  .char-box {
-    padding: 4px 8px;
-    flex-shrink: 0;
+  .lesson-card-premium {
+    padding: 0.8rem 0.85rem;
+    border-radius: 12px;
   }
 
-  .bn-char {
-    font-size: 1.25rem;
+  .lesson-card-title {
+    font-size: 1.15rem;
+  }
+
+  .lesson-index-badge {
+    width: 36px;
+    height: 36px;
+    font-size: 1.05rem;
+    border-radius: 9px;
+  }
+
+  .metric-pill {
+    padding: 4px 6px;
+    font-size: 0.78rem;
+  }
+
+  .metric-icon {
+    font-size: 0.95rem;
+  }
+
+  .lesson-btn-modern {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.92rem;
+    border-radius: 10px;
   }
 
   .virtual-keyboard {
-    padding: 6px;
+    padding: 6px 2px;
     gap: 2px;
+    border-radius: 8px;
   }
-  
+
   .keyboard-row {
     gap: 2px;
   }
-  
+
   .key {
     height: 34px;
     font-size: 0.65rem;
-    border-radius: 3px;
-    padding: 0;
+    border-radius: 4px;
   }
-  
-  .text-display.practice-mode {
-    padding: 10px;
-    min-height: 70px;
-    line-height: 2;
-  }
-  
-  .text-display.practice-mode .bn-char {
-    font-size: 1.4rem;
-  }
-  
+
   .key-active, .key-error {
-    transform: translateY(2px);
+    transform: translateY(1px);
+  }
+
+  .text-display.practice-mode {
+    padding: 8px;
+    min-height: 65px;
+  }
+
+  .text-display.practice-mode .bn-char {
+    font-size: 1.35rem;
+  }
+
+  .char-box {
+    padding: 4px 7px;
+    min-width: 34px;
+    border-radius: 6px;
+  }
+
+  .qwerty-hint {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .completion-modal-premium {
+    width: 95%;
+    max-width: 330px;
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .completion-modal-premium h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Extra Small Phones (<= 360px) */
+@media (max-width: 360px) {
+  .app-header h1.brand-domain-title {
+    font-size: 1.45rem;
+  }
+
+  .key {
+    height: 30px;
+    font-size: 0.58rem;
+  }
+
+  .text-display.practice-mode .bn-char {
+    font-size: 1.2rem;
   }
 }
 
