@@ -1181,7 +1181,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .bn-char {
-  font-size: 9rem;
+  font-size: 4.5rem;
   font-weight: normal;
   font-family: 'SolaimanLipi', 'Siyam Rupali', 'Vrinda', 'Tiro Bangla', serif;
   letter-spacing: normal;
@@ -1307,7 +1307,7 @@ body[data-theme="light"] .key-pressed-hud-pill {
 }
 
 .qwerty-hint {
-  font-size: 24px;
+  font-size: 18px;
   color: var(--text-muted);
   font-weight: normal;
   font-family: monospace;
@@ -2397,11 +2397,7 @@ body[data-theme="light"] .form-group input {
   }
 
   .bn-char {
-    font-size: 7.6rem;
-  }
-
-  .qwerty-hint {
-    font-size: 20px;
+    font-size: 3.8rem;
   }
 
   .char-box {
@@ -2955,11 +2951,7 @@ body[data-theme="light"] .back-btn:hover {
   }
 
   .bn-char {
-    font-size: 6rem;
-  }
-
-  .qwerty-hint {
-    font-size: 16px;
+    font-size: 3rem;
   }
 
   .virtual-keyboard {
