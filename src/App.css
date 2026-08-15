@@ -490,6 +490,10 @@ body[data-theme="light"] .lang-pill:hover {
   gap: 0.55rem;
 }
 
+.mobile-only-categories-dropdown-wrap {
+  display: none;
+}
+
 .sidebar-btn {
   position: relative;
   overflow: hidden;
@@ -2355,6 +2359,8 @@ body[data-theme="light"] .form-group input {
   }
 
   .typing-board-container {
+    flex: none;
+    width: 100%;
     padding: 1.2rem;
     border-radius: 16px;
   }
@@ -2448,31 +2454,96 @@ body[data-theme="light"] .form-group input {
   }
 
   /* Sub Lesson List Mobile Fixes */
-  .sub-lesson-list {
-    padding: 1rem;
+  .sub-lesson-list-premium {
+    padding: 0.5rem;
     box-sizing: border-box;
     width: 100%;
     max-width: 100vw;
   }
 
-  .lesson-card-header {
+  .lesson-card-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .lesson-card-title-area {
+  .lesson-badge-and-title {
     width: 100%;
   }
 
-  .lesson-action-btn {
+  .lesson-btn-modern {
     width: 100%;
     justify-content: center;
   }
 
-  .lesson-stats {
+  .lesson-card-right-group {
+    width: 100%;
     flex-wrap: wrap;
     gap: 0.8rem;
+  }
+
+  /* Categories Mobile Dropdown Styling */
+  .desktop-only-categories {
+    display: none !important;
+  }
+
+  .mobile-only-categories-dropdown-wrap {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    margin-bottom: 0.8rem;
+  }
+
+  .mobile-categories-select {
+    width: 100%;
+    padding: 0.85rem 2.5rem 0.85rem 1.2rem;
+    font-size: 1rem;
+    color: var(--text-main);
+    background: rgba(15, 23, 42, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  body[data-theme="light"] .mobile-categories-select {
+    background: rgba(255, 255, 255, 0.85);
+    color: #0f172a;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  }
+
+  .mobile-categories-select:focus {
+    border-color: rgba(99, 102, 241, 0.6);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .mobile-categories-select option {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px;
+  }
+
+  body[data-theme="light"] .mobile-categories-select option {
+    background: #ffffff;
+    color: #0f172a;
+  }
+
+  .select-chevron {
+    position: absolute;
+    top: 50%;
+    right: 1.1rem;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    pointer-events: none;
   }
 }
 
@@ -2751,6 +2822,73 @@ body[data-theme="light"] .back-btn:hover {
   .app-container {
     padding: 0.5rem;
   }
+
+  .typing-board-container {
+    padding: 0.8rem;
+    border-radius: 12px;
+  }
+
+  .lesson-card-right-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  .lesson-card-metrics {
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .metric-pill {
+    flex: 1;
+    justify-content: center;
+    font-size: 0.8rem;
+    padding: 4px 6px;
+  }
+
+  .practice-header-premium {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-bottom: 0.8rem;
+  }
+
+  .practice-header-center {
+    order: -1;
+    width: 100%;
+    margin-bottom: 0.3rem;
+  }
+
+  .practice-back-btn, .practice-retry-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .practice-hud-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .hud-card {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .hud-card-icon-wrap {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .hud-card-label {
+    font-size: 0.75rem;
+  }
+
+  .hud-card-value {
+    font-size: 1.05rem;
+  }
   
   .virtual-keyboard {
     padding: 10px;
@@ -2778,21 +2916,34 @@ body[data-theme="light"] .back-btn:hover {
   .text-display.practice-mode .bn-char {
     font-size: 1.6rem;
   }
-  
-  .practice-header h3 {
-    font-size: 1.1rem;
-  }
-  
-  .keyboard-info, .stats-panel .stat-label, .stats-panel .stat-value {
-    font-size: 0.85rem;
+
+  .char-box {
+    padding: 6px 10px;
   }
   
   .practice-guide-area {
     margin-top: 0.5rem;
   }
+
+  .hands-overlay-container {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
+  .typing-board-container {
+    padding: 0.5rem;
+    border-radius: 8px;
+  }
+
+  .char-box {
+    padding: 4px 8px;
+  }
+
+  .bn-char {
+    font-size: 1.25rem;
+  }
+
   .virtual-keyboard {
     padding: 6px;
     gap: 2px;

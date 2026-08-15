@@ -594,7 +594,7 @@ export default function TypingBoard({ isDarkMode = true }) {
 
                     <div className="menu-categories-list">
                         <div className="menu-section-label">ক্যাটাগরি সমূহ</div>
-                        <div className="sidebar-buttons">
+                        <div className="sidebar-buttons desktop-only-categories">
                             {activeCategories.map(cat => {
                                 const isCatActive = currentCategoryId === cat.id;
                                 const icon = getCategoryIcon(cat.id);
@@ -620,6 +620,26 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     </button>
                                 );
                             })}
+                        </div>
+
+                        <div className="mobile-only-categories-dropdown-wrap">
+                            <select 
+                                className="mobile-categories-select"
+                                value={currentCategoryId}
+                                onChange={(e) => handleCategoryClick(e.target.value)}
+                            >
+                                {activeCategories.map(cat => {
+                                    const lessonCount = cat.subLessons?.length || 0;
+                                    const completedInCat = cat.subLessons?.filter(sl => completedLessons[sl.id]?.status === 'completed').length || 0;
+                                    const statusText = completedInCat > 0 ? `(${completedInCat}/${lessonCount} সম্পন্ন)` : `(${lessonCount}টি লেসন)`;
+                                    return (
+                                        <option key={cat.id} value={cat.id}>
+                                            {getCategoryIcon(cat.id)} {cat.title} {statusText}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+                            <span className="select-chevron">▼</span>
                         </div>
                     </div>
 
