@@ -3168,7 +3168,7 @@ body[data-theme="light"] .mobile-categories-select {
 }
 
 .typing-hand-shape {
-  fill: #0c0d0e;
+  fill: none;
   stroke: #555a60;
   stroke-width: 3;
   stroke-linejoin: round;
@@ -3176,7 +3176,7 @@ body[data-theme="light"] .mobile-categories-select {
 }
 
 [data-theme='light'] .typing-hand-shape {
-  fill: #f3f4f6;
+  fill: none;
   stroke: #d1d5db;
 }
 

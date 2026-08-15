@@ -163,10 +163,10 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         }}>
             
             {!isNumpadMode && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '15px' }}>
+                <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none' }}>
                     {/* Touch Typing Hands Guide */}
-                    <div className="typing-hands-guide">
-                        <svg viewBox="0 50 500 280" style={{ maxWidth: '400px', width: '100%', height: 'auto' }}>
+                    <div className="typing-hands-guide" style={{ marginBottom: '1.5rem' }}>
+                        <svg viewBox="0 50 500 280" style={{ maxWidth: '320px', width: '100%', height: 'auto' }}>
                             <defs>
                                 <path id="hand-shape" className="typing-hand-shape" d="
                                     M 40,240 
@@ -222,26 +222,24 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                         </svg>
                     </div>
 
-                    <div className="virtual-keyboard" style={{ flex: 1, margin: '0 0 2rem 0', maxWidth: 'none' }}>
-                        {KEYBOARD_ROWS.map((row, rowIndex) => (
-                            <div key={rowIndex} className="keyboard-row">
-                                {row.map((btn, btnIndex) => (
-                                    <div 
-                                        key={btnIndex} 
-                                        className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
-                                    >
-                                        {typingMode === 'ar' && btn.ar ? (
-                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                                <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
-                                            </div>
-                                        ) : (
-                                            <span>{btn.label}</span>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+                    {KEYBOARD_ROWS.map((row, rowIndex) => (
+                        <div key={rowIndex} className="keyboard-row">
+                            {row.map((btn, btnIndex) => (
+                                <div 
+                                    key={btnIndex} 
+                                    className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
+                                >
+                                    {typingMode === 'ar' && btn.ar ? (
+                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                            <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
+                                        </div>
+                                    ) : (
+                                        <span>{btn.label}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
             )}
 
