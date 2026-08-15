@@ -3169,7 +3169,8 @@ body[data-theme="light"] .mobile-categories-select {
   pointer-events: none;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 4px;
   z-index: 4;
 }
 
