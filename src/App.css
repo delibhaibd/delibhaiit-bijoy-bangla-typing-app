@@ -1592,29 +1592,32 @@ body[data-theme="light"] .key-pressed-hud-pill {
   z-index: 3;
 }
 
-/* Active/Pressed Key */
+/* Active/Pressed Key (Selection Indicator / Correct Button) */
 .key-active {
-  background: var(--primary) !important; 
-  color: #fff !important; 
+  background: #0371c6 !important; 
+  color: #ffffff !important; 
   
   /* Pressing down */
   transform: translateY(2px);
   
-  /* Blended physical shadow with theme primary glow */
+  /* Blended physical shadow with #0371c6 primary glow */
   box-shadow: 
-    0 0 15px var(--primary) !important;
+    0 0 16px rgba(3, 113, 198, 0.7),
+    0 4px 12px rgba(3, 113, 198, 0.4) !important;
     
-  border-bottom: 1px solid var(--primary-hover) !important;
-  border-color: var(--primary-hover) !important;
+  border-bottom: 2px solid #025697 !important;
+  border-color: #025697 !important;
 }
 
 [data-theme='light'] .key-active {
-  background: var(--primary) !important; 
-  color: #fff !important; 
+  background: #0371c6 !important; 
+  color: #ffffff !important; 
   transform: translateY(2px);
-  box-shadow: 0 0 15px rgba(79, 70, 229, 0.4) !important;
-  border-bottom: 1px solid var(--primary-hover) !important;
-  border-color: var(--primary-hover) !important;
+  box-shadow: 
+    0 0 16px rgba(3, 113, 198, 0.5),
+    0 4px 10px rgba(3, 113, 198, 0.3) !important;
+  border-bottom: 2px solid #025697 !important;
+  border-color: #025697 !important;
 }
 
 /* Remove the individual RGB underglow for active key since we have global board underglow */
