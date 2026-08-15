@@ -488,22 +488,28 @@ export default function TypingBoard({ isDarkMode = true }) {
         return arMap[key] || key;
     };
 
-    const expectedItem = lessonData[currentIndex];
-    const expectedKeys = expectedItem ? (expectedItem.keys || [expectedItem.key]) : [];
-    let currentExpectedKey = expectedKeys[subIndex];
+    const getCategoryIcon = (catId, forSelect = false) => {
+        if (catId === 'consonants') {
+            if (forSelect) return 'ক';
+            return <span className="cat-icon-letter-badge cat-consonant-badge">ক</span>;
+        }
+        if (catId === 'vowels') {
+            if (forSelect) return 'অ';
+            return <span className="cat-icon-letter-badge cat-vowel-badge">অ</span>;
+        }
+        if (catId === 'conjuncts') {
+            if (forSelect) return 'ক্ষ্ম';
+            return <span className="cat-icon-letter-badge cat-conjunct-badge">ক্ষ্ম</span>;
+        }
+        if (catId === 'modifiers') {
+            if (forSelect) return 'া';
+            return <span className="cat-icon-letter-badge cat-modifier-badge">া</span>;
+        }
 
-    if (hasError) {
-        currentExpectedKey = 'Backspace';
-    }
-
-    const getCategoryIcon = (catId) => {
         const iconMap = {
             'home-row': '🏠',
             'top-row': '⬆️',
             'bottom-row': '⬇️',
-            'vowels': '🅰️',
-            'consonants': '🔤',
-            'conjuncts': '🧩',
             'practice': '📖',
             'speed-test': '⚡',
             'en-beginner': '🟢',
@@ -518,6 +524,7 @@ export default function TypingBoard({ isDarkMode = true }) {
             'en-adv-6': '💼',
             'en-adv-7': '⚡',
             'arabic-letters': '🔤',
+            'arabic-basic-letters': '🔤',
             'arabic-harakat': '〰️',
             'arabic-words': '📝',
             'arabic-sentences': '📜',
@@ -538,11 +545,35 @@ export default function TypingBoard({ isDarkMode = true }) {
                     : englishCategories[0].id
         );
         setCurrentSubLessonId(null);
+        setSubIndex(0);
+        setCurrentIndex(0);
+        setStartTime(null);
+        setCompleted(false);
+        setHasError(false);
+        setTotalTypedChars(0);
+        setTotalCorrectChars(0);
+        setTotalErrors(0);
+        setLessonHistory([]);
+        setIsAutoAdvancing(false);
+        resetLessonResults();
+        resetSpeedTest();
     };
 
     const handleCategoryClick = (catId) => {
         setCurrentCategoryId(catId);
         setCurrentSubLessonId(null);
+        setSubIndex(0);
+        setCurrentIndex(0);
+        setStartTime(null);
+        setCompleted(false);
+        setHasError(false);
+        setTotalTypedChars(0);
+        setTotalCorrectChars(0);
+        setTotalErrors(0);
+        setLessonHistory([]);
+        setIsAutoAdvancing(false);
+        resetLessonResults();
+        resetSpeedTest();
     };
 
     return (
@@ -634,7 +665,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                                     const statusText = completedInCat > 0 ? `(${completedInCat}/${lessonCount} সম্পন্ন)` : `(${lessonCount}টি লেসন)`;
                                     return (
                                         <option key={cat.id} value={cat.id}>
-                                            {getCategoryIcon(cat.id)} {cat.title} {statusText}
+                                            {getCategoryIcon(cat.id, true)} {cat.title} {statusText}
                                         </option>
                                     );
                                 })}

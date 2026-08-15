@@ -3,7 +3,7 @@ import { generateBlockSequence } from '../utils/generator';
 export const categories = [
     {
         id: 'consonants',
-        title: 'ব্যাঞ্জন বর্ণ',
+        title: 'ব্যঞ্জন বর্ণ',
         subLessons: [
             { id: 'k-borgo', title: 'ক, খ, গ, ঘ, ঙ', sequence: generateBlockSequence([{ keys: ["j"], bn: 'ক' }, { keys: ["J"], bn: 'খ' }, { keys: ["o"], bn: 'গ' }, { keys: ["O"], bn: 'ঘ' }, { keys: ["q"], bn: 'ঙ' }], 20, 20) },
             { id: 'ch-borgo', title: 'চ, ছ, জ, ঝ, ঞ', sequence: generateBlockSequence([{ keys: ["y"], bn: 'চ' }, { keys: ["Y"], bn: 'ছ' }, { keys: ["u"], bn: 'জ' }, { keys: ["U"], bn: 'ঝ' }, { keys: ["I"], bn: 'ঞ' }], 20, 20) },
