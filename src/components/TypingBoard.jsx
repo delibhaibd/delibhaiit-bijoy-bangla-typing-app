@@ -9,11 +9,16 @@ import confetti from 'canvas-confetti';
 import { applyPageBackground } from '../utils/generator';
 import FlagIcon from './FlagIcon';
 import { useSound } from '../hooks/useSound';
+import { useLiveActivity } from '../context/LiveActivityContext';
+import PremiumCourseModal from './PremiumCourseModal';
 
 
-export default function TypingBoard({ isDarkMode = true }) {
+export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }) {
     const { user, logout } = useAuth();
+    const { broadcastKeystroke } = useLiveActivity() || {};
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isPremiumModalOpen, setIsPremiumModalOpen] = useState(false);
+    const [lockedLessonTargetTitle, setLockedLessonTargetTitle] = useState('');
 
     const [typingMode, setTypingMode] = useState('bn');
     const activeCategories = typingMode === 'bn' ? categories : (typingMode === 'ar' ? arabicCategories : englishCategories);
@@ -21,6 +26,12 @@ export default function TypingBoard({ isDarkMode = true }) {
     const [currentSubLessonId, setCurrentSubLessonId] = useState(null);
     const [completedLessons, setCompletedLessons] = useState({});
     const uiWrapperRef = useRef(null);
+
+    useEffect(() => {
+        if (onPracticeStateChange) {
+            onPracticeStateChange(Boolean(currentSubLessonId));
+        }
+    }, [currentSubLessonId, onPracticeStateChange]);
 
     useEffect(() => {
         if (currentSubLessonId && uiWrapperRef.current) {
@@ -60,6 +71,7 @@ export default function TypingBoard({ isDarkMode = true }) {
     const [errorIndex, setErrorIndex] = useState(-1);
     const [feedbackKey, setFeedbackKey] = useState(null);
     const [completed, setCompleted] = useState(false);
+    const [autoCountdown, setAutoCountdown] = useState(null);
     const [timeSpent, setTimeSpent] = useState('0:00');
     const [timeLeft, setTimeLeft] = useState(60);
 
@@ -93,8 +105,10 @@ export default function TypingBoard({ isDarkMode = true }) {
 
         for (let i = 0; i < lessonData.length; i++) {
             const char = lessonData[i].bn || lessonData[i].char;
-            // Sentence endings in Bangla: '।' (দাঁড়ি), '?', '!', '\n'
-            if (char === '।' || char === '?' || char === '!' || char === '\n' || i === lessonData.length - 1) {
+            // Sentence endings in Bangla & English: '।', '.', '?', '!', '\n'
+            const isSentenceEnd = char === '।' || char === '.' || char === '?' || char === '!' || char === '\n';
+            
+            if (isSentenceEnd || i === lessonData.length - 1) {
                 let endIndex = i + 1;
                 // Include trailing space if there is one right after the punctuation
                 if (endIndex < lessonData.length && (lessonData[endIndex].bn === ' ' || lessonData[endIndex].char === ' ')) {
@@ -115,6 +129,7 @@ export default function TypingBoard({ isDarkMode = true }) {
         if (!currentSubLesson?.screens) return [];
         const bounds = [];
         let startIndex = 0;
+
         for (let idx = 0; idx < currentSubLesson.screens.length; idx++) {
             const screen = currentSubLesson.screens[idx];
             const len = screen.text.length;
@@ -122,7 +137,7 @@ export default function TypingBoard({ isDarkMode = true }) {
                 start: startIndex, 
                 end: startIndex + len, 
                 title: screen.title, 
-                isSentence: screen.isSentence,
+                isSentence: screen.isSentence || screen.text.includes(' ') || len > 10,
                 screenIndex: idx
             });
             startIndex += len;
@@ -163,6 +178,7 @@ export default function TypingBoard({ isDarkMode = true }) {
     useEffect(() => {
         if (!currentSubLessonId) return;
 
+        setAutoCountdown(null);
         const storageKey = user ? `bijoyCompletedLessons_${user.id}` : 'bijoyCompletedLessons_guest';
         let saved = {};
         try {
@@ -199,16 +215,38 @@ export default function TypingBoard({ isDarkMode = true }) {
         setTimeLeft(60);
     }, [currentSubLessonId, user, rawLessonData.length]);
 
+    // Rule: First lesson (index 0) is Free Trial for non-subscribed users. 
+    // Premium Subscription access is granted to bkctg540@gmail.com and delibhaiitbd@gmail.com.
+    const isLessonLocked = useCallback((index) => {
+        if (index === 0) return false;
+        const userEmail = user?.email?.trim()?.toLowerCase();
+        const isSubscribed = userEmail === 'delibhaiitbd@gmail.com' || userEmail === 'bkctg540@gmail.com' || Boolean(user?.isAdmin);
+        if (isSubscribed) return false;
+        return true;
+    }, [user]);
+
     const handleNextLesson = useCallback(() => {
+        setAutoCountdown(null);
         const currentIndex = currentCategory?.subLessons.findIndex(s => s.id === currentSubLessonId);
         if (currentIndex >= 0 && currentIndex + 1 < currentCategory.subLessons.length) {
-            setCurrentSubLessonId(currentCategory.subLessons[currentIndex + 1].id);
+            const nextSubLesson = currentCategory.subLessons[currentIndex + 1];
+            const nextIndex = currentIndex + 1;
+
+            if (isLessonLocked(nextIndex)) {
+                setCurrentSubLessonId(null);
+                setLockedLessonTargetTitle(nextSubLesson.title);
+                setIsPremiumModalOpen(true);
+                return;
+            }
+
+            setCurrentSubLessonId(nextSubLesson.id);
         } else {
             setCurrentSubLessonId(null);
         }
-    }, [currentCategory, currentSubLessonId]);
+    }, [currentCategory, currentSubLessonId, isLessonLocked]);
 
     const handleRetryLesson = useCallback(() => {
+        setAutoCountdown(null);
         setCurrentIndex(0);
         setSubIndex(0);
         setStartTime(null);
@@ -243,21 +281,6 @@ export default function TypingBoard({ isDarkMode = true }) {
     const handleComplete = useCallback((charsDone) => {
         setCompleted(true);
         
-        // Firework animation
-        const duration = 3 * 1000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
-
-        const interval = setInterval(function() {
-            const timeLeftForAnim = animationEnd - Date.now();
-            if (timeLeftForAnim <= 0) return clearInterval(interval);
-            const particleCount = 50 * (timeLeftForAnim / duration);
-            confetti({
-                ...defaults, particleCount,
-                origin: { x: Math.random() * (0.8 - 0.2) + 0.2, y: Math.random() - 0.2 }
-            });
-        }, 250);
-        
         // Calculate final stats
         const timeInMs = startTime ? (Date.now() - startTime) : 1000;
         const timeInMinutes = timeInMs / 60000;
@@ -274,23 +297,86 @@ export default function TypingBoard({ isDarkMode = true }) {
         setWpm(finalWpm);
         setAccuracy(finalAcc);
         setTimeSpent(timeString);
-        
-        // Save complete progress
-        setCompletedLessons(prev => ({
-            ...prev,
-            [currentSubLessonId]: {
-                status: 'completed',
-                currentIndex: charsDone,
-                totalChars: charsDone,
-                percent: 100,
-                wpm: finalWpm,
-                accuracy: finalAcc,
-                time: timeString,
-                totalKeystrokes: totalKeystrokes + 1,
-                correctKeystrokes: correctKeystrokes + 1
+
+        const isPassed = finalAcc >= 90;
+
+        if (isPassed) {
+            // Firework animation on >= 90% accuracy
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
+
+            const interval = setInterval(function() {
+                const timeLeftForAnim = animationEnd - Date.now();
+                if (timeLeftForAnim <= 0) return clearInterval(interval);
+                const particleCount = 50 * (timeLeftForAnim / duration);
+                confetti({
+                    ...defaults, particleCount,
+                    origin: { x: Math.random() * (0.8 - 0.2) + 0.2, y: Math.random() - 0.2 }
+                });
+            }, 250);
+
+            // Auto-advance in 3 seconds
+            setAutoCountdown(3);
+            
+            // Save complete progress
+            setCompletedLessons(prev => ({
+                ...prev,
+                [currentSubLessonId]: {
+                    status: 'completed',
+                    currentIndex: charsDone,
+                    totalChars: charsDone,
+                    percent: 100,
+                    wpm: finalWpm,
+                    accuracy: finalAcc,
+                    time: timeString,
+                    totalKeystrokes: totalKeystrokes + 1,
+                    correctKeystrokes: correctKeystrokes + 1
+                }
+            }));
+        } else {
+            // Under 90% accuracy: No celebration, do NOT mark completed, start 3s auto-retry countdown
+            setAutoCountdown(3);
+            playErrorSound();
+            setCompletedLessons(prev => {
+                const existing = prev[currentSubLessonId];
+                return {
+                    ...prev,
+                    [currentSubLessonId]: {
+                        status: existing?.status === 'completed' ? 'completed' : 'needs_retry',
+                        currentIndex: charsDone,
+                        totalChars: charsDone,
+                        percent: existing?.status === 'completed' ? 100 : 0,
+                        wpm: finalWpm,
+                        accuracy: finalAcc,
+                        time: timeString,
+                        totalKeystrokes: totalKeystrokes + 1,
+                        correctKeystrokes: correctKeystrokes + 1
+                    }
+                };
+            });
+        }
+    }, [startTime, totalKeystrokes, correctKeystrokes, currentSubLessonId, playErrorSound]);
+
+    // Auto-advance / Auto-retry countdown timer effect
+    useEffect(() => {
+        if (!completed || autoCountdown === null) return;
+
+        if (autoCountdown <= 0) {
+            if (accuracy >= 90) {
+                handleNextLesson();
+            } else {
+                handleRetryLesson();
             }
-        }));
-    }, [startTime, totalKeystrokes, correctKeystrokes, currentSubLessonId]);
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setAutoCountdown(prev => (prev !== null && prev > 0 ? prev - 1 : 0));
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, [completed, autoCountdown, accuracy, handleNextLesson, handleRetryLesson]);
 
     const latestStateRef = useRef({ handleComplete, currentIndex });
     useEffect(() => {
@@ -322,8 +408,23 @@ export default function TypingBoard({ isDarkMode = true }) {
             if (!currentSubLessonId) return; // Not in practice mode
             
             if (completed) {
-                if (e.key === 'Enter') handleNextLesson();
-                if (e.key.toLowerCase() === 'r') handleRetryLesson();
+                if (accuracy >= 90) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        setAutoCountdown(null);
+                        handleNextLesson();
+                    }
+                    if (e.key.toLowerCase() === 'r') {
+                        e.preventDefault();
+                        setAutoCountdown(null);
+                        handleRetryLesson();
+                    }
+                } else {
+                    if (e.key === 'Enter' || e.key.toLowerCase() === 'r' || e.key === ' ') {
+                        e.preventDefault();
+                        handleRetryLesson();
+                    }
+                }
                 return;
             }
             
@@ -412,6 +513,26 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 correctKeystrokes: correctKeystrokes + 1
                             }
                         }));
+
+                        // Broadcast to Live Monitor
+                        if (broadcastKeystroke) {
+                            const targetStr = lessonData.map(l => l.bn || l.char || l.key).join('');
+                            const typedStr = lessonData.slice(0, nextIndex).map(l => l.bn || l.char || l.key).join('');
+                            broadcastKeystroke({
+                                lesson: currentSubLesson?.title ? `${currentCategory?.title || ''} - ${currentSubLesson.title}` : 'টাইপিং ড্রিল',
+                                lang: typingMode === 'bn' ? 'বাংলা' : (typingMode === 'ar' ? 'العربية' : 'English'),
+                                targetText: targetStr,
+                                typedBuffer: typedStr,
+                                currentIndex: nextIndex,
+                                wpm: liveWpm,
+                                accuracy: liveAcc,
+                                timeSpentSeconds: totalSeconds,
+                                currentKey: e.key,
+                                status: 'typing',
+                                isMistake: false,
+                                isCompleted: false
+                            });
+                        }
                     }
                 }
             } else {
@@ -423,12 +544,21 @@ export default function TypingBoard({ isDarkMode = true }) {
                 
                 setFeedbackKey({ key: e.key, status: 'wrong' });
                 setTimeout(() => setFeedbackKey(null), 200);
+
+                if (broadcastKeystroke) {
+                    broadcastKeystroke({
+                        isMistake: true,
+                        lastKey: e.key,
+                        currentKey: e.key,
+                        status: 'error'
+                    });
+                }
             }
         };
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson, handleComplete]);
+    }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, currentCategory, currentSubLesson, typingMode, broadcastKeystroke, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson, handleComplete]);
 
     useEffect(() => {
         const activeCharBox = document.querySelector('.char-box.active');
@@ -720,20 +850,38 @@ export default function TypingBoard({ isDarkMode = true }) {
                                 const isCompleted = lessonStats?.status === 'completed' || lessonStats?.percent === 100;
                                 const hasProgress = !isCompleted && typeof lessonStats?.percent === 'number' && lessonStats.percent > 0;
                                 const progressPercent = isCompleted ? 100 : (lessonStats?.percent || 0);
+                                const isLocked = isLessonLocked(index);
                                 
+                                const handleCardClick = () => {
+                                    if (isLocked) {
+                                        setLockedLessonTargetTitle(subLesson.title);
+                                        setIsPremiumModalOpen(true);
+                                        return;
+                                    }
+                                    setCurrentSubLessonId(subLesson.id);
+                                };
+
                                 return (
                                     <div 
                                         key={subLesson.id} 
-                                        className={`lesson-card-premium ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')}`}
-                                        onClick={() => setCurrentSubLessonId(subLesson.id)}
+                                        className={`lesson-card-premium ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')} ${isLocked ? 'locked' : ''}`}
+                                        onClick={handleCardClick}
                                     >
                                         <div className="lesson-card-top">
                                             <div className="lesson-badge-and-title">
-                                                <div className={`lesson-index-badge ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')}`}>
-                                                    {isCompleted ? '✓' : (index + 1)}
+                                                <div className={`lesson-index-badge ${isCompleted ? 'completed' : (hasProgress ? 'in-progress' : '')} ${isLocked ? 'locked-badge' : ''}`}>
+                                                    {isLocked ? '🔒' : (isCompleted ? '✓' : (index + 1))}
                                                 </div>
                                                 <div className="lesson-title-meta">
-                                                    <h3 className="lesson-card-title">{subLesson.title}</h3>
+                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                                        <h3 className="lesson-card-title">{subLesson.title}</h3>
+                                                        {index === 0 && (
+                                                            <span className="lesson-free-trial-badge">🎁 ফ্রি ট্রায়াল</span>
+                                                        )}
+                                                        {isLocked && (
+                                                            <span className="lesson-lock-badge">🔒 প্রিমিয়াম লেসন</span>
+                                                        )}
+                                                    </div>
                                                     {hasProgress && (
                                                         <span className="lesson-in-progress-tag">অগ্রগতি: {progressPercent}%</span>
                                                     )}
@@ -757,14 +905,16 @@ export default function TypingBoard({ isDarkMode = true }) {
                                                 </div>
 
                                                 <button 
-                                                    type="button"
-                                                    className={`lesson-btn-modern ${isCompleted ? 'resume-btn' : (hasProgress ? 'continue-btn' : 'start-btn')}`}
+                                                    type="button" 
+                                                    className={`lesson-btn-modern ${isLocked ? 'locked-action-btn' : (isCompleted ? 'resume-btn' : (hasProgress ? 'continue-btn' : 'start-btn'))}`}
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        setCurrentSubLessonId(subLesson.id);
+                                                        handleCardClick();
                                                     }}
                                                 >
-                                                    {isCompleted ? '▶ পুনরায় অনুশীলন' : (hasProgress ? `▶ চালিয়ে যান (${progressPercent}%)` : '▶ শুরু করুন')}
+                                                    {isLocked 
+                                                        ? '🔒 আনলক করুন' 
+                                                        : (isCompleted ? '▶ পুনরায় অনুশীলন' : (hasProgress ? `▶ চালিয়ে যান (${progressPercent}%)` : '▶ শুরু করুন'))}
                                                 </button>
                                             </div>
                                         </div>
@@ -783,16 +933,25 @@ export default function TypingBoard({ isDarkMode = true }) {
                 ) : (
                     <div ref={uiWrapperRef} className="typing-ui-wrapper practice-page-premium" style={{ width: '100%', maxWidth: '100%', margin: '0', display: 'flex', flexDirection: 'column', scrollMarginTop: '20px' }}>
                         <div className="practice-header-premium">
-                            <button type="button" className="practice-back-btn" onClick={() => setCurrentSubLessonId(null)}>
-                                <span className="back-arrow">←</span>
-                                <span>তালিকায় ফিরুন</span>
+                            <button 
+                                type="button" 
+                                className="practice-back-btn eye-catching-back-btn" 
+                                onClick={() => setCurrentSubLessonId(null)}
+                                title="Back to Lesson List"
+                            >
+                                <span className="back-arrow-icon-wrap">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                                        <polyline points="12 19 5 12 12 5"></polyline>
+                                    </svg>
+                                </span>
+                                <span className="back-btn-text">Back</span>
                             </button>
                             <div className="practice-header-center">
                                 <span className="practice-cat-badge">
                                     <span className="cat-icon">{getCategoryIcon(currentCategoryId)}</span>
                                     <span>{currentCategory?.title}</span>
                                 </span>
-                                <h3 className="practice-lesson-heading">{currentSubLesson?.title}</h3>
                             </div>
                             <button type="button" className="practice-retry-btn" onClick={handleRetryLesson} title="প্রথম থেকে শুরু করুন">
                                 <span className="retry-icon">🔄</span>
@@ -1031,28 +1190,48 @@ export default function TypingBoard({ isDarkMode = true }) {
 
                         {completed && (
                             <div className="completion-modal-overlay">
-                                <div className="completion-modal-premium">
-                                    <h3>অভিনন্দন!</h3>
-                                    <div className="premium-stars-container">
-                                        {(() => {
-                                            let stars = 1;
-                                            if (accuracy >= 95 && wpm >= 15) stars = 3;
-                                            else if (accuracy >= 85) stars = 2;
-                                            return (
-                                                <>
-                                                    <span className={stars >= 1 ? 'star active' : 'star'}>★</span>
-                                                    <span className={stars >= 2 ? 'star active' : 'star'}>★</span>
-                                                    <span className={stars >= 3 ? 'star active' : 'star'}>★</span>
-                                                </>
-                                            );
-                                        })()}
-                                    </div>
+                                <div className={`completion-modal-premium ${accuracy < 90 ? 'failed-attempt' : 'passed-attempt'}`}>
+                                    {accuracy >= 90 ? (
+                                        <>
+                                            <h3>অভিনন্দন! 🎉</h3>
+                                            <div className="accuracy-requirement-badge passed">
+                                                <span className="req-icon">🎯</span>
+                                                <span>একুরেসি লক্ষ্যমাত্রা অর্জিত! (<strong>{accuracy}%</strong> ≥ ৯০%)</span>
+                                            </div>
+                                            <div className="premium-stars-container">
+                                                {(() => {
+                                                    let stars = 1;
+                                                    if (accuracy >= 95 && wpm >= 15) stars = 3;
+                                                    else if (accuracy >= 90) stars = 2;
+                                                    return (
+                                                        <>
+                                                            <span className={stars >= 1 ? 'star active' : 'star'}>★</span>
+                                                            <span className={stars >= 2 ? 'star active' : 'star'}>★</span>
+                                                            <span className={stars >= 3 ? 'star active' : 'star'}>★</span>
+                                                        </>
+                                                    );
+                                                })()}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h3 className="failed-title">পুনরায় চেষ্টা করুন ⚠️</h3>
+                                            <div className="accuracy-requirement-badge failed">
+                                                <span className="req-icon">⚠️</span>
+                                                <span>লেসন সফল করতে কমপক্ষে <strong>৯০%</strong> একুরেসি প্রয়োজন (আপনার অর্জন: <strong>{accuracy}%</strong>)</span>
+                                            </div>
+                                            <div className="failed-helper-msg">
+                                                অনুগ্রহ করে কি-বোর্ড গাইড দেখে সঠিক কি-তে চাপ দিন এবং নির্ভুলভাবে টাইপ করুন।
+                                            </div>
+                                        </>
+                                    )}
+
                                     <div className="premium-stats-grid">
                                         <div className="premium-stat-card">
                                             <div className="premium-stat-value">{wpm} <span style={{fontSize: '1rem'}}>WPM</span></div>
                                             <div className="premium-stat-label">স্পিড</div>
                                         </div>
-                                        <div className="premium-stat-card">
+                                        <div className={`premium-stat-card ${accuracy < 90 ? 'stat-card-warning' : 'stat-card-success'}`}>
                                             <div className="premium-stat-value">{accuracy}%</div>
                                             <div className="premium-stat-label">একুরেসি</div>
                                         </div>
@@ -1062,18 +1241,50 @@ export default function TypingBoard({ isDarkMode = true }) {
                                         </div>
                                     </div>
                                     
+                                    {autoCountdown !== null && (
+                                        <div className={`auto-advance-indicator ${accuracy < 90 ? 'auto-retry-indicator' : ''}`}>
+                                            <div className={`auto-advance-text ${accuracy < 90 ? 'auto-retry-text' : ''}`}>
+                                                {accuracy >= 90 ? (
+                                                    <span>⚡ স্বয়ংক্রিয়ভাবে পরবর্তী লেসনে নিয়ে যাওয়া হচ্ছে... ({autoCountdown} সে.)</span>
+                                                ) : (
+                                                    <span>🔄 {autoCountdown} সেকেন্ড পর স্বয়ংক্রিয়ভাবে পুনরায় শুরু হচ্ছে...</span>
+                                                )}
+                                            </div>
+                                            <div className={`auto-advance-bar-track ${accuracy < 90 ? 'auto-retry-track' : ''}`}>
+                                                <div 
+                                                    className={`auto-advance-bar-fill ${accuracy < 90 ? 'auto-retry-fill' : ''}`}
+                                                    style={{ width: `${Math.max(5, ((3 - autoCountdown) / 3) * 100)}%` }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="modal-actions">
-                                        <button className="btn-secondary" onClick={handleRetryLesson}>
-                                            পুনরায় <span className="shortcut-hint">R</span>
-                                        </button>
-                                        <button className="btn-primary" onClick={handleNextLesson}>
-                                            {(() => {
-                                                const cIndex = currentCategory?.subLessons.findIndex(s => s.id === currentSubLessonId);
-                                                const isLast = cIndex === currentCategory?.subLessons.length - 1;
-                                                return isLast ? "তালিকায় ফিরে যান" : "পরবর্তী লেসন";
-                                            })()}
-                                            <span className="shortcut-hint" style={{background: 'rgba(255,255,255,0.2)', color: 'white'}}>Enter</span>
-                                        </button>
+                                        {accuracy >= 90 ? (
+                                            <>
+                                                <button className="btn-secondary" onClick={handleRetryLesson}>
+                                                    পুনরায় <span className="shortcut-hint">R</span>
+                                                </button>
+                                                <button className="btn-primary" onClick={handleNextLesson}>
+                                                    {(() => {
+                                                        const cIndex = currentCategory?.subLessons.findIndex(s => s.id === currentSubLessonId);
+                                                        const isLast = cIndex === currentCategory?.subLessons.length - 1;
+                                                        return isLast ? "তালিকায় ফিরে যান" : "পরবর্তী লেসন";
+                                                    })()}
+                                                    <span className="shortcut-hint" style={{background: 'rgba(255,255,255,0.2)', color: 'white'}}>Enter</span>
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <button className="btn-secondary" onClick={() => setCurrentSubLessonId(null)}>
+                                                    তালিকায় ফিরুন
+                                                </button>
+                                                <button className="btn-primary btn-retry-primary" onClick={handleRetryLesson}>
+                                                    🔄 পুনরায় লেসন শুরু করুন
+                                                    <span className="shortcut-hint" style={{background: 'rgba(255,255,255,0.2)', color: 'white'}}>Enter / R</span>
+                                                </button>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -1085,6 +1296,14 @@ export default function TypingBoard({ isDarkMode = true }) {
             <LoginModal 
                 isOpen={isLoginModalOpen} 
                 onClose={() => setIsLoginModalOpen(false)} 
+            />
+
+            <PremiumCourseModal 
+                isOpen={isPremiumModalOpen}
+                onClose={() => setIsPremiumModalOpen(false)}
+                onOpenLogin={() => setIsLoginModalOpen(true)}
+                user={user}
+                lessonTitle={lockedLessonTargetTitle}
             />
         </div>
     );

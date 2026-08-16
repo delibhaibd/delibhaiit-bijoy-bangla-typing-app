@@ -16,7 +16,6 @@
     height: 40px; /* Longer distinct drops */
     background: linear-gradient(to bottom, rgba(56, 189, 248, 0), rgba(56, 189, 248, 0.7) 60%, rgba(255, 255, 255, 0.95));
     border-radius: 1px;
-    box-shadow: 0 0 4px rgba(56, 189, 248, 0.5);
     animation: fall linear infinite;
     will-change: transform;
 }
@@ -24,7 +23,6 @@
 /* Make drops vibrant and sharp in light mode */
 [data-theme='light'] .raindrop {
     background: linear-gradient(to bottom, rgba(2, 132, 199, 0), rgba(2, 132, 199, 0.6) 50%, rgba(15, 23, 42, 0.85));
-    box-shadow: 0 0 3px rgba(2, 132, 199, 0.3);
 }
 
 @keyframes fall {

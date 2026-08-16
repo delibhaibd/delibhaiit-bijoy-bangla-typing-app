@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
-export default function LoginModal({ isOpen, onClose }) {
+export default function LoginModal({ isOpen, onClose, onLoginSuccess }) {
     const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    // Reset inputs whenever modal opens or closes
+    React.useEffect(() => {
+        if (isOpen) {
+            setEmail('');
+            setPassword('');
+            setError('');
+        }
+    }, [isOpen]);
 
     if (!isOpen) return null;
 
@@ -16,7 +25,8 @@ export default function LoginModal({ isOpen, onClose }) {
         setIsLoading(true);
 
         try {
-            await login(email, password);
+            const loggedUser = await login(email, password);
+            if (onLoginSuccess) onLoginSuccess(loggedUser);
             onClose(); // Close modal on success
         } catch (err) {
             setError(err.message);
@@ -30,27 +40,29 @@ export default function LoginModal({ isOpen, onClose }) {
             <div className="modal-content login-modal">
                 <button className="close-btn" onClick={onClose}>×</button>
                 <h2>লগইন করুন</h2>
-                <p className="login-subtitle">আপনার কাজের প্রগ্রেস সেভ রাখতে লগইন করুন</p>
+                <p className="login-subtitle">আপনার অ্যাকাউন্টে লগইন করুন</p>
 
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
-                        <label>ইমেইল</label>
+                        <label>ইমেইল অ্যাড্রেস</label>
                         <input 
                             type="email" 
-                            placeholder="delibhaibd@gmail.com" 
+                            placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন" 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required 
+                            autoComplete="off"
                         />
                     </div>
                     <div className="form-group">
                         <label>পাসওয়ার্ড</label>
                         <input 
                             type="password" 
-                            placeholder="********" 
+                            placeholder="আপনার পাসওয়ার্ড লিখুন" 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required 
+                            autoComplete="off"
                         />
                     </div>
 

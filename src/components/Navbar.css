@@ -1,0 +1,660 @@
+/* =========================================================
+   TOP NAVBAR COMPONENT (deliBhai IT Institute Style)
+   ========================================================= */
+
+.main-navbar-container {
+    width: 100%;
+    background: #07080a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body[data-theme="light"] .main-navbar-container {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.main-navbar {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+/* 1. Brand Logo */
+.navbar-brand-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: inherit;
+}
+
+.navbar-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.navbar-logo-wrap:hover {
+    transform: scale(1.02);
+}
+
+.logo-badge-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-text-group {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.logo-main-text {
+    font-size: 1.25rem;
+    font-weight: 500 !important;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+    display: flex;
+    align-items: center;
+}
+
+body[data-theme="light"] .logo-main-text {
+    color: #111827;
+}
+
+.logo-bhai {
+    color: #ffffff;
+    font-weight: 500 !important;
+}
+
+body[data-theme="light"] .logo-bhai {
+    color: #111827;
+}
+
+.logo-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: #10b981;
+    border-radius: 50%;
+    margin-left: 2px;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.logo-sub-text {
+    font-size: 0.68rem;
+    font-style: italic;
+    color: #9ca3af;
+    letter-spacing: 0.5px;
+    margin-top: -1px;
+}
+
+body[data-theme="light"] .logo-sub-text {
+    color: #6b7280;
+}
+
+/* 2. Middle Navigation Links */
+.navbar-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-item-link {
+    color: #9ca3af;
+    font-size: 0.94rem;
+    font-weight: 500 !important;
+    text-decoration: none;
+    padding: 8px 4px;
+    position: relative;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-item-link:hover {
+    color: #ffffff;
+}
+
+body[data-theme="light"] .nav-item-link {
+    color: #4b5563;
+}
+
+body[data-theme="light"] .nav-item-link:hover {
+    color: #111827;
+}
+
+/* Active Link Indicator (Green Underline) */
+.nav-item-link.active {
+    color: #ffffff;
+}
+
+body[data-theme="light"] .nav-item-link.active {
+    color: #059669;
+}
+
+.nav-item-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: -11px;
+    left: 0;
+    width: 100%;
+    height: 2.5px;
+    background: #059669;
+    border-radius: 3px 3px 0 0;
+}
+
+.mobile-only-nav-actions {
+    display: none;
+}
+
+/* 3. Right Action Group */
+.navbar-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Theme Segmented Capsule Pill [ ☀️  💻  🌙 ] */
+.theme-segmented-pill {
+    background: #141519;
+    border: 1px solid #23242a;
+    border-radius: 9999px;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+body[data-theme="light"] .theme-segmented-pill {
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+}
+
+.theme-segment-btn {
+    background: transparent;
+    border: none;
+    width: 28px;
+    height: 26px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.theme-segment-btn:hover {
+    color: #ffffff;
+}
+
+.theme-segment-btn.active {
+    background: #272832;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+body[data-theme="light"] .theme-segment-btn.active {
+    background: #ffffff;
+    color: #111827;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Auth Buttons */
+.auth-buttons-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-login-btn {
+    background: transparent;
+    border: none;
+    color: #e5e7eb;
+    font-size: 0.93rem;
+    font-weight: 500 !important;
+    padding: 7px 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+.nav-login-btn:hover {
+    color: #10b981;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+body[data-theme="light"] .nav-login-btn {
+    color: #374151;
+}
+
+body[data-theme="light"] .nav-login-btn:hover {
+    color: #059669;
+    background: #f3f4f6;
+}
+
+/* Free Registration Green Pill Button */
+.nav-register-pill-btn {
+    background: #059669;
+    color: #ffffff !important;
+    border: none;
+    font-size: 0.92rem;
+    font-weight: 500 !important;
+    padding: 8px 18px;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+.nav-register-pill-btn:hover {
+    background: #047857;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-register-pill-btn:active {
+    transform: translateY(0);
+}
+
+/* =========================================================
+   PROFILE DROPDOWN COMPONENT
+   ========================================================= */
+
+.profile-dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* User Profile Badge Trigger */
+.user-profile-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 6px 14px;
+    border-radius: 9999px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.user-profile-badge:hover {
+    background: rgba(16, 185, 129, 0.22);
+    border-color: rgba(16, 185, 129, 0.55);
+    transform: translateY(-1px);
+}
+
+.user-profile-badge.dropdown-active {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
+}
+
+.user-profile-badge.admin-user-badge {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(234, 88, 12, 0.15));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.user-profile-badge.admin-user-badge:hover {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(234, 88, 12, 0.25));
+    border-color: rgba(245, 158, 11, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-badge.admin-user-badge.dropdown-active {
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.5);
+}
+
+.user-avatar-circle {
+    font-size: 1.05rem;
+}
+
+.user-name-text {
+    font-size: 0.88rem;
+    color: #10b981;
+    font-weight: 500 !important;
+}
+
+.admin-user-badge .user-name-text {
+    color: #fbbf24;
+}
+
+.admin-role-tag {
+    font-size: 0.68rem;
+    background: #f59e0b;
+    color: #000000;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+}
+
+.dropdown-chevron-icon {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    transition: transform 0.25s ease;
+}
+
+.dropdown-chevron-icon.rotated {
+    transform: rotate(180deg);
+}
+
+/* Dropdown Menu Container */
+.profile-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 280px;
+    background: #14161f;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7);
+    padding: 12px;
+    z-index: 9999;
+    animation: dropdownSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdownSlideIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+body[data-theme="light"] .profile-dropdown-menu {
+    background: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12);
+}
+
+.dropdown-user-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px 12px 10px;
+}
+
+.dropdown-avatar-large {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 88, 12, 0.2));
+    border: 1px solid rgba(245, 158, 11, 0.4);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.dropdown-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+.dropdown-user-fullname {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body[data-theme="light"] .dropdown-user-fullname {
+    color: #111827;
+}
+
+.dropdown-user-email {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-admin-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: #fbbf24;
+    font-weight: 700;
+    margin-top: 3px;
+}
+
+.dropdown-student-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    color: #34d399;
+    font-weight: 600;
+    margin-top: 3px;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 8px 0;
+}
+
+body[data-theme="light"] .dropdown-divider {
+    background: #f3f4f6;
+}
+
+.dropdown-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdown-item-btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.dropdown-item-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body[data-theme="light"] .dropdown-item-btn:hover {
+    background: #f3f4f6;
+}
+
+.dropdown-item-btn .item-icon {
+    font-size: 1.15rem;
+}
+
+.item-text-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.item-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+body[data-theme="light"] .item-title {
+    color: #111827;
+}
+
+.item-desc {
+    font-size: 0.72rem;
+    color: #9ca3af;
+}
+
+.item-arrow {
+    font-size: 1.2rem;
+    color: #9ca3af;
+}
+
+/* Admin Item Glow in Dropdown */
+.item-admin-highlight {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(234, 88, 12, 0.12));
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.item-admin-highlight:hover {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(234, 88, 12, 0.22));
+    border-color: rgba(245, 158, 11, 0.6);
+    transform: translateX(3px);
+}
+
+.item-admin-highlight .item-title {
+    color: #fbbf24;
+}
+
+.item-admin-highlight .item-arrow {
+    color: #fbbf24;
+}
+
+/* Logout Button in Dropdown */
+.item-logout {
+    color: #f87171;
+}
+
+.item-logout .item-title {
+    color: #f87171;
+}
+
+.item-logout:hover {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+/* Mobile user info card */
+.mobile-user-info-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.mobile-avatar {
+    font-size: 1.4rem;
+}
+
+.mobile-user-name {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+body[data-theme="light"] .mobile-user-name {
+    color: #111827;
+}
+
+.mobile-user-email {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.nav-admin-mobile-btn {
+    width: 100%;
+    padding: 10px 16px;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #000000;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* Mobile Hamburger Toggle */
+.mobile-hamburger-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    font-size: 1.4rem;
+    color: var(--text-main, #ffffff);
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+@media (max-width: 960px) {
+    .main-navbar {
+        padding: 10px 16px;
+    }
+
+    .mobile-hamburger-btn {
+        display: block;
+    }
+
+    .navbar-nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #0b0c0e;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 24px;
+        gap: 16px;
+        display: none;
+    }
+
+    body[data-theme="light"] .navbar-nav-links {
+        background: #ffffff;
+        border-bottom-color: #e5e7eb;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-nav-links.mobile-open {
+        display: flex;
+    }
+
+    .nav-item-link.active::after {
+        display: none;
+    }
+
+    .mobile-only-nav-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        padding-top: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    body[data-theme="light"] .mobile-only-nav-actions {
+        border-top-color: #e5e7eb;
+    }
+
+    .auth-buttons-wrap {
+        display: none;
+    }
+}
