@@ -161,10 +161,15 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         if (isRandomMode) {
             if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key.toLowerCase() === key.toLowerCase()) return true;
             if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key === ' ' && key === ' ') return true;
+            if (feedbackKey && feedbackKey.status === 'wrong' && (feedbackKey.key === 'LShift' || feedbackKey.key === 'ShiftLeft') && key === 'LShift') return true;
+            if (feedbackKey && feedbackKey.status === 'wrong' && (feedbackKey.key === 'RShift' || feedbackKey.key === 'ShiftRight') && key === 'RShift') return true;
             return false;
         }
 
         if (!normalizedWrongKey) return false;
+        if ((wrongKey === 'LShift' || wrongKey === 'ShiftLeft') && key === 'LShift') return true;
+        if ((wrongKey === 'RShift' || wrongKey === 'ShiftRight') && key === 'RShift') return true;
+
         if (key.toLowerCase() === normalizedWrongKey.toLowerCase()) {
             const isDigitOrSymbol = /^[0-9/*\-+.\nEnter]$/.test(key);
             if (isNumpadMode && isDigitOrSymbol) return isNumpadKey;

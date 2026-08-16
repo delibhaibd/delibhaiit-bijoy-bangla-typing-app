@@ -50,7 +50,7 @@ export default function Navbar({
     return (
         <header className="main-navbar-container">
             <div className="main-navbar">
-                {/* 1. Left: Brand Logo */}
+                {/* 1. Left: Brand Title */}
                 <div 
                     className="navbar-brand-link" 
                     onClick={() => { if (onNavigateToTyping) onNavigateToTyping(); }} 
@@ -58,21 +58,9 @@ export default function Navbar({
                     title="হোম পেজে যান"
                 >
                     <div className="navbar-logo-wrap">
-                        {/* DeliBhai Logo Icon */}
-                        <div className="logo-badge-icon">
-                            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-                                <circle cx="18" cy="18" r="16" fill="#0c131f" stroke="#10b981" strokeWidth="2.2" />
-                                <path d="M12 10.5h6.5a6.5 6.5 0 0 1 0 13H12V10.5zm4 3.5v6h2.5a3 3 0 0 0 0-6H16z" fill="#ffffff"/>
-                                <circle cx="24.5" cy="12.5" r="2.2" fill="#10b981"/>
-                            </svg>
-                        </div>
-                        <div className="logo-text-group">
-                            <div className="logo-main-text">
-                                deli<span className="logo-bhai">Bhai</span>
-                                <span className="logo-dot"></span>
-                            </div>
-                            <div className="logo-sub-text">IT Institute</div>
-                        </div>
+                        <span className="navbar-brand-domain">
+                            typing.deliBhaiit.com
+                        </span>
                     </div>
                 </div>
 

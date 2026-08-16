@@ -11,6 +11,7 @@ import FlagIcon from './FlagIcon';
 import { useSound } from '../hooks/useSound';
 import { useLiveActivity } from '../context/LiveActivityContext';
 import PremiumCourseModal from './PremiumCourseModal';
+import { getRequiredShiftSide } from '../utils/fingerMapping';
 
 
 export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }) {
@@ -26,6 +27,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
     const [currentSubLessonId, setCurrentSubLessonId] = useState(null);
     const [completedLessons, setCompletedLessons] = useState({});
     const uiWrapperRef = useRef(null);
+    const pressedShiftKeysRef = useRef(new Set());
 
     useEffect(() => {
         if (onPracticeStateChange) {
@@ -217,13 +219,18 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
 
     // Rule: First lesson (index 0) is Free Trial for non-subscribed users. 
     // Premium Subscription access is granted to bkctg540@gmail.com and delibhaiitbd@gmail.com.
+    const userEmail = user?.email?.trim()?.toLowerCase();
+    const isPremiumUser = Boolean(
+        user?.isAdmin ||
+        userEmail === 'delibhaiitbd@gmail.com' ||
+        userEmail === 'bkctg540@gmail.com'
+    );
+
     const isLessonLocked = useCallback((index) => {
         if (index === 0) return false;
-        const userEmail = user?.email?.trim()?.toLowerCase();
-        const isSubscribed = userEmail === 'delibhaiitbd@gmail.com' || userEmail === 'bkctg540@gmail.com' || Boolean(user?.isAdmin);
-        if (isSubscribed) return false;
+        if (isPremiumUser) return false;
         return true;
-    }, [user]);
+    }, [isPremiumUser]);
 
     const handleNextLesson = useCallback(() => {
         setAutoCountdown(null);
@@ -404,7 +411,20 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
     }, [currentSubLessonId, startTime, completed]);
 
     useEffect(() => {
+        const handleKeyUp = (e) => {
+            if (e.key === 'Shift') {
+                if (e.code) pressedShiftKeysRef.current.delete(e.code);
+            }
+            if (!e.shiftKey) {
+                pressedShiftKeysRef.current.clear();
+            }
+        };
+
         const handleKeyDown = (e) => {
+            if (e.key === 'Shift') {
+                if (e.code) pressedShiftKeysRef.current.add(e.code);
+            }
+
             if (!currentSubLessonId) return; // Not in practice mode
             
             if (completed) {
@@ -428,7 +448,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                 return;
             }
             
-            // Ignore modifiers
+            // Ignore standalone modifiers
             if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock', 'Tab'].includes(e.key)) return;
             // Prevent scrolling on space
             if (e.key === ' ') e.preventDefault();
@@ -455,15 +475,44 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                 return;
             }
 
-            setCurrentKey(e.key === ' ' ? 'Space' : e.key);
-            setTotalKeystrokes(prev => prev + 1);
-
             const expectedItem = lessonData[currentIndex];
-            const expectedKeys = expectedItem.keys || [expectedItem.key];
+            const expectedKeys = expectedItem?.keys || (expectedItem?.key ? [expectedItem.key] : []);
             const currentExpectedKey = expectedKeys[subIndex];
+            const requiredShiftSide = getRequiredShiftSide(currentExpectedKey);
 
+            // Check if key matches expected character
             if (e.key === currentExpectedKey) {
-                // Correct key
+                // Strict Shift Side Verification:
+                if (requiredShiftSide) {
+                    const hasRequiredShift = pressedShiftKeysRef.current.has(requiredShiftSide);
+                    const hasWrongShift = pressedShiftKeysRef.current.has(requiredShiftSide === 'ShiftLeft' ? 'ShiftRight' : 'ShiftLeft');
+
+                    if (hasWrongShift && !hasRequiredShift) {
+                        // User used the opposite Shift key! Show error feedback for wrong Shift
+                        playErrorSound();
+                        setHasError(true);
+                        setErrorIndex(currentIndex);
+                        const wrongShiftKey = requiredShiftSide === 'ShiftLeft' ? 'RShift' : 'LShift';
+                        setCurrentKey(wrongShiftKey);
+                        setWrongIndex(subIndex);
+                        setFeedbackKey({ key: wrongShiftKey, status: 'wrong' });
+                        setTimeout(() => setFeedbackKey(null), 300);
+
+                        if (broadcastKeystroke) {
+                            broadcastKeystroke({
+                                isMistake: true,
+                                lastKey: wrongShiftKey,
+                                currentKey: wrongShiftKey,
+                                status: 'error'
+                            });
+                        }
+                        return;
+                    }
+                }
+
+                // Correct key with correct Shift side
+                setCurrentKey(e.key === ' ' ? 'Space' : e.key);
+                setTotalKeystrokes(prev => prev + 1);
                 playCorrectSound();
                 setCorrectKeystrokes(prev => prev + 1);
                 
@@ -537,19 +586,28 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                 }
             } else {
                 // Wrong key
+                setCurrentKey(e.key === ' ' ? 'Space' : e.key);
+                setTotalKeystrokes(prev => prev + 1);
                 playErrorSound();
                 setHasError(true);
                 setErrorIndex(currentIndex);
-                // Do NOT advance currentIndex or reset subIndex on error!
                 
-                setFeedbackKey({ key: e.key, status: 'wrong' });
+                let wrongFeedbackKey = e.key;
+                if (requiredShiftSide) {
+                    const hasWrongShift = pressedShiftKeysRef.current.has(requiredShiftSide === 'ShiftLeft' ? 'ShiftRight' : 'ShiftLeft');
+                    if (hasWrongShift) {
+                        wrongFeedbackKey = requiredShiftSide === 'ShiftLeft' ? 'RShift' : 'LShift';
+                    }
+                }
+
+                setFeedbackKey({ key: wrongFeedbackKey, status: 'wrong' });
                 setTimeout(() => setFeedbackKey(null), 200);
 
                 if (broadcastKeystroke) {
                     broadcastKeystroke({
                         isMistake: true,
-                        lastKey: e.key,
-                        currentKey: e.key,
+                        lastKey: wrongFeedbackKey,
+                        currentKey: wrongFeedbackKey,
                         status: 'error'
                     });
                 }
@@ -557,7 +615,11 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
         };
 
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
     }, [currentIndex, subIndex, startTime, lessonData, completed, currentSubLessonId, currentCategory, currentSubLesson, typingMode, broadcastKeystroke, playCorrectSound, playErrorSound, totalKeystrokes, correctKeystrokes, hasError, errorIndex, handleNextLesson, handleRetryLesson, handleComplete]);
 
     useEffect(() => {
@@ -733,19 +795,19 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                         <div className="lang-segmented-pills">
                             <button 
                                 type="button"
-                                className={`lang-pill ${typingMode === 'bn' ? 'active' : ''}`}
-                                onClick={() => handleLanguageChange('bn')}
-                            >
-                                <span className="lang-flag"><FlagIcon lang="bn" size={15} /></span>
-                                <span className="lang-name">বাংলা</span>
-                            </button>
-                            <button 
-                                type="button"
                                 className={`lang-pill ${typingMode === 'en' ? 'active' : ''}`}
                                 onClick={() => handleLanguageChange('en')}
                             >
                                 <span className="lang-flag"><FlagIcon lang="en" size={15} /></span>
                                 <span className="lang-name">English</span>
+                            </button>
+                            <button 
+                                type="button"
+                                className={`lang-pill ${typingMode === 'bn' ? 'active' : ''}`}
+                                onClick={() => handleLanguageChange('bn')}
+                            >
+                                <span className="lang-flag"><FlagIcon lang="bn" size={15} /></span>
+                                <span className="lang-name">বাংলা</span>
                             </button>
                             <button 
                                 type="button"
@@ -875,7 +937,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                                 <div className="lesson-title-meta">
                                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                                                         <h3 className="lesson-card-title">{subLesson.title}</h3>
-                                                        {index === 0 && (
+                                                        {!isPremiumUser && index === 0 && (
                                                             <span className="lesson-free-trial-badge">🎁 ফ্রি ট্রায়াল</span>
                                                         )}
                                                         {isLocked && (

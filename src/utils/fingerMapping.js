@@ -41,3 +41,39 @@ export const getFingerForKey = (key) => {
     if (!key) return null;
     return fingerMap[key] || null;
 };
+
+export const SHIFT_MAP = {
+    '~': '`', '!': '1', '@': '2', '#': '3', '$': '4', '%': '5', '^': '6',
+    '&': '7', '*': '8', '(': '9', ')': '0', '_': '-', '+': '=', '{': '[',
+    '}': ']', '|': '\\', ':': ';', '"': "'", '<': ',', '>': '.', '?': '/'
+};
+
+export const getRequiredShiftSide = (expectedKey) => {
+    if (!expectedKey) return null;
+    let target = expectedKey;
+    let needsShift = false;
+
+    if (target.length === 1 && target >= 'A' && target <= 'Z') {
+        needsShift = true;
+        target = target.toLowerCase();
+    } else if (SHIFT_MAP[target]) {
+        needsShift = true;
+        target = SHIFT_MAP[target];
+    } else if (target === 'LShift' || target === 'ShiftLeft') {
+        return 'ShiftLeft';
+    } else if (target === 'RShift' || target === 'ShiftRight') {
+        return 'ShiftRight';
+    }
+
+    if (!needsShift) return null;
+
+    const finger = getFingerForKey(expectedKey) || getFingerForKey(target);
+    if (!finger) return null;
+
+    // Right-hand characters -> require Left Shift
+    if (finger.startsWith('r-')) return 'ShiftLeft';
+    // Left-hand characters -> require Right Shift
+    if (finger.startsWith('l-')) return 'ShiftRight';
+
+    return null;
+};

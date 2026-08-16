@@ -28,7 +28,7 @@ body[data-theme="light"] .main-navbar-container {
     gap: 24px;
 }
 
-/* 1. Brand Logo */
+/* 1. Brand Title */
 .navbar-brand-link {
     text-decoration: none;
     display: flex;
@@ -39,70 +39,27 @@ body[data-theme="light"] .main-navbar-container {
 .navbar-logo-wrap {
     display: flex;
     align-items: center;
-    gap: 10px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: opacity 0.2s ease;
 }
 
 .navbar-logo-wrap:hover {
-    transform: scale(1.02);
+    opacity: 0.9;
 }
 
-.logo-badge-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.logo-text-group {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-}
-
-.logo-main-text {
-    font-size: 1.25rem;
-    font-weight: 500 !important;
+.navbar-brand-domain {
+    font-size: 1.7rem;
+    font-weight: 700;
     color: #ffffff;
-    letter-spacing: -0.3px;
-    display: flex;
+    letter-spacing: -0.4px;
+    font-family: 'Outfit', 'Inter', 'Roboto', system-ui, -apple-system, sans-serif;
+    display: inline-flex;
     align-items: center;
+    line-height: 1.2;
 }
 
-body[data-theme="light"] .logo-main-text {
-    color: #111827;
-}
-
-.logo-bhai {
-    color: #ffffff;
-    font-weight: 500 !important;
-}
-
-body[data-theme="light"] .logo-bhai {
-    color: #111827;
-}
-
-.logo-dot {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    background: #10b981;
-    border-radius: 50%;
-    margin-left: 2px;
-    align-self: flex-start;
-    margin-top: 4px;
-}
-
-.logo-sub-text {
-    font-size: 0.68rem;
-    font-style: italic;
-    color: #9ca3af;
-    letter-spacing: 0.5px;
-    margin-top: -1px;
-}
-
-body[data-theme="light"] .logo-sub-text {
-    color: #6b7280;
+body[data-theme="light"] .navbar-brand-domain {
+    color: #0f172a;
 }
 
 /* 2. Middle Navigation Links */
@@ -114,7 +71,7 @@ body[data-theme="light"] .logo-sub-text {
 
 .nav-item-link {
     color: #9ca3af;
-    font-size: 0.94rem;
+    font-size: 1.08rem;
     font-weight: 500 !important;
     text-decoration: none;
     padding: 8px 4px;
@@ -225,9 +182,9 @@ body[data-theme="light"] .theme-segment-btn.active {
     background: transparent;
     border: none;
     color: #e5e7eb;
-    font-size: 0.93rem;
+    font-size: 1.05rem;
     font-weight: 500 !important;
-    padding: 7px 12px;
+    padding: 8px 14px;
     cursor: pointer;
     border-radius: 8px;
     transition: color 0.2s ease, background 0.2s ease;
@@ -252,9 +209,9 @@ body[data-theme="light"] .nav-login-btn:hover {
     background: #059669;
     color: #ffffff !important;
     border: none;
-    font-size: 0.92rem;
+    font-size: 1.02rem;
     font-weight: 500 !important;
-    padding: 8px 18px;
+    padding: 9px 20px;
     border-radius: 9999px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -606,6 +563,10 @@ body[data-theme="light"] .mobile-user-name {
 @media (max-width: 960px) {
     .main-navbar {
         padding: 10px 16px;
+    }
+
+    .navbar-brand-domain {
+        font-size: 1.35rem;
     }
 
     .mobile-hamburger-btn {

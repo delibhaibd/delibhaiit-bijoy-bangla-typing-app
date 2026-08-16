@@ -54,22 +54,16 @@ function App() {
       {/* Main Page Header Banner: Visible on Main Lesson Selection, Hidden in Practice Mode */}
       {!isPracticeActive && (
         <header className="app-header">
-          <h1 
-            className="brand-domain-title" 
-            onClick={() => setCurrentView('typing')} 
-            style={{ cursor: 'pointer' }}
-            title="হোম পেজে ফিরুন"
-          >
-            Typing.deliBhaiit.com
-          </h1>
           {currentView === 'admin' && user?.isAdmin ? (
-            <p className="brand-domain-subtitle">
-              👑 <span>এডমিন কন্ট্রোল সেন্টার</span> — সিস্টেম পর্যবেক্ষণ, শিক্ষার্থী পরিসংখ্যান ও লেসন ব্যবস্থাপনা
+            <p className="app-header-tagline admin-tagline">
+              <span className="tagline-highlight admin">👑 এডমিন কন্ট্রোল সেন্টার</span> — <span className="tagline-sub">সিস্টেম পর্যবেক্ষণ, শিক্ষার্থী পরিসংখ্যান ও লেসন ব্যবস্থাপনা</span>
             </p>
           ) : (
-            <p className="brand-domain-subtitle">
-              মাত্র ১২ ঘন্টার প্র্যাক্টিসে শিখুন কম্পিউটার কী-বোর্ড টাইপিং। কোন সূত্র মুখস্থ করা ছাড়াই শিখুন তিনটি ভাষা- <span>ইংরেজি</span> | <span>বাংলা</span> | <span>আরবী</span>
-            </p>
+            <div className="app-header-tagline-wrap">
+              <h1 className="app-header-tagline single-line-bold">
+                <span className="tagline-highlight">মাত্র ১২ ঘণ্টার প্র্যাক্টিসে</span> শিখুন কম্পিউটার কী-বোর্ড টাইপিং। কোন সূত্র মুখস্থ করা ছাড়াই শিখুন তিনটি ভাষা— <span className="tagline-lang en">ইংরেজি</span> <span className="tagline-divider">|</span> <span className="tagline-lang bn">বাংলা</span> <span className="tagline-divider">|</span> <span className="tagline-lang ar">আরবী</span>
+              </h1>
+            </div>
           )}
         </header>
       )}
