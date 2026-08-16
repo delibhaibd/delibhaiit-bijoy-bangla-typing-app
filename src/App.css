@@ -3088,10 +3088,6 @@ body[data-theme="light"] .mobile-categories-select {
 
 /* Tablet Layout (<= 1024px) */
 @media (max-width: 1024px) {
-  .app-header h1.brand-domain-title {
-    font-size: 2.8rem;
-  }
-
   .typing-layout-wrapper {
     flex-direction: column;
     gap: 1.2rem;
@@ -3121,23 +3117,29 @@ body[data-theme="light"] .mobile-categories-select {
 
 /* Medium Tablets & Large Phones (<= 768px) */
 @media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
   .app-container {
-    padding: 0.75rem 0.5rem;
+    padding: 0;
+  }
+
+  main {
+    padding: 0.8rem 0.75rem 2rem 0.75rem;
   }
 
   .app-header {
-    margin-bottom: 1.2rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    padding: 0 0.85rem;
   }
 
-  .app-header h1.brand-domain-title {
-    font-size: 2.2rem;
-    letter-spacing: -0.4px;
-  }
-
-  .app-header p.brand-domain-subtitle {
-    font-size: 0.95rem;
+  .app-header-tagline.single-line-bold {
+    white-space: normal;
+    font-size: 1.22rem;
     line-height: 1.5;
-    padding: 0 4px;
+    text-align: center;
   }
 
   .top-controls {
@@ -3145,12 +3147,12 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .typing-board-container {
-    padding: 1.2rem 1rem;
-    border-radius: 18px;
+    padding: 1rem 0.85rem;
+    border-radius: 16px;
   }
 
   .lesson-card-premium {
-    padding: 1rem 1.1rem;
+    padding: 1.1rem 1.1rem 0.95rem;
     border-radius: 14px;
   }
 
@@ -3177,8 +3179,8 @@ body[data-theme="light"] .mobile-categories-select {
   .metric-pill {
     flex: 1;
     justify-content: center;
-    padding: 6px 8px;
-    font-size: 0.88rem;
+    padding: 7px 8px;
+    font-size: 0.92rem;
     border-radius: 8px;
   }
 
@@ -3191,12 +3193,12 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .lesson-card-title {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
   }
 
   .lesson-index-badge {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     font-size: 1.35rem;
     border-radius: 12px;
   }
@@ -3209,8 +3211,9 @@ body[data-theme="light"] .mobile-categories-select {
 
 /* Standard Mobile Phones (<= 600px) */
 @media (max-width: 600px) {
-  .app-header h1.brand-domain-title {
-    font-size: 1.95rem;
+  .app-header-tagline.single-line-bold {
+    font-size: 1.12rem;
+    line-height: 1.45;
   }
 
   .typing-board-container {
@@ -3225,7 +3228,7 @@ body[data-theme="light"] .mobile-categories-select {
 
   .hero-progress-title,
   .hero-stat-number {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .practice-header-premium {
@@ -3248,7 +3251,7 @@ body[data-theme="light"] .mobile-categories-select {
   .practice-back-btn, 
   .practice-retry-btn {
     padding: 0.45rem 0.85rem;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     border-radius: 10px;
   }
 
@@ -3264,51 +3267,53 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .hud-card-icon-wrap {
-    width: 32px;
-    height: 32px;
-    font-size: 1rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
     border-radius: 8px;
   }
 
   .hud-card-label {
-    font-size: 0.72rem;
+    font-size: 0.78rem;
   }
 
   .hud-card-value {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
   }
 
   .text-display.practice-mode {
-    padding: 10px;
-    min-height: 75px;
-    margin-bottom: 0.6rem;
-    border-radius: 12px;
+    padding: 12px 14px;
+    min-height: 85px;
+    margin-bottom: 0.8rem;
+    border-radius: 14px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   .text-display.practice-mode .bn-char {
-    font-size: 1.55rem;
+    font-size: 2rem;
+    line-height: 1.35;
   }
 
   .char-box {
-    padding: 5px 9px;
-    min-width: 40px;
+    padding: 6px 10px;
+    min-width: 36px;
     border-radius: 8px;
   }
 
-  .qwerty-hint {
-    font-size: 11px;
-    margin-top: 4px;
+  .virtual-keyboard-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
   }
 
   .virtual-keyboard {
+    min-width: 320px;
     padding: 8px 4px;
     gap: 4px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
     border-radius: 10px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .keyboard-row {
@@ -3316,8 +3321,8 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .key {
-    height: 40px;
-    font-size: 0.78rem;
+    height: 42px;
+    font-size: 0.82rem;
     border-radius: 5px;
     min-width: 0;
   }
@@ -3325,45 +3330,44 @@ body[data-theme="light"] .mobile-categories-select {
 
 /* Small Mobile Phones (<= 480px) */
 @media (max-width: 480px) {
-  .app-container {
-    padding: 0.4rem;
+  .app-header {
+    padding: 0 0.5rem;
   }
 
-  .app-header h1.brand-domain-title {
-    font-size: 1.65rem;
-    letter-spacing: -0.3px;
-    word-break: break-word;
-  }
-
-  .app-header p.brand-domain-subtitle {
-    font-size: 0.84rem;
+  .app-header-tagline.single-line-bold {
+    font-size: 1.05rem;
     line-height: 1.45;
   }
 
   .typing-board-container {
-    padding: 0.6rem 0.45rem;
+    padding: 0.65rem 0.5rem;
     border-radius: 12px;
   }
 
+  .sidebar.premium-sidebar {
+    padding: 0.85rem 0.75rem;
+    border-radius: 14px;
+  }
+
   .lesson-card-premium {
-    padding: 0.8rem 0.85rem;
+    padding: 0.9rem 0.9rem 0.85rem;
     border-radius: 12px;
   }
 
   .lesson-card-title {
-    font-size: 1.15rem;
+    font-size: 1.45rem;
   }
 
   .lesson-index-badge {
-    width: 36px;
-    height: 36px;
-    font-size: 1.05rem;
-    border-radius: 9px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.18rem;
+    border-radius: 10px;
   }
 
   .metric-pill {
-    padding: 4px 6px;
-    font-size: 0.78rem;
+    padding: 5px 6px;
+    font-size: 0.84rem;
   }
 
   .metric-icon {
@@ -3371,12 +3375,13 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .lesson-btn-modern {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.92rem;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.98rem;
     border-radius: 10px;
   }
 
   .virtual-keyboard {
+    min-width: 300px;
     padding: 6px 2px;
     gap: 2px;
     border-radius: 8px;
@@ -3387,61 +3392,25 @@ body[data-theme="light"] .mobile-categories-select {
   }
 
   .key {
-    height: 34px;
-    font-size: 0.65rem;
+    height: 38px;
+    font-size: 0.74rem;
     border-radius: 4px;
   }
 
-  .key-active, .key-error {
-    transform: translateY(1px);
-  }
-
-  .text-display.practice-mode {
-    padding: 8px;
-    min-height: 65px;
-  }
-
   .text-display.practice-mode .bn-char {
-    font-size: 1.35rem;
-  }
-
-  .char-box {
-    padding: 4px 7px;
-    min-width: 34px;
-    border-radius: 6px;
-  }
-
-  .qwerty-hint {
-    font-size: 10px;
-    margin-top: 2px;
+    font-size: 1.75rem;
   }
 
   .completion-modal-premium {
     width: 95%;
-    max-width: 330px;
+    max-width: 340px;
     padding: 1.5rem 1rem;
     border-radius: 16px;
   }
 
   .completion-modal-premium h3 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-}
-
-/* Extra Small Phones (<= 360px) */
-@media (max-width: 360px) {
-  .app-header h1.brand-domain-title {
-    font-size: 1.45rem;
-  }
-
-  .key {
-    height: 30px;
-    font-size: 0.58rem;
-  }
-
-  .text-display.practice-mode .bn-char {
-    font-size: 1.2rem;
+    font-size: 1.7rem;
+    margin-bottom: 0.8rem;
   }
 }
 
