@@ -17,9 +17,9 @@ const KEYBOARD_ROWS = [
     ],
     [
         { key: 'CapsLock', label: 'Caps', width: 'flex-1-75' },
-        { key: 'a', label: 'A', ar: 'ش', arShift: 'ِ' }, { key: 's', label: 'S', ar: 'س', arShift: 'ٍ' }, { key: 'd', label: 'D', ar: 'ي', arShift: ']' }, { key: 'f', label: 'F', ar: 'ب', arShift: '[' },
+        { key: 'a', label: 'A', ar: 'ش', arShift: 'ِ' }, { key: 's', label: 'S', ar: 'س', arShift: 'ٍ' }, { key: 'd', label: 'D', ar: 'ي', arShift: ']' }, { key: 'f', label: 'F', ar: 'ব', arShift: '[' },
         { key: 'g', label: 'G', ar: 'ل', arShift: 'لأ' }, { key: 'h', label: 'H', ar: 'ا', arShift: 'أ' }, { key: 'j', label: 'J', ar: 'ত', arShift: 'ـ' }, { key: 'k', label: 'K', ar: 'ن', arShift: '،' },
-        { key: 'l', label: 'L', ar: 'م', arShift: '/' }, { key: ';', label: ';', ar: 'ك', arShift: ':' }, { key: "'", label: "'", ar: 'ط', arShift: '"' },
+        { key: 'l', label: 'L', ar: 'ম', arShift: '/' }, { key: ';', label: ';', ar: 'ك', arShift: ':' }, { key: "'", label: "'", ar: 'ط', arShift: '"' },
         { key: 'Enter', label: 'Enter', width: 'flex-2' }
     ],
     [
@@ -84,8 +84,8 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             else if (code === 'Enter') mappedKey = 'Enter';
             else if (code === 'Tab') mappedKey = 'Tab';
             else if (code === 'CapsLock') mappedKey = 'CapsLock';
-            else if (code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
-            else if (code.startsWith('Digit')) mappedKey = code.slice(5);
+            else if (code && code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
+            else if (code && code.startsWith('Digit')) mappedKey = code.slice(5);
             else if (key && key.length === 1) mappedKey = key.toLowerCase();
 
             setPhysicallyPressedKeys(prev => {
@@ -118,8 +118,8 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             else if (code === 'Enter') mappedKey = 'Enter';
             else if (code === 'Tab') mappedKey = 'Tab';
             else if (code === 'CapsLock') mappedKey = 'CapsLock';
-            else if (code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
-            else if (code.startsWith('Digit')) mappedKey = code.slice(5);
+            else if (code && code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
+            else if (code && code.startsWith('Digit')) mappedKey = code.slice(5);
             else if (key && key.length === 1) mappedKey = key.toLowerCase();
 
             setPhysicallyPressedKeys(prev => {
