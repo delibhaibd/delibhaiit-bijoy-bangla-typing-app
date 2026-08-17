@@ -1123,9 +1123,11 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                 endIndex = startIndex + PAGE_SIZE;
                             }
 
+                            const isNumpadLesson = currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5';
+
                             return (
                                 <div 
-                                    className={`text-display text-display-premium lang-${typingMode} ${isSentenceMode ? 'sentence-mode' : 'drill-mode'}`}
+                                    className={`text-display text-display-premium lang-${typingMode} ${isSentenceMode ? 'sentence-mode' : 'drill-mode'} ${isNumpadLesson ? 'numpad-text-mode' : ''}`}
                                     dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
                                 >
                                     {lessonData.slice(startIndex, endIndex).map((item, i) => {
