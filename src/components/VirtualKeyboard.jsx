@@ -67,6 +67,30 @@ const HAND_DIVIDERS_D = `
     M 140,80 L 140,225 
     M 170,195 L 170,230`;
 
+const NUMPAD_KEYS = [
+    { key: 'NumLock', label: 'Num\nLock', gridArea: '1 / 1 / 2 / 2' },
+    { key: '/', label: '/', gridArea: '1 / 2 / 2 / 3' },
+    { key: '*', label: '*', gridArea: '1 / 3 / 2 / 4' },
+    { key: '-', label: '-', gridArea: '1 / 4 / 2 / 5' },
+    
+    { key: '7', label: '7\nHome', gridArea: '2 / 1 / 3 / 2' },
+    { key: '8', label: '8\n↑', gridArea: '2 / 2 / 3 / 3' },
+    { key: '9', label: '9\nPgUp', gridArea: '2 / 3 / 3 / 4' },
+    { key: '+', label: '+', customClass: 'numpad-plus', gridArea: '2 / 4 / 4 / 5' },
+    
+    { key: '4', label: '4\n←', gridArea: '3 / 1 / 4 / 2' },
+    { key: '5', label: '5', gridArea: '3 / 2 / 4 / 3' },
+    { key: '6', label: '6\n→', gridArea: '3 / 3 / 4 / 4' },
+    
+    { key: '1', label: '1\nEnd', gridArea: '4 / 1 / 5 / 2' },
+    { key: '2', label: '2\n↓', gridArea: '4 / 2 / 5 / 3' },
+    { key: '3', label: '3\nPgDn', gridArea: '4 / 3 / 5 / 4' },
+    { key: 'Enter', label: 'Enter', customClass: 'numpad-enter', gridArea: '4 / 4 / 6 / 5' },
+    
+    { key: '0', label: '0\nIns', customClass: 'numpad-zero', gridArea: '5 / 1 / 6 / 3' },
+    { key: '.', label: '.\nDel', gridArea: '5 / 3 / 6 / 4' }
+];
+
 export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn', isCapsLockOn = false, hasError = false }) {
     const [physicallyPressedKeys, setPhysicallyPressedKeys] = useState(new Set());
     const [pressedFingers, setPressedFingers] = useState(new Set());
@@ -84,6 +108,16 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             else if (code === 'Enter') mappedKey = 'Enter';
             else if (code === 'Tab') mappedKey = 'Tab';
             else if (code === 'CapsLock') mappedKey = 'CapsLock';
+            else if (code && code.startsWith('Numpad')) {
+                const sub = code.slice(6);
+                if (sub === 'Add') mappedKey = '+';
+                else if (sub === 'Subtract') mappedKey = '-';
+                else if (sub === 'Multiply') mappedKey = '*';
+                else if (sub === 'Divide') mappedKey = '/';
+                else if (sub === 'Enter') mappedKey = 'Enter';
+                else if (sub === 'Decimal') mappedKey = '.';
+                else mappedKey = sub;
+            }
             else if (code && code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
             else if (code && code.startsWith('Digit')) mappedKey = code.slice(5);
             else if (key && key.length === 1) mappedKey = key.toLowerCase();
@@ -96,7 +130,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                 return next;
             });
 
-            const finger = getFingerForKey(mappedKey) || getFingerForKey(key);
+            const finger = getFingerForKey(mappedKey, isNumpadMode) || getFingerForKey(key, isNumpadMode);
             if (finger) {
                 setPressedFingers(prev => {
                     const next = new Set(prev);
@@ -118,6 +152,16 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             else if (code === 'Enter') mappedKey = 'Enter';
             else if (code === 'Tab') mappedKey = 'Tab';
             else if (code === 'CapsLock') mappedKey = 'CapsLock';
+            else if (code && code.startsWith('Numpad')) {
+                const sub = code.slice(6);
+                if (sub === 'Add') mappedKey = '+';
+                else if (sub === 'Subtract') mappedKey = '-';
+                else if (sub === 'Multiply') mappedKey = '*';
+                else if (sub === 'Divide') mappedKey = '/';
+                else if (sub === 'Enter') mappedKey = 'Enter';
+                else if (sub === 'Decimal') mappedKey = '.';
+                else mappedKey = sub;
+            }
             else if (code && code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
             else if (code && code.startsWith('Digit')) mappedKey = code.slice(5);
             else if (key && key.length === 1) mappedKey = key.toLowerCase();
@@ -130,7 +174,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                 return next;
             });
 
-            const finger = getFingerForKey(mappedKey) || getFingerForKey(key);
+            const finger = getFingerForKey(mappedKey, isNumpadMode) || getFingerForKey(key, isNumpadMode);
             if (finger) {
                 setPressedFingers(prev => {
                     const next = new Set(prev);
@@ -153,7 +197,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             window.removeEventListener('keyup', handleKeyUp);
             window.removeEventListener('blur', handleBlur);
         };
-    }, []);
+    }, [isNumpadMode]);
 
     let requiresShift = false;
     let targetKey = expectedKey;
@@ -180,24 +224,24 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
     if (wrongKey && wrongKey.length === 1 && wrongKey >= 'A' && wrongKey <= 'Z') {
         normalizedWrongKey = wrongKey.toLowerCase();
     }
-    if (wrongKey && shiftMap[wrongKey]) {
+    if (wrongKey && shiftMap[wrongKey] && !isNumpadOperator) {
         normalizedWrongKey = shiftMap[wrongKey];
     }
 
-    const expectedFinger = getFingerForKey(expectedKey);
-    const wrongFinger = getFingerForKey(wrongKey);
+    const expectedFinger = getFingerForKey(expectedKey, isNumpadMode);
+    const wrongFinger = getFingerForKey(wrongKey, isNumpadMode);
 
-    const targetFinger = expectedFinger || getFingerForKey(targetKey);
-    const isRightHandKey = targetFinger && targetFinger.startsWith('r-');
-    const isLeftHandKey = targetFinger && targetFinger.startsWith('l-');
+    const targetFinger = expectedFinger || getFingerForKey(targetKey, isNumpadMode);
+    const isRightHandKey = isNumpadMode ? true : (targetFinger && targetFinger.startsWith('r-'));
+    const isLeftHandKey = isNumpadMode ? false : (targetFinger && targetFinger.startsWith('l-'));
 
     const getFingerHighlight = (hand, fingerName) => {
         const fingerKey = fingerName === 'thumb' ? 'thumb' : `${hand === 'left' ? 'l' : 'r'}-${fingerName}`;
         const isFingerPressed = pressedFingers.has(fingerKey) || 
-            (fingerName === 'thumb' && (pressedFingers.has('thumb') || physicallyPressedKeys.has(' ')));
+            (fingerName === 'thumb' && (pressedFingers.has('thumb') || (isNumpadMode ? physicallyPressedKeys.has('0') : physicallyPressedKeys.has(' '))));
         
         if (wrongFinger === fingerKey) {
-            return { color: '#ef4444', isPressed: isFingerPressed, isError: true }; // Red error
+            return { color: '#ef4444', isPressed: isFingerPressed, isError: true };
         }
 
         let isSuggested = (expectedFinger === fingerKey);
@@ -214,7 +258,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
 
         if (isFingerPressed) {
             return {
-                color: isSuggested ? '#10b981' : '#38bdf8',
+                color: isSuggested ? '#10b981' : '#0284c7',
                 isPressed: true,
                 isSuggested
             };
@@ -222,7 +266,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
 
         if (isSuggested) {
             return {
-                color: '#38bdf8',
+                color: '#0284c7',
                 isPressed: false,
                 isSuggested: true
             };
@@ -240,7 +284,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
     };
 
     const isActive = (key, isNumpadKey = false) => {
-        if (isRandomMode) {
+        if (isRandomMode && !isNumpadMode) {
             if (feedbackKey && feedbackKey.status === 'correct' && feedbackKey.key.toLowerCase() === key.toLowerCase()) return true;
             if (feedbackKey && feedbackKey.status === 'correct' && feedbackKey.key === ' ' && key === ' ') return true;
             return false;
@@ -248,7 +292,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
 
         if (!expectedKey) return false;
         
-        if (requiresShift) {
+        if (requiresShift && !isNumpadMode) {
             if (isRightHandKey && key === 'LShift') return true;
             if (isLeftHandKey && key === 'RShift') return true;
             if (!isRightHandKey && !isLeftHandKey && (key === 'LShift' || key === 'RShift')) return true;
@@ -260,7 +304,6 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                 return isNumpadKey;
             }
             if (!isNumpadMode && isDigitOrSymbol) {
-                if (key === 'Enter') return !isNumpadKey;
                 return !isNumpadKey;
             }
             return !isNumpadKey;
@@ -270,7 +313,7 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
     };
 
     const isError = (key, isNumpadKey = false) => {
-        if (isRandomMode) {
+        if (isRandomMode && !isNumpadMode) {
             if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key.toLowerCase() === key.toLowerCase()) return true;
             if (feedbackKey && feedbackKey.status === 'wrong' && feedbackKey.key === ' ' && key === ' ') return true;
             if (feedbackKey && feedbackKey.status === 'wrong' && (feedbackKey.key === 'LShift' || feedbackKey.key === 'ShiftLeft') && key === 'LShift') return true;
@@ -292,29 +335,22 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
         return false;
     };
 
-    const NUMPAD_KEYS = [
-        { key: 'NumLock', label: 'Num\nLock' }, { key: '/', label: '/' }, { key: '*', label: '*' }, { key: '-', label: '-' },
-        { key: '7', label: '7\nHome' }, { key: '8', label: '8\n↑' }, { key: '9', label: '9\nPgUp' }, { key: '+', label: '+', customClass: 'numpad-plus' },
-        { key: '4', label: '4\n←' }, { key: '5', label: '5' }, { key: '6', label: '6\n→' },
-        { key: '1', label: '1\nEnd' }, { key: '2', label: '2\n↓' }, { key: '3', label: '3\nPgDn' }, { key: 'Enter', label: 'Enter', customClass: 'numpad-enter' },
-        { key: '0', label: '0\nIns', customClass: 'numpad-zero' }, { key: '.', label: '.\nDel' }
-    ];
-
     return (
         <div className="virtual-keyboard-wrapper" style={{ 
             display: 'flex', 
             gap: '20px', 
             justifyContent: 'center',
             width: '100%',
-            maxWidth: '900px',
+            maxWidth: isNumpadMode ? '340px' : '900px',
             margin: '0 auto',
             position: 'relative'
         }}>
             
+            {/* Standard Keyboard Mode */}
             {!isNumpadMode && (
                 <div className="virtual-keyboard" style={{ flex: 1, margin: '0', maxWidth: 'none', position: 'relative' }}>
                     {/* Touch Typing Hands Overlay - active finger guidance & live tapping indicator */}
-                    {!isRandomMode && expectedKey && expectedKey !== '-' && (
+                    {expectedKey && expectedKey !== '-' && (
                         <div className="typing-hands-overlay">
                             <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px' }}>
                                 {/* Left Hand Group */}
@@ -424,29 +460,90 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                 </div>
             )}
 
-            
+            {/* Numeric Keypad Mode with Right Hand Guidance Overlay */}
             {isNumpadMode && (
-                <div className="virtual-numpad virtual-keyboard" style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gridTemplateRows: 'repeat(5, 1fr)',
-                    gap: '12px',
-                    margin: '0 auto 2rem auto',
-                    maxWidth: '280px',
-                    width: '100%',
-                    height: '350px'
-                }}>
-                    {NUMPAD_KEYS.map((btn, idx) => (
-                        <div 
-                            key={idx} 
-                            className={`key ${btn.customClass || ''} ${isActive(btn.key, true) ? 'key-active' : ''} ${isError(btn.key, true) ? 'key-error' : ''}`}
-                            style={{ margin: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', lineHeight: '1.2' }}
-                        >
-                            {btn.label.split('\n').map((line, i) => (
-                                <span key={i} style={i === 1 ? { fontSize: '0.7em', opacity: 0.8 } : {}}>{line}</span>
-                            ))}
+                <div className="virtual-numpad-wrapper" style={{ position: 'relative', width: '100%', maxWidth: '320px', margin: '0 auto' }}>
+                    {/* Touch Typing Right Hand Overlay for Numeric Keypad */}
+                    {expectedKey && expectedKey !== '-' && (
+                        <div className="typing-hands-overlay numpad-hands-overlay" style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            pointerEvents: 'none',
+                            zIndex: 10
+                        }}>
+                            <svg viewBox="20 40 210 275" style={{ width: '100%', height: '92%', maxWidth: '290px', opacity: 0.9 }}>
+                                {/* Right Hand (Flipped Horizontally) */}
+                                <g transform="translate(240, 0) scale(-1, 1)">
+                                    <path d={HAND_SHAPE_D} className="typing-hand-shape" />
+                                    <path d={HAND_DIVIDERS_D} className="typing-hand-dividers" />
+                                    {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
+                                        const fingerData = getFingerHighlight('right', fingerName);
+                                        if (!fingerData) return null;
+                                        return (
+                                            <path
+                                                key={fingerName}
+                                                d={pathD}
+                                                fill={fingerData.color ? `${fingerData.color}${fingerData.isPressed ? 'f0' : 'd0'}` : 'transparent'}
+                                                className={`typing-finger-active ${fingerData.isPressed ? 'typing-finger-pressed' : ''}`}
+                                            />
+                                        );
+                                    })}
+                                </g>
+                            </svg>
                         </div>
-                    ))}
+                    )}
+
+                    <div className="virtual-numpad virtual-keyboard" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gridTemplateRows: 'repeat(5, 1fr)',
+                        gap: '10px',
+                        margin: '0 auto',
+                        width: '100%',
+                        height: '350px',
+                        position: 'relative'
+                    }}>
+                        {NUMPAD_KEYS.map((btn, idx) => {
+                            const active = isActive(btn.key, true);
+                            const error = isError(btn.key, true);
+                            const pressed = isPhysicallyPressed(btn.key);
+
+                            let keyClass = `key ${btn.customClass || ''} `;
+                            if (active) keyClass += 'key-active ';
+                            if (error) keyClass += 'key-error ';
+                            if (pressed) keyClass += 'key-pressed ';
+                            if (pressed && active) keyClass += 'key-pressed-correct ';
+                            if (pressed && error) keyClass += 'key-pressed-wrong ';
+
+                            return (
+                                <div 
+                                    key={idx} 
+                                    className={keyClass.trim()}
+                                    style={{ 
+                                        gridArea: btn.gridArea, 
+                                        margin: 0, 
+                                        width: '100%', 
+                                        height: '100%', 
+                                        display: 'flex', 
+                                        flexDirection: 'column', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center', 
+                                        lineHeight: '1.2' 
+                                    }}
+                                >
+                                    {btn.label.split('\n').map((line, i) => (
+                                        <span key={i} style={i === 1 ? { fontSize: '0.7em', opacity: 0.8 } : {}}>{line}</span>
+                                    ))}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
         </div>

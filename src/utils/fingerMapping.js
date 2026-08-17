@@ -37,8 +37,20 @@ export const fingerMap = {
     'RShift': 'r-pinky', 'Enter': 'r-pinky', 'Backspace': 'r-pinky'
 };
 
-export const getFingerForKey = (key) => {
+export const numpadFingerMap = {
+    'NumLock': 'r-index',
+    '7': 'r-index', '4': 'r-index', '1': 'r-index',
+    '/': 'r-middle', '8': 'r-middle', '5': 'r-middle', '2': 'r-middle',
+    '*': 'r-ring', '9': 'r-ring', '6': 'r-ring', '3': 'r-ring', '.': 'r-ring',
+    '-': 'r-pinky', '+': 'r-pinky', 'Enter': 'r-pinky',
+    '0': 'thumb'
+};
+
+export const getFingerForKey = (key, isNumpadMode = false) => {
     if (!key) return null;
+    if (isNumpadMode && numpadFingerMap[key]) {
+        return numpadFingerMap[key];
+    }
     return fingerMap[key] || null;
 };
 
