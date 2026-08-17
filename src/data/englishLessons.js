@@ -512,10 +512,47 @@ export const englishCategories = [
         id: 'en-advanced',
         title: 'Advanced',
         subLessons: [
-            // Skill Builder
-            { id: 'en-adv-1', title: 'Numbers Letters Numbers', sequence: generateBlockSequence([{ keys: ["1"], char: '1' }, { keys: ["a"], char: 'a' }, { keys: ["2"], char: '2' }, { keys: ["b"], char: 'b' }, { keys: ["3"], char: '3' }, { keys: ["c"], char: 'c' }], 15, 15) },
-            { id: 'en-adv-2', title: 'Accuracy Focus', sequence: [{ keys: ["T"], char: "T" }, { keys: ["y"], char: "y" }, { keys: ["p"], char: "p" }, { keys: ["i"], char: "i" }, { keys: ["n"], char: "n" }, { keys: ["g"], char: "g" }, { keys: [" "], char: " " }, { keys: ["r"], char: "r" }, { keys: ["e"], char: "e" }, { keys: ["q"], char: "q" }, { keys: ["u"], char: "u" }, { keys: ["i"], char: "i" }, { keys: ["r"], char: "r" }, { keys: ["e"], char: "e" }, { keys: ["s"], char: "s" }, { keys: [" "], char: " " }, { keys: ["p"], char: "p" }, { keys: ["a"], char: "a" }, { keys: ["t"], char: "t" }, { keys: ["i"], char: "i" }, { keys: ["e"], char: "e" }, { keys: ["n"], char: "n" }, { keys: ["c"], char: "c" }, { keys: ["e"], char: "e" }, { keys: ["."], char: "." }] },
-            { id: 'en-adv-3', title: 'Advanced Symbols', sequence: generateBlockSequence([{ keys: ["~"], char: '~' }, { keys: ["_"], char: '_' }, { keys: ["+"], char: '+' }, { keys: ["{"], char: '{' }, { keys: ["}"], char: '}' }, { keys: ["|"], char: '|' }], 15, 15) },
+            // Skill Builder (Sentence Mode)
+            { 
+                id: 'en-adv-1', 
+                title: 'Numbers Letters Numbers', 
+                isSentence: true,
+                screens: [
+                    { title: "Screen 1", text: "Plan 1 was prepared in room 2b by team 3c for the project.", isSentence: true },
+                    { title: "Screen 2", text: "We ordered 4 boxes of item 5a and 6 units of model 7b today.", isSentence: true },
+                    { title: "Screen 3", text: "Flight 8c arrives at terminal 9a and departs from gate 10b.", isSentence: true },
+                    { title: "Screen 4", text: "Code 1a2b3c was verified by security agent 4d5e at 6:30 pm.", isSentence: true },
+                    { title: "Screen 5", text: "Model 7x comes with 8gb ram and 9th generation fast core cpu.", isSentence: true },
+                    { title: "Screen 6", text: "Room 101 has 12 computers, 3 printers, and 4 high speed routers.", isSentence: true }
+                ],
+                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+            },
+            { 
+                id: 'en-adv-2', 
+                title: 'Accuracy Focus', 
+                isSentence: true,
+                screens: [
+                    { title: "Screen 1", text: "Typing requires patience, rhythm, and steady keystrokes.", isSentence: true },
+                    { title: "Screen 2", text: "Accuracy always comes first, and natural speed will soon follow.", isSentence: true },
+                    { title: "Screen 3", text: "Focus your eyes on the screen without looking down at the keys.", isSentence: true },
+                    { title: "Screen 4", text: "Consistent daily practice builds effortless and lasting muscle memory.", isSentence: true },
+                    { title: "Screen 5", text: "Keep wrists relaxed slightly above the desk for the best ergonomic posture.", isSentence: true }
+                ],
+                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+            },
+            { 
+                id: 'en-adv-3', 
+                title: 'Advanced Symbols', 
+                isSentence: true,
+                screens: [
+                    { title: "Screen 1", text: "Contact: support@domain.com | Hotline: +1-800-555-0199 [24/7].", isSentence: true },
+                    { title: "Screen 2", text: "Formula: {x + y} * {a - b} = c_total ~ 100% accurate result.", isSentence: true },
+                    { title: "Screen 3", text: "Config options: [port=8080; mode='production'; active=true].", isSentence: true },
+                    { title: "Screen 4", text: "Code tags: #typing_champion #speed+accuracy #keyboard_master!", isSentence: true },
+                    { title: "Screen 5", text: "Command: /usr/local/bin/run_app --verbose --timeout=30 --retry=3", isSentence: true }
+                ],
+                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+            },
             { 
                 id: 'en-adv-4', 
                 title: 'Numeric Keypad', 
@@ -601,9 +638,33 @@ export const englishCategories = [
                 get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             },
             
-            // Wrapping Up
-            { id: 'en-adv-6', title: 'Advanced Wrap-up', sequence: generateBlockSequence([{ keys: ["A"], char: 'A' }, { keys: ["Z"], char: 'Z' }, { keys: ["1"], char: '1' }, { keys: ["0"], char: '0' }, { keys: ["{"], char: '{' }, { keys: ["}"], char: '}' }], 15, 20) },
-            { id: 'en-adv-7', title: 'Advanced Assessment', sequence: [{ keys: ["T"], char: "T" }, { keys: ["h"], char: "h" }, { keys: ["e"], char: "e" }, { keys: [" "], char: " " }, { keys: ["1"], char: "1" }, { keys: ["s"], char: "s" }, { keys: ["t"], char: "t" }, { keys: [" "], char: " " }, { keys: ["r"], char: "r" }, { keys: ["u"], char: "u" }, { keys: ["l"], char: "l" }, { keys: ["e"], char: "e" }, { keys: [" "], char: " " }, { keys: ["i"], char: "i" }, { keys: ["s"], char: "s" }, { keys: [":"], char: ":" }, { keys: [" "], char: " " }, { keys: ["A"], char: "A" }, { keys: ["l"], char: "l" }, { keys: ["w"], char: "w" }, { keys: ["a"], char: "a" }, { keys: ["y"], char: "y" }, { keys: ["s"], char: "s" }, { keys: [" "], char: " " }, { keys: ["b"], char: "b" }, { keys: ["e"], char: "e" }, { keys: [" "], char: " " }, { keys: ["a"], char: "a" }, { keys: ["c"], char: "c" }, { keys: ["c"], char: "c" }, { keys: ["u"], char: "u" }, { keys: ["r"], char: "r" }, { keys: ["a"], char: "a" }, { keys: ["t"], char: "t" }, { keys: ["e"], char: "e" }, { keys: ["!"], char: "!" }] },
+            // Wrapping Up (Sentence Mode)
+            { 
+                id: 'en-adv-6', 
+                title: 'Advanced Wrap-up', 
+                isSentence: true,
+                screens: [
+                    { title: "Screen 1", text: "Chapter 1: The Quick Brown Fox Jumps Over 10 Lazy Dogs.", isSentence: true },
+                    { title: "Screen 2", text: "Pack my box with 5 dozen liquor jugs {Quality Grade: A+}.", isSentence: true },
+                    { title: "Screen 3", text: "Sphinx of black quartz, judge my vow! (Score: 100/100).", isSentence: true },
+                    { title: "Screen 4", text: "How vexingly quick daft zebras jump! [Trial #99 Passed].", isSentence: true },
+                    { title: "Screen 5", text: "Jackdaws love my big sphinx of quartz ~ 24/7 Mastery.", isSentence: true }
+                ],
+                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+            },
+            { 
+                id: 'en-adv-7', 
+                title: 'Advanced Assessment', 
+                isSentence: true,
+                screens: [
+                    { title: "Screen 1", text: "The 1st rule is: Always be accurate and keep practicing daily!", isSentence: true },
+                    { title: "Screen 2", text: "Excellence is not an act, but a habit practiced every single day.", isSentence: true },
+                    { title: "Screen 3", text: "Success in typing unlocks faster communication and higher productivity.", isSentence: true },
+                    { title: "Screen 4", text: "You have mastered English touch typing from basics to advanced levels!", isSentence: true },
+                    { title: "Screen 5", text: "Congratulations on completing the entire advanced typing syllabus!", isSentence: true }
+                ],
+                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+            }
         ]
     }
 ];

@@ -1102,6 +1102,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                 currentCategoryId === 'practice' ||
                                 currentCategoryId === 'arabic-sentences' ||
                                 currentCategoryId === 'arabic-surahs' ||
+                                (currentCategoryId === 'en-advanced' && currentSubLessonId !== 'en-adv-4' && currentSubLessonId !== 'en-adv-5') ||
                                 Boolean(currentSubLesson?.isSentence) ||
                                 Boolean(currentScreen?.isSentence)
                             );
@@ -1116,6 +1117,11 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                 const page = screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || screenBounds[0] || { start: 0, end: lessonData.length };
                                 startIndex = page.start;
                                 endIndex = page.end;
+                            } else if (isSentenceMode) {
+                                const PAGE_SIZE = 35;
+                                const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
+                                startIndex = pageIndex * PAGE_SIZE;
+                                endIndex = startIndex + PAGE_SIZE;
                             } else {
                                 const PAGE_SIZE = 7;
                                 const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
