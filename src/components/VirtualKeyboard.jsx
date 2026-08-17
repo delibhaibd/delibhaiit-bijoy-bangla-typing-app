@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getFingerForKey } from '../utils/fingerMapping';
 
 const KEYBOARD_ROWS = [
@@ -18,7 +18,7 @@ const KEYBOARD_ROWS = [
     [
         { key: 'CapsLock', label: 'Caps', width: 'flex-1-75' },
         { key: 'a', label: 'A', ar: 'ش', arShift: 'ِ' }, { key: 's', label: 'S', ar: 'س', arShift: 'ٍ' }, { key: 'd', label: 'D', ar: 'ي', arShift: ']' }, { key: 'f', label: 'F', ar: 'ب', arShift: '[' },
-        { key: 'g', label: 'G', ar: 'ل', arShift: 'لأ' }, { key: 'h', label: 'H', ar: 'ا', arShift: 'أ' }, { key: 'j', label: 'J', ar: 'ت', arShift: 'ـ' }, { key: 'k', label: 'K', ar: 'ن', arShift: '،' },
+        { key: 'g', label: 'G', ar: 'ل', arShift: 'لأ' }, { key: 'h', label: 'H', ar: 'ا', arShift: 'أ' }, { key: 'j', label: 'J', ar: 'ত', arShift: 'ـ' }, { key: 'k', label: 'K', ar: 'ن', arShift: '،' },
         { key: 'l', label: 'L', ar: 'م', arShift: '/' }, { key: ';', label: ';', ar: 'ك', arShift: ':' }, { key: "'", label: "'", ar: 'ط', arShift: '"' },
         { key: 'Enter', label: 'Enter', width: 'flex-2' }
     ],
@@ -68,6 +68,93 @@ const HAND_DIVIDERS_D = `
     M 170,195 L 170,230`;
 
 export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn', isCapsLockOn = false, hasError = false }) {
+    const [physicallyPressedKeys, setPhysicallyPressedKeys] = useState(new Set());
+    const [pressedFingers, setPressedFingers] = useState(new Set());
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            const code = e.code;
+            let key = e.key;
+            
+            let mappedKey = key;
+            if (code === 'ShiftLeft') mappedKey = 'LShift';
+            else if (code === 'ShiftRight') mappedKey = 'RShift';
+            else if (code === 'Space') mappedKey = ' ';
+            else if (code === 'Backspace') mappedKey = 'Backspace';
+            else if (code === 'Enter') mappedKey = 'Enter';
+            else if (code === 'Tab') mappedKey = 'Tab';
+            else if (code === 'CapsLock') mappedKey = 'CapsLock';
+            else if (code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
+            else if (code.startsWith('Digit')) mappedKey = code.slice(5);
+            else if (key && key.length === 1) mappedKey = key.toLowerCase();
+
+            setPhysicallyPressedKeys(prev => {
+                const next = new Set(prev);
+                next.add(mappedKey);
+                if (key) next.add(key.toLowerCase());
+                if (code) next.add(code);
+                return next;
+            });
+
+            const finger = getFingerForKey(mappedKey) || getFingerForKey(key);
+            if (finger) {
+                setPressedFingers(prev => {
+                    const next = new Set(prev);
+                    next.add(finger);
+                    return next;
+                });
+            }
+        };
+
+        const handleKeyUp = (e) => {
+            const code = e.code;
+            let key = e.key;
+
+            let mappedKey = key;
+            if (code === 'ShiftLeft') mappedKey = 'LShift';
+            else if (code === 'ShiftRight') mappedKey = 'RShift';
+            else if (code === 'Space') mappedKey = ' ';
+            else if (code === 'Backspace') mappedKey = 'Backspace';
+            else if (code === 'Enter') mappedKey = 'Enter';
+            else if (code === 'Tab') mappedKey = 'Tab';
+            else if (code === 'CapsLock') mappedKey = 'CapsLock';
+            else if (code.startsWith('Key')) mappedKey = code.slice(3).toLowerCase();
+            else if (code.startsWith('Digit')) mappedKey = code.slice(5);
+            else if (key && key.length === 1) mappedKey = key.toLowerCase();
+
+            setPhysicallyPressedKeys(prev => {
+                const next = new Set(prev);
+                next.delete(mappedKey);
+                if (key) next.delete(key.toLowerCase());
+                if (code) next.delete(code);
+                return next;
+            });
+
+            const finger = getFingerForKey(mappedKey) || getFingerForKey(key);
+            if (finger) {
+                setPressedFingers(prev => {
+                    const next = new Set(prev);
+                    next.delete(finger);
+                    return next;
+                });
+            }
+        };
+
+        const handleBlur = () => {
+            setPhysicallyPressedKeys(new Set());
+            setPressedFingers(new Set());
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+        window.addEventListener('blur', handleBlur);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+            window.removeEventListener('blur', handleBlur);
+        };
+    }, []);
+
     let requiresShift = false;
     let targetKey = expectedKey;
 
@@ -106,25 +193,50 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
 
     const getFingerHighlight = (hand, fingerName) => {
         const fingerKey = fingerName === 'thumb' ? 'thumb' : `${hand === 'left' ? 'l' : 'r'}-${fingerName}`;
+        const isFingerPressed = pressedFingers.has(fingerKey) || 
+            (fingerName === 'thumb' && (pressedFingers.has('thumb') || physicallyPressedKeys.has(' ')));
         
         if (wrongFinger === fingerKey) {
-            return '#ef4444'; // Red error
+            return { color: '#ef4444', isPressed: isFingerPressed, isError: true }; // Red error
         }
-        if (expectedFinger === fingerKey) {
-            return '#437ec4'; // Blue highlight
-        }
+
+        let isSuggested = (expectedFinger === fingerKey);
 
         // Touch typing Shift rule: opposite hand pinky presses Shift
         if (requiresShift) {
             if (isRightHandKey && hand === 'left' && fingerName === 'pinky') {
-                return '#437ec4'; // Left pinky presses Left Shift for right-hand characters
+                isSuggested = true;
             }
             if (isLeftHandKey && hand === 'right' && fingerName === 'pinky') {
-                return '#437ec4'; // Right pinky presses Right Shift for left-hand characters
+                isSuggested = true;
             }
         }
 
+        if (isFingerPressed) {
+            return {
+                color: isSuggested ? '#10b981' : '#38bdf8',
+                isPressed: true,
+                isSuggested
+            };
+        }
+
+        if (isSuggested) {
+            return {
+                color: '#38bdf8',
+                isPressed: false,
+                isSuggested: true
+            };
+        }
+
         return null;
+    };
+
+    const isPhysicallyPressed = (btnKey) => {
+        if (physicallyPressedKeys.has(btnKey)) return true;
+        if (physicallyPressedKeys.has(btnKey.toLowerCase())) return true;
+        if (btnKey === ' ' && physicallyPressedKeys.has(' ')) return true;
+        if (feedbackKey && (feedbackKey.key === btnKey || feedbackKey.key?.toLowerCase() === btnKey?.toLowerCase())) return true;
+        return false;
     };
 
     const isActive = (key, isNumpadKey = false) => {
@@ -201,23 +313,23 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
             
             {!isNumpadMode && (
                 <div className="virtual-keyboard" style={{ flex: 1, margin: '0', maxWidth: 'none', position: 'relative' }}>
-                    {/* Touch Typing Hands Overlay - only shown when keyboard suggestions/guidance are active */}
+                    {/* Touch Typing Hands Overlay - active finger guidance & live tapping indicator */}
                     {!isRandomMode && expectedKey && expectedKey !== '-' && (
                         <div className="typing-hands-overlay">
-                            <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))' }}>
+                            <svg viewBox="0 45 500 275" style={{ width: '100%', height: '78%', maxWidth: '480px' }}>
                                 {/* Left Hand Group */}
                                 <g transform="translate(10, 0)">
                                     <path d={HAND_SHAPE_D} className="typing-hand-shape" />
                                     <path d={HAND_DIVIDERS_D} className="typing-hand-dividers" />
                                     {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
-                                        const highlightColor = getFingerHighlight('left', fingerName);
-                                        if (!highlightColor) return null;
+                                        const fingerData = getFingerHighlight('left', fingerName);
+                                        if (!fingerData) return null;
                                         return (
                                             <path
                                                 key={fingerName}
                                                 d={pathD}
-                                                fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
-                                                className="typing-finger-active"
+                                                fill={fingerData.color ? `${fingerData.color}${fingerData.isPressed ? 'f0' : 'd0'}` : 'transparent'}
+                                                className={`typing-finger-active ${fingerData.isPressed ? 'typing-finger-pressed' : ''}`}
                                             />
                                         );
                                     })}
@@ -228,14 +340,14 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                                     <path d={HAND_SHAPE_D} className="typing-hand-shape" />
                                     <path d={HAND_DIVIDERS_D} className="typing-hand-dividers" />
                                     {Object.entries(FINGER_FILL_PATHS).map(([fingerName, pathD]) => {
-                                        const highlightColor = getFingerHighlight('right', fingerName);
-                                        if (!highlightColor) return null;
+                                        const fingerData = getFingerHighlight('right', fingerName);
+                                        if (!fingerData) return null;
                                         return (
                                             <path
                                                 key={fingerName}
                                                 d={pathD}
-                                                fill={highlightColor ? `${highlightColor}d0` : 'transparent'}
-                                                className="typing-finger-active"
+                                                fill={fingerData.color ? `${fingerData.color}${fingerData.isPressed ? 'f0' : 'd0'}` : 'transparent'}
+                                                className={`typing-finger-active ${fingerData.isPressed ? 'typing-finger-pressed' : ''}`}
                                             />
                                         );
                                     })}
@@ -249,10 +361,23 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
                             {row.map((btn, btnIndex) => {
                                 const isCapsKeyWarning = btn.key === 'CapsLock' && isCapsLockOn;
                                 const isBackspaceWarning = btn.key === 'Backspace' && hasError;
+                                const active = isActive(btn.key);
+                                const error = isError(btn.key);
+                                const pressed = isPhysicallyPressed(btn.key);
+
+                                let keyClass = `key ${btn.width || ''} `;
+                                if (active) keyClass += 'key-active ';
+                                if (error) keyClass += 'key-error ';
+                                if (pressed) keyClass += 'key-pressed ';
+                                if (pressed && active) keyClass += 'key-pressed-correct ';
+                                if (pressed && error) keyClass += 'key-pressed-wrong ';
+                                if (isCapsKeyWarning) keyClass += 'key-caps-warning active-caps-lock ';
+                                if (isBackspaceWarning) keyClass += 'key-backspace-warning active-backspace-error ';
+
                                 return (
                                     <div 
                                         key={btnIndex} 
-                                        className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''} ${isCapsKeyWarning ? 'key-caps-warning active-caps-lock' : ''} ${isBackspaceWarning ? 'key-backspace-warning active-backspace-error' : ''}`}
+                                        className={keyClass.trim()}
                                     >
                                         {typingMode === 'ar' && btn.ar ? (
                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

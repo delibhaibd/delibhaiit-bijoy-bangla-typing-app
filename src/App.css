@@ -1243,10 +1243,20 @@ body[data-theme='light'] .char-box.drill-box {
   line-height: 1.2;
 }
 
+.text-display.lang-en.drill-mode .char-box.drill-box {
+  padding: 14px 22px;
+  min-width: 64px;
+}
+
 .text-display.lang-en.drill-mode .char-box.drill-box .bn-char {
   font-family: 'Google Sans', 'Roboto', system-ui, sans-serif !important;
-  font-size: 2.35rem;
+  font-size: 3.2rem;
   font-weight: 400;
+  line-height: 1.15;
+}
+
+.text-display.lang-en.drill-mode .char-box.drill-box.char-space {
+  min-width: 52px;
 }
 
 body[data-theme='light'] .char-box.drill-box .bn-char {
@@ -1408,9 +1418,15 @@ body[data-theme='light'] .char-box.sentence-char .bn-char {
 
 .text-display.lang-en.sentence-mode .bn-char {
   font-family: 'Google Sans', 'Roboto', system-ui, sans-serif !important;
-  font-size: 2.35rem;
+  font-size: 3.2rem;
   font-weight: 400;
+  line-height: 1.25;
   letter-spacing: 0px !important;
+}
+
+.text-display.lang-en.sentence-mode .char-box.sentence-char.char-space {
+  width: 18px !important;
+  min-width: 18px !important;
 }
 
 .char-box.sentence-char.correct .bn-char {
@@ -2082,57 +2098,96 @@ body[data-theme='light'] .char-box.sentence-char.wrong {
   z-index: 3;
 }
 
-/* Active/Pressed Key (Selection Indicator / Correct Button - No Glow) */
+/* Active/Suggested Target Key (Clear Solid Blue Guidance Indicator - No Glow) */
 .key-active {
   background: #0371c6 !important; 
   color: #ffffff !important; 
-  transform: translateY(2px);
-  box-shadow: none !important;
   border-bottom: 2px solid #025697 !important;
   border-color: #025697 !important;
+  box-shadow: none !important;
+  transform: translateY(1px);
+  z-index: 5;
 }
 
-[data-theme='light'] .key-active {
+body[data-theme='light'] .key-active {
   background: #0371c6 !important; 
   color: #ffffff !important; 
-  transform: translateY(2px);
-  box-shadow: none !important;
   border-bottom: 2px solid #025697 !important;
   border-color: #025697 !important;
+  box-shadow: none !important;
+  transform: translateY(1px);
+  z-index: 5;
 }
 
-/* Remove the individual RGB underglow for active key since we have global board underglow */
-.key-active::after {
-  display: none;
+/* Real-time Physical Key Press Feedback (Tactile Mechanical Down State - No Glow) */
+.key.key-pressed {
+  transform: translateY(3px) scale(0.97) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  border-color: #0284c7 !important;
+  border-bottom-width: 1px !important;
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  z-index: 6;
 }
 
-/* Normal text, no RGB on the text itself */
-.key-active span {
-  text-shadow: none;
+body[data-theme='light'] .key.key-pressed {
+  transform: translateY(3px) scale(0.97) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  border-color: #0284c7 !important;
+  border-bottom-width: 1px !important;
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  z-index: 6;
 }
 
-/* Error Key (Muted Low-Brightness Red, Theme-Aligned, No Glow) */
-.key-error {
-  background: #6e2424 !important;
-  color: #fce7e7 !important;
-  transform: translateY(2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
-  border-bottom: 3px solid #4a1515 !important;
-  border-color: #8c3232 !important;
+/* Correct Key Pressed Feedback (Solid Clean Emerald Green - No Glow) */
+.key.key-pressed.key-pressed-correct,
+.key.key-active.key-pressed {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  border-bottom: 1px solid #047857 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(3px) scale(0.97) !important;
+  z-index: 7;
+}
+
+body[data-theme='light'] .key.key-pressed.key-pressed-correct,
+body[data-theme='light'] .key.key-active.key-pressed {
+  background: #10b981 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  border-bottom: 1px solid #047857 !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(3px) scale(0.97) !important;
+  z-index: 7;
+}
+
+/* Error Key / Wrong Key Pressed (Solid Clean Red Shake - No Glow) */
+.key-error,
+.key.key-pressed.key-pressed-wrong,
+.key.key-error.key-pressed {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  transform: translateY(3px) scale(0.97);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  border-bottom: 1px solid #b91c1c !important;
+  border-color: #dc2626 !important;
   animation: shake 0.3s ease-in-out;
+  z-index: 7;
 }
 
-[data-theme='light'] .key-error {
-  background: #fecaca !important;
-  color: #7f1d1d !important;
-  transform: translateY(2px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
-  border-bottom: 3px solid #ef4444 !important;
-  border-color: #f87171 !important;
-}
-
-.key-error::after {
-  display: none;
+body[data-theme='light'] .key-error,
+body[data-theme='light'] .key.key-pressed.key-pressed-wrong,
+body[data-theme='light'] .key.key-error.key-pressed {
+  background: #ef4444 !important;
+  color: #ffffff !important;
+  transform: translateY(3px) scale(0.97);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  border-bottom: 1px solid #b91c1c !important;
+  border-color: #dc2626 !important;
+  animation: shake 0.3s ease-in-out;
+  z-index: 7;
 }
 
 @keyframes pulse-error {
@@ -3727,7 +3782,6 @@ body[data-theme='light'] .typing-hands-overlay use {
   fill: none !important;
   stroke: #64748b !important;
   stroke-width: 1.5px;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.04));
 }
 
 .typing-hand-dividers {
@@ -3749,17 +3803,40 @@ body[data-theme='light'] .typing-hands-overlay path.typing-hand-dividers {
 }
 
 .typing-finger-active {
-  stroke: rgba(255, 255, 255, 0.7);
-  stroke-width: 1.5;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 1.8;
   stroke-linejoin: round;
-  transition: fill 0.15s ease, stroke 0.15s ease;
+  transition: fill 0.12s ease, stroke 0.12s ease;
+}
+
+.typing-finger-pressed {
+  stroke: #ffffff !important;
+  stroke-width: 2.5 !important;
+  animation: fingerTapBounce 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes fingerTapBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04) translateY(-2px);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 body[data-theme='light'] .typing-finger-active,
 [data-theme='light'] .typing-finger-active {
   stroke: #ffffff !important;
-  stroke-width: 1.2px;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
+  stroke-width: 1.8px;
+}
+
+body[data-theme='light'] .typing-finger-pressed,
+[data-theme='light'] .typing-finger-pressed {
+  stroke: #ffffff !important;
+  stroke-width: 2.5px !important;
 }
 
 /* =========================================================

@@ -96,9 +96,11 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
 
     const { playCorrectSound, playErrorSound } = useSound();
 
-    const currentCategory = activeCategories.find(c => c.id === currentCategoryId);
-    const currentSubLesson = currentCategory?.subLessons.find(sl => sl.id === currentSubLessonId);
-    const rawLessonData = currentSubLesson ? currentSubLesson.sequence : [];
+    const currentSubLesson = activeCategories.flatMap(c => c.subLessons || []).find(sl => sl.id === currentSubLessonId) || 
+                             activeCategories.find(c => c.id === currentCategoryId)?.subLessons?.find(sl => sl.id === currentSubLessonId);
+    const parentCategory = currentSubLesson ? activeCategories.find(c => (c.subLessons || []).some(sl => sl.id === currentSubLesson.id)) : null;
+    const currentCategory = parentCategory || activeCategories.find(c => c.id === currentCategoryId) || activeCategories[0];
+    const rawLessonData = currentSubLesson ? (currentSubLesson.sequence || []) : [];
 
     const lessonData = React.useMemo(() => {
         if (currentCategoryId !== 'conjuncts') return rawLessonData;
@@ -157,7 +159,8 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                 end: startIndex + len, 
                 title: screen.title, 
                 isSentence: Boolean(screen.isSentence),
-                screenIndex: idx
+                screenIndex: idx,
+                text: screen.text
             });
             startIndex += len;
         }
@@ -1142,7 +1145,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                         const actualIndex = startIndex + i;
                                         const char = item.char || item.bn;
                                         const isSpace = char === ' ';
-                                        const displayChar = isSpace ? (isSentenceMode ? '\u00A0' : '␣') : char;
+                                        const displayChar = isSpace ? '\u00A0' : char;
                                         
                                         let className = 'char-box ';
                                         if (isSentenceMode) {
@@ -1213,24 +1216,73 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
 
                         {(() => {
                             const effectiveIndex = hasError ? errorIndex : currentIndex;
+                            const currentScreen = currentSubLesson?.screens ? screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) : null;
                             const expectedItem = lessonData[effectiveIndex];
                             const expectedKeys = expectedItem?.keys || (expectedItem?.key ? [expectedItem.key] : []);
                             const currentExpectedKey = expectedKeys[subIndex];
 
-                            const currentScreen = currentSubLesson?.screens ? screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) : null;
-                            const currentScreenIdx = currentScreen ? currentScreen.screenIndex : -1;
+                            // Exact repetitive sequence detection (যেমন uuuuuu / kkkkk / repetitive drills vs random/mixed typing)
+                            const isRepetitiveSeries = (() => {
+                                if (expectedItem?.isRandom) return false;
+                                if (currentCategoryId === 'practice' || currentCategoryId === 'conjuncts') return false;
+                                if (currentScreen?.isSentence) return false;
 
-                            // English lessons start with initial key tutorials (screens 0-2), then progress into random/mixed drills & combos
-                            const isEnglishRandomPhase = typingMode === 'en' && currentScreen && (
-                                currentScreenIdx >= 3 ||
-                                Boolean(currentScreen.isSentence) ||
-                                /mixed|random|drill|review|speed|combo|switching|alternating|sentence|word|challenge|test/i.test(currentScreen.title || '')
-                            );
+                                const currentChar = expectedItem?.char || expectedItem?.bn;
 
-                            const isRandomMode = Boolean(expectedItem?.isRandom) || 
-                                                 currentCategoryId === 'conjuncts' || 
-                                                 currentCategoryId === 'practice' || 
-                                                 isEnglishRandomPhase;
+                                if (currentScreen?.text) {
+                                    const text = currentScreen.text;
+                                    const nonSpace = text.replace(/\s+/g, '');
+                                    const uniqueChars = new Set(nonSpace.split(''));
+                                    
+                                    // 1. Pure single-character tutorial screen (e.g. "uuuuuuuu", "ffffffff", "jjjjjjjj")
+                                    if (uniqueChars.size === 1) return true;
+
+                                    // 2. Block of identical characters (e.g. "uuuu rrrr uuuu rrrr" where current letter is repeated consecutively >= 3 times)
+                                    if (currentChar && currentChar !== ' ') {
+                                        let streak = 1;
+                                        const screenStart = currentScreen.start ?? 0;
+                                        const screenEnd = currentScreen.end ?? lessonData.length;
+                                        for (let idx = effectiveIndex - 1; idx >= screenStart; idx--) {
+                                            const c = lessonData[idx]?.char || lessonData[idx]?.bn;
+                                            if (c === currentChar) streak++;
+                                            else if (c === ' ') continue;
+                                            else break;
+                                        }
+                                        for (let idx = effectiveIndex + 1; idx < screenEnd; idx++) {
+                                            const c = lessonData[idx]?.char || lessonData[idx]?.bn;
+                                            if (c === currentChar) streak++;
+                                            else if (c === ' ') continue;
+                                            else break;
+                                        }
+                                        if (streak >= 3) return true;
+                                    }
+
+                                    // Any other pattern (e.g. "j f j f", "jf fj", "ur uk", words, sentences) is random/mixed
+                                    return false;
+                                }
+
+                                // 3. Non-screen lessons (e.g. Bangla block sequences 20 times in a row)
+                                if (currentChar && currentChar !== ' ') {
+                                    let streak = 1;
+                                    for (let idx = effectiveIndex - 1; idx >= Math.max(0, effectiveIndex - 15); idx--) {
+                                        const c = lessonData[idx]?.char || lessonData[idx]?.bn;
+                                        if (c === currentChar) streak++;
+                                        else if (c === ' ') continue;
+                                        else break;
+                                    }
+                                    for (let idx = effectiveIndex + 1; idx < Math.min(lessonData.length, effectiveIndex + 15); idx++) {
+                                        const c = lessonData[idx]?.char || lessonData[idx]?.bn;
+                                        if (c === currentChar) streak++;
+                                        else if (c === ' ') continue;
+                                        else break;
+                                    }
+                                    if (streak >= 3) return true;
+                                }
+
+                                return false;
+                            })();
+
+                            const isRandomMode = !isRepetitiveSeries;
 
                             return (
                                 <div className="practice-guide-area">
