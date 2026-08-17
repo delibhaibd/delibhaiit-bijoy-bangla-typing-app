@@ -32,6 +32,15 @@ function App() {
     setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
+  const handleOpenRegister = () => {
+    const url = 'https://www.delibhaiit.com/about?modal=register';
+    const width = 540;
+    const height = 740;
+    const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
+    const top = window.screen.height ? (window.screen.height - height) / 2 : 100;
+    window.open(url, 'deliBhaiRegisterPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+  };
+
   return (
     <div className="app-container">
       {/* Exact deliBhai IT Top Header Navbar */}
@@ -43,7 +52,7 @@ function App() {
         currentView={currentView}
         onNavigateToTyping={() => setCurrentView('typing')}
         onOpenLogin={() => setIsLoginModalOpen(true)}
-        onOpenRegister={() => setIsLoginModalOpen(true)}
+        onOpenRegister={handleOpenRegister}
         onOpenAdminPanel={() => {
           if (user?.isAdmin) {
             setCurrentView('admin');

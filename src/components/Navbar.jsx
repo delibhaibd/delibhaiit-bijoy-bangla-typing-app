@@ -130,7 +130,7 @@ export default function Navbar({
                         ) : (
                             <>
                                 <button className="nav-login-btn" onClick={() => { onOpenLogin(); setMobileMenuOpen(false); }}>লগইন</button>
-                                <button className="nav-register-pill-btn" onClick={() => { onOpenRegister(); setMobileMenuOpen(false); }}>ফ্রিতে রেজিস্ট্রেশন</button>
+                                <button className="nav-register-pill-btn" onClick={() => { onOpenRegister(); setMobileMenuOpen(false); }}>ফ্রি রেজিস্ট্রেশন</button>
                             </>
                         )}
                     </div>
@@ -266,7 +266,7 @@ export default function Navbar({
                                 className="nav-register-pill-btn" 
                                 onClick={onOpenRegister}
                             >
-                                ফ্রিতে রেজিস্ট্রেশন
+                                ফ্রি রেজিস্ট্রেশন
                             </button>
                         </div>
                     )}
