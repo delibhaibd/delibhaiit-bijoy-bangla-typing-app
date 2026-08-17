@@ -42,6 +42,47 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
     }, []);
 
+    // Cross-Domain Popup Authentication Listener (Single Sign-On from delibhaiit.com)
+    useEffect(() => {
+        const handleAuthMessage = (event) => {
+            const data = event.data;
+            if (!data) return;
+
+            // Check for delibhai auth success events
+            if (
+                data.type === 'DELIBHAI_AUTH_SUCCESS' || 
+                data.type === 'DELIBHAI_LOGIN_SUCCESS' || 
+                data.type === 'DELIBHAI_REGISTER_SUCCESS' ||
+                data.action === 'login_success' ||
+                data.action === 'delibhai_auth'
+            ) {
+                const rawUser = data.user || data.payload || data;
+                const email = (rawUser.email || rawUser.userEmail || '').trim();
+                if (!email) return;
+
+                const trimmedEmail = email.toLowerCase();
+                const isAdmin = trimmedEmail === 'bkctg540@gmail.com' || Boolean(rawUser.isAdmin);
+                
+                const authenticatedUser = {
+                    id: rawUser.id || `user_${Date.now()}`,
+                    email: email,
+                    name: rawUser.name || rawUser.userName || email.split('@')[0],
+                    role: isAdmin ? 'admin' : (rawUser.role || 'student'),
+                    isAdmin: isAdmin,
+                    isPremium: Boolean(rawUser.isPremium || rawUser.hasPurchased || isAdmin),
+                    token: rawUser.token || ''
+                };
+
+                setUser(authenticatedUser);
+                localStorage.setItem('bijoyMockUser', JSON.stringify(authenticatedUser));
+                localStorage.removeItem('bijoyLoggedOut');
+            }
+        };
+
+        window.addEventListener('message', handleAuthMessage);
+        return () => window.removeEventListener('message', handleAuthMessage);
+    }, []);
+
     const login = async (email, password) => {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
