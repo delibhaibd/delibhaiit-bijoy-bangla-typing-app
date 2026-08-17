@@ -7,7 +7,7 @@ import AdminPanel from './components/AdminPanel'
 import './App.css'
 
 function App() {
-  const { user } = useAuth();
+  const { user, refreshAuthSession } = useAuth();
   const [themeMode, setThemeMode] = useState('dark'); // 'dark', 'light', 'system'
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [currentView, setCurrentView] = useState('typing'); // 'typing' | 'admin'
@@ -33,21 +33,41 @@ function App() {
   };
 
   const handleOpenRegister = () => {
-    const url = 'https://www.delibhaiit.com/about?modal=register';
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://typing.delibhaiit.com';
+    const url = `https://www.delibhaiit.com/about?modal=register&redirect_url=${encodeURIComponent(origin)}&source=typing_app`;
     const width = 540;
     const height = 740;
     const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
     const top = window.screen.height ? (window.screen.height - height) / 2 : 100;
-    window.open(url, 'deliBhaiRegisterPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+    const popup = window.open(url, 'deliBhaiRegisterPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+    
+    if (popup) {
+      const timer = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(timer);
+          if (refreshAuthSession) refreshAuthSession();
+        }
+      }, 800);
+    }
   };
 
   const handleOpenLogin = () => {
-    const url = 'https://www.delibhaiit.com/about?modal=login';
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://typing.delibhaiit.com';
+    const url = `https://www.delibhaiit.com/about?modal=login&redirect_url=${encodeURIComponent(origin)}&source=typing_app`;
     const width = 540;
     const height = 740;
     const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
     const top = window.screen.height ? (window.screen.height - height) / 2 : 100;
-    window.open(url, 'deliBhaiLoginPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+    const popup = window.open(url, 'deliBhaiLoginPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+    
+    if (popup) {
+      const timer = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(timer);
+          if (refreshAuthSession) refreshAuthSession();
+        }
+      }, 800);
+    }
   };
 
   return (

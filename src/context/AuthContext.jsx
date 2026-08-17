@@ -191,21 +191,80 @@ export const AuthProvider = ({ children }) => {
         initAuth();
     }, []);
 
+    // Global session refresher (cookies, backend api, and storage)
+    const refreshAuthSession = async () => {
+        const sharedCookieToken = getCookie('deli_auth_token') || getCookie('delibhai_token') || getCookie('token') || getCookie('jwt');
+        if (sharedCookieToken) {
+            const synced = await syncUserProfileFromBackend(sharedCookieToken);
+            if (synced) return synced;
+        }
+
+        const currentUserRaw = localStorage.getItem('bijoyMockUser');
+        if (currentUserRaw) {
+            try {
+                const parsed = JSON.parse(currentUserRaw);
+                if (parsed?.token) {
+                    const synced = await syncUserProfileFromBackend(parsed.token);
+                    if (synced) return synced;
+                }
+            } catch (e) {}
+        }
+        return null;
+    };
+
+    // Auto-refresh when tab receives focus or storage changes across tabs
+    useEffect(() => {
+        const onWindowFocus = () => {
+            refreshAuthSession();
+        };
+
+        const onStorageChange = (e) => {
+            if (e.key === 'bijoyMockUser' && e.newValue) {
+                try {
+                    const parsed = JSON.parse(e.newValue);
+                    if (parsed?.email) setUser(parsed);
+                } catch (err) {}
+            }
+        };
+
+        window.addEventListener('focus', onWindowFocus);
+        window.addEventListener('storage', onStorageChange);
+        return () => {
+            window.removeEventListener('focus', onWindowFocus);
+            window.removeEventListener('storage', onStorageChange);
+        };
+    }, []);
+
     // Cross-Domain Popup Authentication Listener (Single Sign-On from delibhaiit.com)
     useEffect(() => {
         const handleAuthMessage = async (event) => {
-            const data = event.data;
+            let data = event.data;
             if (!data) return;
 
+            // Support JSON string messages
+            if (typeof data === 'string') {
+                try {
+                    data = JSON.parse(data);
+                } catch {
+                    return;
+                }
+            }
+
             // Check for delibhai auth success events
-            if (
+            const isAuthEvent = Boolean(
                 data.type === 'DELIBHAI_AUTH_SUCCESS' || 
                 data.type === 'DELIBHAI_LOGIN_SUCCESS' || 
                 data.type === 'DELIBHAI_REGISTER_SUCCESS' ||
+                data.type === 'LOGIN_SUCCESS' ||
+                data.type === 'AUTH_SUCCESS' ||
                 data.action === 'login_success' ||
-                data.action === 'delibhai_auth'
-            ) {
-                const rawUser = data.user || data.payload || data;
+                data.action === 'delibhai_auth' ||
+                (data.user && data.user.email) ||
+                (data.email && typeof data.email === 'string')
+            );
+
+            if (isAuthEvent) {
+                const rawUser = data.user || data.payload || data.data || data;
                 const email = (rawUser.email || rawUser.userEmail || '').trim();
                 if (!email) return;
 
@@ -291,6 +350,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
+        refreshAuthSession,
         loading
     };
 
