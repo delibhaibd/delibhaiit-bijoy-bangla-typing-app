@@ -773,19 +773,6 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
         <div className="typing-layout-wrapper">
             {!currentSubLessonId && (
                 <aside className="sidebar premium-sidebar">
-                    <div className="sidebar-header-premium">
-                        <div className="sidebar-header-title-box">
-                            <span className="sidebar-header-icon">🧭</span>
-                            <div>
-                                <div className="sidebar-title-main">মেনু ও ক্যাটাগরি</div>
-                                <div className="sidebar-title-sub">টাইপিং লেসন নির্বাচন</div>
-                            </div>
-                        </div>
-                        {totalCompletedCount > 0 && (
-                            <span className="sidebar-badge-counter">{totalCompletedCount} ✓</span>
-                        )}
-                    </div>
-
                     <div className="menu-lang-selector">
                         <div className="menu-section-label">টাইপিং ভাষা নির্বাচন</div>
                         <div className="lang-segmented-pills">
