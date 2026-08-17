@@ -76,6 +76,23 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
     const [autoCountdown, setAutoCountdown] = useState(null);
     const [timeSpent, setTimeSpent] = useState('0:00');
     const [timeLeft, setTimeLeft] = useState(60);
+    const [isCapsLockOn, setIsCapsLockOn] = useState(false);
+
+    useEffect(() => {
+        const checkCaps = (e) => {
+            if (e && typeof e.getModifierState === 'function') {
+                setIsCapsLockOn(e.getModifierState('CapsLock'));
+            }
+        };
+        window.addEventListener('keydown', checkCaps);
+        window.addEventListener('keyup', checkCaps);
+        window.addEventListener('click', checkCaps);
+        return () => {
+            window.removeEventListener('keydown', checkCaps);
+            window.removeEventListener('keyup', checkCaps);
+            window.removeEventListener('click', checkCaps);
+        };
+    }, []);
 
     const { playCorrectSound, playErrorSound } = useSound();
 
@@ -139,7 +156,7 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                 start: startIndex, 
                 end: startIndex + len, 
                 title: screen.title, 
-                isSentence: screen.isSentence || screen.text.includes(' ') || len > 10,
+                isSentence: Boolean(screen.isSentence),
                 screenIndex: idx
             });
             startIndex += len;
@@ -481,36 +498,12 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
             const requiredShiftSide = getRequiredShiftSide(currentExpectedKey);
 
             // Check if key matches expected character
-            if (e.key === currentExpectedKey) {
-                // Strict Shift Side Verification:
-                if (requiredShiftSide) {
-                    const hasRequiredShift = pressedShiftKeysRef.current.has(requiredShiftSide);
-                    const hasWrongShift = pressedShiftKeysRef.current.has(requiredShiftSide === 'ShiftLeft' ? 'ShiftRight' : 'ShiftLeft');
+            const isMatch = e.key === currentExpectedKey || 
+                            (expectedItem?.bn && e.key === expectedItem.bn) ||
+                            (currentExpectedKey === 'G' && (e.key === 'G' || e.key === '।' || (e.code === 'KeyG' && e.shiftKey)));
 
-                    if (hasWrongShift && !hasRequiredShift) {
-                        // User used the opposite Shift key! Show error feedback for wrong Shift
-                        playErrorSound();
-                        setHasError(true);
-                        setErrorIndex(currentIndex);
-                        const wrongShiftKey = requiredShiftSide === 'ShiftLeft' ? 'RShift' : 'LShift';
-                        setCurrentKey(wrongShiftKey);
-                        setWrongIndex(subIndex);
-                        setFeedbackKey({ key: wrongShiftKey, status: 'wrong' });
-                        setTimeout(() => setFeedbackKey(null), 300);
-
-                        if (broadcastKeystroke) {
-                            broadcastKeystroke({
-                                isMistake: true,
-                                lastKey: wrongShiftKey,
-                                currentKey: wrongShiftKey,
-                                status: 'error'
-                            });
-                        }
-                        return;
-                    }
-                }
-
-                // Correct key with correct Shift side
+            if (isMatch) {
+                // Correct key
                 setCurrentKey(e.key === ' ' ? 'Space' : e.key);
                 setTotalKeystrokes(prev => prev + 1);
                 playCorrectSound();
@@ -1021,22 +1014,12 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                             </button>
                         </div>
 
-                        {(hasError || (!startTime && currentIndex === 0 && totalKeystrokes === 0)) && (
+                        {(!startTime && currentIndex === 0 && totalKeystrokes === 0) && (
                             <div className="practice-status-strip">
-                                {hasError ? (
-                                    <div className="practice-error-banner">
-                                        <span className="error-pulse-icon">⚠️</span>
-                                        <div className="error-msg-wrap">
-                                            <span className="error-lead">ভুল বাটন চাপছেন!</span>
-                                            <span className="error-sub">ঠিক করতে কীবোর্ডের <kbd className="hud-kbd">Backspace</kbd> বাটন চাপুন</span>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="practice-instruction-banner">
-                                        <span className="instruction-bulb">💡</span>
-                                        <span className="instruction-text">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি দেখে সঠিক আঙুল দিয়ে টাইপ করুন</span>
-                                    </div>
-                                )}
+                                <div className="practice-instruction-banner">
+                                    <span className="instruction-bulb">💡</span>
+                                    <span className="instruction-text">নির্দেশনা: কীবোর্ডে হাইলাইট করা বাটনটি দেখে সঠিক আঙুল দিয়ে টাইপ করুন</span>
+                                </div>
                             </div>
                         )}
 
@@ -1120,100 +1103,113 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                             );
                         })()}
 
-                        <div 
-                            className={`text-display text-display-premium lang-${typingMode} ${(currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence)) ? 'practice-mode' : ''}`}
-                            dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
-                        >
-                            {(() => {
-                                let startIndex = 0;
-                                let endIndex = 7;
-                                if (currentCategoryId === 'practice') {
-                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                    const page = practicePageBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || practicePageBounds[0] || { start: 0, end: lessonData.length };
-                                    startIndex = page.start;
-                                    endIndex = page.end;
-                                } else if (currentSubLesson?.screens) {
-                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                    const page = screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || screenBounds[0] || { start: 0, end: lessonData.length };
-                                    startIndex = page.start;
-                                    endIndex = page.end;
-                                } else {
-                                    const PAGE_SIZE = 7;
-                                    const effectiveIndex = hasError ? errorIndex : currentIndex;
-                                    const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
-                                    startIndex = pageIndex * PAGE_SIZE;
-                                    endIndex = startIndex + PAGE_SIZE;
-                                }
+                        {(() => {
+                            const effectiveIndex = hasError ? errorIndex : currentIndex;
+                            const currentScreen = currentSubLesson?.screens ? screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) : null;
+                            
+                            // Exact check for sentence / meaningful text vs single letter / drill box mode
+                            const isSentenceMode = Boolean(
+                                currentCategoryId === 'practice' ||
+                                currentCategoryId === 'arabic-sentences' ||
+                                currentCategoryId === 'arabic-surahs' ||
+                                Boolean(currentSubLesson?.isSentence) ||
+                                Boolean(currentScreen?.isSentence)
+                            );
 
-                                return lessonData.slice(startIndex, endIndex).map((item, i) => {
-                                    const actualIndex = startIndex + i;
-                                    const isPracticeMode = currentCategoryId === 'practice' || currentCategoryId === 'arabic-surahs' || currentCategoryId === 'arabic-sentences' || (currentSubLesson?.screens && screenBounds.find(b => (hasError ? errorIndex : currentIndex) >= b.start && (hasError ? errorIndex : currentIndex) < b.end)?.isSentence);
-                                    const char = item.char || item.bn;
-                                    const isSpace = char === ' ';
-                                    const displayChar = isSpace ? '\u00A0' : char;
-                                    
-                                    let className = 'char-box ';
-                                    if (isSpace) className += 'char-space ';
-                                    
-                                    if (actualIndex < currentIndex && !(hasError && actualIndex === errorIndex)) {
-                                        className += 'correct';
-                                    } else if (actualIndex === currentIndex) {
-                                        className += 'active';
-                                    }
-                                    
-                                    if (actualIndex === errorIndex && hasError) {
-                                        className += ' error-box';
-                                    }
-                                    
-                                    if (actualIndex === wrongIndex) className += ' wrong';
-                                    if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
+                            let startIndex = 0;
+                            let endIndex = 7;
+                            if (currentCategoryId === 'practice') {
+                                const page = practicePageBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || practicePageBounds[0] || { start: 0, end: lessonData.length };
+                                startIndex = page.start;
+                                endIndex = page.end;
+                            } else if (currentSubLesson?.screens) {
+                                const page = screenBounds.find(b => effectiveIndex >= b.start && effectiveIndex < b.end) || screenBounds[0] || { start: 0, end: lessonData.length };
+                                startIndex = page.start;
+                                endIndex = page.end;
+                            } else {
+                                const PAGE_SIZE = 7;
+                                const pageIndex = Math.floor(effectiveIndex / PAGE_SIZE);
+                                startIndex = pageIndex * PAGE_SIZE;
+                                endIndex = startIndex + PAGE_SIZE;
+                            }
 
-                                    const expectedKeys = item.keys || [item.key];
-                                    const isConjunct = currentCategoryId === 'conjuncts';
-                                    
-                                    let boxStyle = {};
-                                    let charStyle = {};
-                                    if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
-                                        if (!hasError) {
-                                            const pct = (subIndex / expectedKeys.length) * 100;
-                                            const gradientDir = typingMode === 'ar' ? 'to left' : 'to right';
-                                            charStyle = {
-                                                backgroundImage: `linear-gradient(${gradientDir}, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
-                                                WebkitBackgroundClip: 'text',
-                                                WebkitTextFillColor: 'transparent',
-                                                backgroundClip: 'text',
-                                                color: 'transparent'
-                                            };
-                                        }
-                                    }
-
-                                    const displayHint = expectedKeys.map((k, idx) => {
-                                        const isPressed = actualIndex === currentIndex && idx < subIndex;
-                                        let hintText = '';
-                                        if (typingMode === 'ar' && ['arabic-words', 'arabic-sentences', 'arabic-surahs', 'arabic-harakat'].includes(currentCategoryId)) {
-                                            hintText = getArHint(k);
+                            return (
+                                <div 
+                                    className={`text-display text-display-premium lang-${typingMode} ${isSentenceMode ? 'sentence-mode' : 'drill-mode'}`}
+                                    dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
+                                >
+                                    {lessonData.slice(startIndex, endIndex).map((item, i) => {
+                                        const actualIndex = startIndex + i;
+                                        const char = item.char || item.bn;
+                                        const isSpace = char === ' ';
+                                        const displayChar = isSpace ? (isSentenceMode ? '\u00A0' : '␣') : char;
+                                        
+                                        let className = 'char-box ';
+                                        if (isSentenceMode) {
+                                            className += 'sentence-char ';
                                         } else {
-                                            hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                            className += 'drill-box ';
                                         }
-                                        return (
-                                            <React.Fragment key={idx}>
-                                                <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
-                                                {idx < expectedKeys.length - 1 && (isConjunct ? ' ' : ' + ')}
-                                            </React.Fragment>
-                                        );
-                                    });
+                                        if (isSpace) className += 'char-space ';
+                                        
+                                        if (actualIndex < currentIndex && !(hasError && actualIndex === errorIndex)) {
+                                            className += 'correct';
+                                        } else if (actualIndex === currentIndex) {
+                                            className += 'active';
+                                        }
+                                        
+                                        if (actualIndex === errorIndex && hasError) {
+                                            className += ' error-box wrong';
+                                        }
+                                        if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
 
-                                     return (
-                                        <div key={actualIndex} className={className} style={boxStyle}>
-                                            <span className="bn-char" style={charStyle}>{displayChar}</span>
-                                            {!item.isRandom && !isPracticeMode && typingMode !== 'en' && currentCategoryId !== 'arabic-sentences' && currentCategoryId !== 'arabic-surahs' && (
-                                                <span className="qwerty-hint">{displayHint}</span>
-                                            )}
-                                        </div>
-                                    );
-                                });
-                            })()}
-                        </div>
+                                        const expectedKeys = item.keys || [item.key];
+                                        const isConjunct = currentCategoryId === 'conjuncts';
+                                        
+                                        let boxStyle = {};
+                                        let charStyle = {};
+                                        if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
+                                            if (!hasError) {
+                                                const pct = (subIndex / expectedKeys.length) * 100;
+                                                const gradientDir = typingMode === 'ar' ? 'to left' : 'to right';
+                                                charStyle = {
+                                                    backgroundImage: `linear-gradient(${gradientDir}, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
+                                                    WebkitBackgroundClip: 'text',
+                                                    WebkitTextFillColor: 'transparent',
+                                                    backgroundClip: 'text',
+                                                    color: 'transparent'
+                                                };
+                                            }
+                                        }
+
+                                        const displayHint = expectedKeys.map((k, idx) => {
+                                            const isPressed = actualIndex === currentIndex && idx < subIndex;
+                                            let hintText = '';
+                                            if (typingMode === 'ar' && ['arabic-words', 'arabic-sentences', 'arabic-surahs', 'arabic-harakat'].includes(currentCategoryId)) {
+                                                hintText = getArHint(k);
+                                            } else {
+                                                hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                            }
+                                            return (
+                                                <React.Fragment key={idx}>
+                                                    <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
+                                                    {idx < expectedKeys.length - 1 && (isConjunct ? ' ' : ' + ')}
+                                                </React.Fragment>
+                                            );
+                                        });
+
+                                        return (
+                                            <div key={actualIndex} className={className} style={boxStyle}>
+                                                <span className="bn-char" style={charStyle}>{displayChar}</span>
+                                                {!item.isRandom && !isSentenceMode && typingMode !== 'en' && currentCategoryId !== 'arabic-sentences' && currentCategoryId !== 'arabic-surahs' && (
+                                                    <span className="qwerty-hint">{displayHint}</span>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })()}
 
                         {(() => {
                             const effectiveIndex = hasError ? errorIndex : currentIndex;
@@ -1245,6 +1241,8 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
                                         feedbackKey={feedbackKey}
                                         isNumpadMode={currentSubLessonId === 'en-adv-4' || currentSubLessonId === 'en-adv-5'}
                                         typingMode={typingMode === 'ar' ? 'en' : typingMode}
+                                        isCapsLockOn={isCapsLockOn}
+                                        hasError={hasError}
                                     />
                                 </div>
                             );

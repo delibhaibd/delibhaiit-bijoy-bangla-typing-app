@@ -34,9 +34,9 @@ export const englishCategories = [
                     { title: "u & r Combo", text: "uuuu rrrr uuuu rrrr" },
                     { title: "k & Home Keys Combo", text: "kkkk jjjj kkkk ffff" },
                     { title: "Key Switching", text: "ur ur ur ur uk uk uk uk" },
-                    { title: "Short Patterns", text: "ruk ruk fur fur jur jur" },
-                    { title: "Mixed Combo 1", text: "fur ruk kur jur fur ruk" },
-                    { title: "Mixed Combo 2", text: "ruf kur fur jur ruk ruf" },
+                    { title: "Short Patterns", text: "ruk ruk fur fur jur jur", isSentence: true },
+                    { title: "Mixed Combo 1", text: "fur ruk kur jur fur ruk", isSentence: true },
+                    { title: "Mixed Combo 2", text: "ruf kur fur jur ruk ruf", isSentence: true },
                     { title: "Speed & Accuracy Drill", text: "u r k ur rk uk fur ruk kur" },
                     { title: "Final Review", text: "u r k ur rk uk fur ruk jur" }
                 ],
@@ -52,7 +52,7 @@ export const englishCategories = [
                     { title: "d & e Combo", text: "dddd eeee dddd eeee" },
                     { title: "i & Home Keys Combo", text: "iiii jjjj iiii kkkk" },
                     { title: "Key Switching", text: "de de de de di di di di" },
-                    { title: "Short Patterns", text: "red red die die eid eid" },
+                    { title: "Short Patterns", text: "red red die die eid eid", isSentence: true },
                     { title: "Mixed Combo 1", text: "fed red die rid fed red", isSentence: true },
                     { title: "Mixed Combo 2", text: "ide rid ed die ide rid", isSentence: true },
                     { title: "Speed & Accuracy Drill", text: "d e i de ed di id red die" },
@@ -70,7 +70,7 @@ export const englishCategories = [
                     { title: "c & g Combo", text: "cccc gggg cccc gggg" },
                     { title: "n & Home Keys Combo", text: "nnnn jjjj nnnn ffff" },
                     { title: "Key Switching", text: "cg cg cg cg cn cn cn cn" },
-                    { title: "Short Patterns", text: "can can gin gin ice ice" },
+                    { title: "Short Patterns", text: "can can gin gin ice ice", isSentence: true },
                     { title: "Mixed Combo 1", text: "can gin ice nag can gin", isSentence: true },
                     { title: "Mixed Combo 2", text: "cog run pen fin cog run", isSentence: true },
                     { title: "Speed & Accuracy Drill", text: "c g n cg gn cn can gin ice" },
@@ -83,8 +83,8 @@ export const englishCategories = [
                 title: 'Beginner Review 1', 
                 screens: [
                     { title: "Warm-up Drill", text: "j f u r k d e i c g n" },
-                    { title: "Home Row & Top Row Mix", text: "fud ruk kid red den cur" },
-                    { title: "Key Combinations", text: "fed run ice fun rug kid" },
+                    { title: "Home Row & Top Row Mix", text: "fud ruk kid red den cur", isSentence: true },
+                    { title: "Key Combinations", text: "fed run ice fun rug kid", isSentence: true },
                     { title: "Word Practice 1", text: "run fun red den rug cur", isSentence: true },
                     { title: "Word Practice 2", text: "ice kid fin pen engine", isSentence: true },
                     { title: "Short Sentences 1", text: "red rug fun run", isSentence: true },
@@ -146,7 +146,7 @@ export const englishCategories = [
                     { title: "Key Switching", text: "vh vh vh vh vm vm vm vm" },
                     { title: "Short Patterns", text: "van van hem hem mug mug", isSentence: true },
                     { title: "Mixed Combo 1", text: "van hem mug ham van hem", isSentence: true },
-                    { title: "Mixed Combo 2", text: "him vim Move jam him vim", isSentence: true },
+                    { title: "Mixed Combo 2", text: "him vim move jam him vim", isSentence: true },
                     { title: "Speed & Accuracy Drill", text: "v h m vh hm vm van hem mug" },
                     { title: "Final Review", text: "v h m vh hm vm van hem mug ham him vim" }
                 ],
@@ -220,7 +220,7 @@ export const englishCategories = [
                     { title: "Letter Drills 1", text: "qqq yyy ppp" },
                     { title: "Letter Drills 2", text: "qy yq yp py qp pq" },
                     { title: "Letter Drills 3", text: "quit quit pay pay yes yes", isSentence: true },
-                    { title: "Letter Drills 4", text: "qu py yo pa qu yp", isSentence: true },
+                    { title: "Letter Drills 4", text: "qu py yo pa qu yp" },
                     { title: "Word Drills 1", text: "quip quit quiet queen", isSentence: true },
                     { title: "Word Drills 2", text: "you yes way day toy", isSentence: true },
                     { title: "Word Drills 3", text: "pen pan pet pot pop", isSentence: true },
@@ -262,10 +262,10 @@ export const englishCategories = [
                 id: 'en-beg-14', 
                 title: 'Beginner Wrap-up', 
                 screens: [
-                    { title: "All Letters 1", text: "a b c d e f g h i j k l m n o p q r s t u v w x y z", isSentence: true },
-                    { title: "All Letters 2", text: "q w e r t y u i o p", isSentence: true },
-                    { title: "All Letters 3", text: "a s d f g h j k l", isSentence: true },
-                    { title: "All Letters 4", text: "z x c v b n m", isSentence: true },
+                    { title: "All Letters 1", text: "a b c d e f g h i j k l m n o p q r s t u v w x y z" },
+                    { title: "All Letters 2", text: "q w e r t y u i o p" },
+                    { title: "All Letters 3", text: "a s d f g h j k l" },
+                    { title: "All Letters 4", text: "z x c v b n m" },
                     { title: "Mixed Key 1", text: "the quick brown fox jumps over the lazy dog.", isSentence: true },
                     { title: "Mixed Key 2", text: "pack my box with five dozen liquor jugs.", isSentence: true },
                     { title: "Mixed Key 3", text: "how vexingly quick deft zebras jump!", isSentence: true },
@@ -289,7 +289,7 @@ export const englishCategories = [
                 id: 'en-beg-15', 
                 title: 'Beginner Assessment', 
                 screens: [
-                    { title: "1-Minute Assessment", text: "The quick brown fox jumps over the lazy dog near the bank. Learning how to type fast and accurately takes continuous practice and focus. Always remember to keep your eyes on the screen and place your fingers properly on the home row keys. Good posture and clear focus will help you type faster without making many mistakes.", isSentence: true }
+                    { title: "1-Minute Assessment", text: "the quick brown fox jumps over the lazy dog near the bank. learning how to type fast and accurately takes continuous practice and focus. always remember to keep your eyes on the screen and place your fingers properly on the home row keys. good posture and clear focus will help you type faster without making many mistakes.", isSentence: true }
                 ],
                 get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             }
@@ -342,7 +342,7 @@ export const englishCategories = [
                 id: 'en-int-3', 
                 title: 'Easy Top Row Words', 
                 screens: [
-                    { title: "Top Row Keys & Short Words 1", text: "q w e r t y u i o p", isSentence: true },
+                    { title: "Top Row Keys & Short Words 1", text: "q w e r t y u i o p" },
                     { title: "Top Row Keys & Short Words 2", text: "top pot rot pet wet", isSentence: true },
                     { title: "Top Row Keys & Short Words 3", text: "put Out try Red toe", isSentence: true },
                     { title: "Top Row Keys & Short Words 4", text: "you our per pro", isSentence: true },
@@ -361,7 +361,7 @@ export const englishCategories = [
                 id: 'en-int-3b', 
                 title: 'Easy Bottom Row Words', 
                 screens: [
-                    { title: "Bottom Row Keys & Short Words 1", text: "z x c v b n m", isSentence: true },
+                    { title: "Bottom Row Keys & Short Words 1", text: "z x c v b n m" },
                     { title: "Bottom Row Keys & Short Words 2", text: "can van ban man", isSentence: true },
                     { title: "Bottom Row Keys & Short Words 3", text: "box fox mix fix", isSentence: true },
                     { title: "Bottom Row Keys & Short Words 4", text: "cab lab mob tab", isSentence: true },
@@ -382,9 +382,9 @@ export const englishCategories = [
                 id: 'en-int-4', 
                 title: 'Shift Key and Capitalization', 
                 screens: [
-                    { title: "Shift Key Practice 1", text: "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z", isSentence: true },
-                    { title: "Shift Key Practice 2", text: "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm", isSentence: true },
-                    { title: "Shift Key Practice 3", text: "Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz", isSentence: true },
+                    { title: "Shift Key Practice 1", text: "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z" },
+                    { title: "Shift Key Practice 2", text: "Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm" },
+                    { title: "Shift Key Practice 3", text: "Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz" },
                     { title: "Capitalized Words 1", text: "Monday Tuesday Wednesday Thursday Friday", isSentence: true },
                     { title: "Capitalized Words 2", text: "January February March April May June", isSentence: true },
                     { title: "Capitalized Words 3", text: "London Paris Tokyo New York Sydney", isSentence: true },
@@ -400,8 +400,8 @@ export const englishCategories = [
                 id: 'en-int-5', 
                 title: 'Basic Punctuation', 
                 screens: [
-                    { title: "Punctuation Keys 1", text: ". . . , , , ? ? ? ! ! !", isSentence: true },
-                    { title: "Punctuation Keys 2", text: ". , ? ! . , ? ! . , ? !", isSentence: true },
+                    { title: "Punctuation Keys 1", text: ". . . , , , ? ? ? ! ! !" },
+                    { title: "Punctuation Keys 2", text: ". , ? ! . , ? ! . , ? !" },
                     { title: "Words & Phrases 1", text: "Yes, No, Stop! Wait!", isSentence: true },
                     { title: "Words & Phrases 2", text: "Who? What? Where? Why?", isSentence: true },
                     { title: "Words & Phrases 3", text: "Hello, friend! How are you?", isSentence: true },
@@ -420,8 +420,8 @@ export const englishCategories = [
                 id: 'en-int-6', 
                 title: 'Intermediate Punctuation', 
                 screens: [
-                    { title: "Punctuation Keys 1", text: ": : : ; ; ; ' ' ' \" \" \"", isSentence: true },
-                    { title: "Punctuation Keys 2", text: ": ; ' \" : ; ' \" : ; ' \"", isSentence: true },
+                    { title: "Punctuation Keys 1", text: ": : : ; ; ; ' ' ' \" \" \"" },
+                    { title: "Punctuation Keys 2", text: ": ; ' \" : ; ' \" : ; ' \"" },
                     { title: "Contractions & Possessives 1", text: "don't can't won't it's didn't", isSentence: true },
                     { title: "Contractions & Possessives 2", text: "John's Mary's cat's dog's", isSentence: true },
                     { title: "Contractions & Possessives 3", text: "\"hello\" \"yes\" \"stop\" \"go\"", isSentence: true },

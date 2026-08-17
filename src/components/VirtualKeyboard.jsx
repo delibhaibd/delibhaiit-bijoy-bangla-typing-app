@@ -67,7 +67,7 @@ const HAND_DIVIDERS_D = `
     M 140,80 L 140,225 
     M 170,195 L 170,230`;
 
-export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn' }) {
+export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, feedbackKey, isNumpadMode = false, typingMode = 'bn', isCapsLockOn = false, hasError = false }) {
     let requiresShift = false;
     let targetKey = expectedKey;
 
@@ -246,22 +246,56 @@ export default function VirtualKeyboard({ expectedKey, wrongKey, isRandomMode, f
 
                     {KEYBOARD_ROWS.map((row, rowIndex) => (
                         <div key={rowIndex} className="keyboard-row">
-                            {row.map((btn, btnIndex) => (
-                                <div 
-                                    key={btnIndex} 
-                                    className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''}`}
-                                >
-                                    {typingMode === 'ar' && btn.ar ? (
-                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                            <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
-                                        </div>
-                                    ) : (
-                                        <span>{btn.label}</span>
-                                    )}
-                                </div>
-                            ))}
+                            {row.map((btn, btnIndex) => {
+                                const isCapsKeyWarning = btn.key === 'CapsLock' && isCapsLockOn;
+                                const isBackspaceWarning = btn.key === 'Backspace' && hasError;
+                                return (
+                                    <div 
+                                        key={btnIndex} 
+                                        className={`key ${btn.width || ''} ${isActive(btn.key) ? 'key-active' : ''} ${isError(btn.key) ? 'key-error' : ''} ${isCapsKeyWarning ? 'key-caps-warning active-caps-lock' : ''} ${isBackspaceWarning ? 'key-backspace-warning active-backspace-error' : ''}`}
+                                    >
+                                        {typingMode === 'ar' && btn.ar ? (
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                                <span style={{ fontSize: '1.2em' }}>{requiresShift ? btn.arShift : btn.ar}</span>
+                                            </div>
+                                        ) : (
+                                            <span>{btn.label}</span>
+                                        )}
+                                    </div>
+                                );
+                            })}
                         </div>
                     ))}
+
+                    {isCapsLockOn ? (
+                        <div className="warning-hud-popup-container">
+                            <div className="hud-card warning-hud-card warning-capslock">
+                                <div className="hud-card-icon-wrap warning-icon-wrap">
+                                    <span>⚠️</span>
+                                </div>
+                                <div className="hud-card-body warning-body">
+                                    <span className="hud-card-label warning-label">সতর্কতা</span>
+                                    <span className="warning-main-text">
+                                        অনুগ্রহ করে <kbd className="hud-kbd">Caps Lock</kbd> বন্ধ (OFF) করুন
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ) : hasError ? (
+                        <div className="warning-hud-popup-container">
+                            <div className="hud-card warning-hud-card warning-backspace">
+                                <div className="hud-card-icon-wrap warning-icon-wrap">
+                                    <span>⚠️</span>
+                                </div>
+                                <div className="hud-card-body warning-body">
+                                    <span className="hud-card-label warning-label">ভুল বাটন চাপছেন!</span>
+                                    <span className="warning-main-text">
+                                        ঠিক করতে কীবোর্ডের <kbd className="hud-kbd">Backspace</kbd> বাটন চাপুন
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ) : null}
                 </div>
             )}
 

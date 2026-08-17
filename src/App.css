@@ -1190,35 +1190,159 @@ body[data-theme="light"] .key-pressed-hud-pill {
   }
 }
 
-.char-box {
+/* =========================================================
+   PRACTICE MODES: DRILL BOXES vs UNBOXED SENTENCES
+   ========================================================= */
+
+/* 1. Drill / Single Letter Practice (Boxed Mode) */
+.text-display.drill-mode {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 1.25rem 1.5rem;
+  background: rgba(15, 23, 42, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  min-height: 130px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme='light'] .text-display.drill-mode {
+  background: rgba(241, 245, 249, 0.6);
+  border-color: rgba(203, 213, 225, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.char-box.drill-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 14px;
-  min-width: 38px;
+  padding: 12px 18px;
+  min-width: 54px;
   box-sizing: border-box;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-[data-theme='light'] .char-box {
+body[data-theme='light'] .char-box.drill-box {
   background: #ffffff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.bn-char {
-  font-size: 2.2rem;
-  font-weight: normal;
-  font-family: 'SolaimanLipi', 'Siyam Rupali', 'Vrinda', 'Tiro Bangla', serif;
-  letter-spacing: normal;
-  word-spacing: normal;
+.char-box.drill-box .bn-char {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.2;
 }
 
-/* Practice mode for full sentences: seamless continuous typography without isolated boxes */
-.text-display.practice-mode {
+.text-display.lang-en.drill-mode .char-box.drill-box .bn-char {
+  font-family: 'Google Sans', 'Roboto', system-ui, sans-serif !important;
+  font-size: 2.35rem;
+}
+
+body[data-theme='light'] .char-box.drill-box .bn-char {
+  color: #1e293b;
+}
+
+.char-box.drill-box.char-space {
+  min-width: 44px;
+}
+
+.char-box.drill-box.char-space .bn-char {
+  font-size: 1.8rem;
+  opacity: 0.6;
+}
+
+.char-box.drill-box.char-space.active .bn-char {
+  opacity: 1;
+}
+
+.char-box.drill-box .qwerty-hint {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* Active State in Drill Mode */
+.char-box.drill-box.active {
+  border-color: #0284c7;
+  background: rgba(2, 132, 199, 0.18);
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.3), 0 8px 24px rgba(2, 132, 199, 0.35);
+  transform: translateY(-3px) scale(1.05);
+}
+
+body[data-theme='light'] .char-box.drill-box.active {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2), 0 6px 18px rgba(2, 132, 199, 0.15);
+}
+
+.char-box.drill-box.active .bn-char {
+  color: #38bdf8;
+}
+
+body[data-theme='light'] .char-box.drill-box.active .bn-char {
+  color: #0284c7;
+}
+
+.char-box.drill-box.active .qwerty-hint {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Correct State in Drill Mode */
+.char-box.drill-box.correct {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.15);
+}
+
+body[data-theme='light'] .char-box.drill-box.correct {
+  background: #ecfdf5;
+  border-color: #10b981;
+}
+
+.char-box.drill-box.correct .bn-char {
+  color: #10b981;
+}
+
+.char-box.drill-box.correct .qwerty-hint {
+  color: #10b981;
+}
+
+/* Error / Wrong State in Drill Mode */
+.char-box.drill-box.error-box,
+.char-box.drill-box.wrong {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.22);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3), 0 6px 20px rgba(239, 68, 68, 0.25);
+  transform: translateY(-2px);
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+body[data-theme='light'] .char-box.drill-box.error-box,
+body[data-theme='light'] .char-box.drill-box.wrong {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+.char-box.drill-box.error-box .bn-char,
+.char-box.drill-box.wrong .bn-char {
+  color: #ef4444;
+}
+
+/* 2. Meaningful Sentences & Paragraphs (Seamless Unboxed Mode) */
+.text-display.sentence-mode {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -1232,41 +1356,36 @@ body[data-theme="light"] .key-pressed-hud-pill {
   box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-body[data-theme='light'] .text-display.practice-mode {
+body[data-theme='light'] .text-display.sentence-mode {
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(226, 232, 240, 0.9);
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-.practice-mode .char-box {
+.char-box.sentence-char {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: none;
-  border-bottom: 3px solid transparent;
-  box-shadow: none;
-  padding: 0 1px;
-  margin: 0;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 3px solid transparent !important;
+  box-shadow: none !important;
+  padding: 0 1px !important;
+  margin: 0 !important;
   min-width: unset !important;
-  width: auto;
-  border-radius: 4px 4px 0 0;
+  width: auto !important;
+  border-radius: 0 !important;
   position: relative;
   transition: all 0.15s ease;
 }
 
-[data-theme='light'] .practice-mode .char-box {
-  background: transparent;
-  box-shadow: none;
+.char-box.sentence-char.char-space {
+  width: 14px !important;
+  min-width: 14px !important;
 }
 
-.practice-mode .char-box.char-space {
-  width: 12px !important;
-  min-width: 12px !important;
-}
-
-.practice-mode .bn-char {
+.char-box.sentence-char .bn-char {
   font-size: 2.65rem;
   font-weight: 500;
   color: var(--text-muted);
@@ -1275,21 +1394,22 @@ body[data-theme='light'] .text-display.practice-mode {
   word-spacing: 0px !important;
 }
 
-.text-display.lang-en.practice-mode .bn-char,
-.text-display.lang-en .practice-mode .bn-char {
+body[data-theme='light'] .char-box.sentence-char .bn-char {
+  color: #64748b;
+}
+
+.text-display.lang-en.sentence-mode .bn-char {
   font-family: 'Google Sans', 'Roboto', system-ui, sans-serif !important;
   font-size: 2.35rem;
   letter-spacing: 0px !important;
 }
 
-.text-display.lang-en.practice-mode .char-box.char-space,
-.text-display.lang-en .practice-mode .char-box.char-space {
-  width: 10px !important;
-  min-width: 10px !important;
+.char-box.sentence-char.correct .bn-char {
+  color: #10b981 !important;
 }
 
-.practice-mode .char-box.correct .bn-char {
-  color: #10b981;
+body[data-theme='light'] .char-box.sentence-char.correct .bn-char {
+  color: #059669 !important;
 }
 
 @keyframes cursorBlink {
@@ -1297,7 +1417,7 @@ body[data-theme='light'] .text-display.practice-mode {
   50% { opacity: 0; }
 }
 
-.practice-mode .char-box.active {
+.char-box.sentence-char.active {
   background: transparent !important;
   border: none !important;
   border-bottom: none !important;
@@ -1305,7 +1425,7 @@ body[data-theme='light'] .text-display.practice-mode {
   position: relative;
 }
 
-.practice-mode .char-box.active::before {
+.char-box.sentence-char.active::before {
   content: '';
   position: absolute;
   left: -2px;
@@ -1319,24 +1439,32 @@ body[data-theme='light'] .text-display.practice-mode {
   z-index: 2;
 }
 
-.practice-mode .char-box.active .bn-char {
+.char-box.sentence-char.active .bn-char {
   color: var(--text-muted) !important;
   font-weight: 500;
 }
 
-[data-theme='light'] .practice-mode .char-box.active .bn-char {
-  color: var(--text-muted) !important;
+body[data-theme='light'] .char-box.sentence-char.active .bn-char {
+  color: #475569 !important;
 }
 
-.practice-mode .char-box.error-box {
-  background: rgba(239, 68, 68, 0.25);
-  border-bottom: 3px solid var(--error);
-  transform: none;
-  box-shadow: none;
+.char-box.sentence-char.error-box,
+.char-box.sentence-char.wrong {
+  background: rgba(239, 68, 68, 0.25) !important;
+  border-bottom: 3px solid var(--error) !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
-.practice-mode .char-box.error-box .bn-char {
-  color: var(--error);
+body[data-theme='light'] .char-box.sentence-char.error-box,
+body[data-theme='light'] .char-box.sentence-char.wrong {
+  background: #fee2e2 !important;
+  border-bottom: 3px solid #dc2626 !important;
+}
+
+.char-box.sentence-char.error-box .bn-char,
+.char-box.sentence-char.wrong .bn-char {
+  color: var(--error) !important;
 }
 
 .error-alert-box {
@@ -1972,24 +2100,24 @@ body[data-theme='light'] .text-display.practice-mode {
   text-shadow: none;
 }
 
-/* Error Key (No Glow) */
+/* Error Key (Muted Low-Brightness Red, Theme-Aligned, No Glow) */
 .key-error {
-  background: var(--error) !important;
-  color: #fff !important;
+  background: #6e2424 !important;
+  color: #fce7e7 !important;
   transform: translateY(2px);
-  box-shadow: none !important;
-  border-bottom: 1px solid #dc2626 !important;
-  border-color: #dc2626 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  border-bottom: 3px solid #4a1515 !important;
+  border-color: #8c3232 !important;
   animation: shake 0.3s ease-in-out;
 }
 
 [data-theme='light'] .key-error {
-  background: var(--error) !important;
-  color: #fff !important;
+  background: #fecaca !important;
+  color: #7f1d1d !important;
   transform: translateY(2px);
-  box-shadow: none !important;
-  border-bottom: 1px solid #dc2626 !important;
-  border-color: #dc2626 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  border-bottom: 3px solid #ef4444 !important;
+  border-color: #f87171 !important;
 }
 
 .key-error::after {
@@ -2009,7 +2137,148 @@ body[data-theme='light'] .text-display.practice-mode {
 .flex-2-25 { flex: 2.25; width: auto; }
 .flex-6 { flex: 6; width: auto; }
 
+/* --- Warning Popup Styled Exactly Like HUD Cards (Dusty Red Low-Opacity + White Text) --- */
 
+.warning-hud-popup-container {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 120;
+  width: auto;
+  min-width: 380px;
+  max-width: 95%;
+  animation: capsPopupBounce 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+.warning-hud-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(42, 26, 28, 0.92);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  padding: 12px 22px;
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}
+
+body[data-theme='light'] .warning-hud-card {
+  background: rgba(254, 242, 242, 0.96);
+  border: 1px solid rgba(239, 68, 68, 0.28);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+.warning-hud-card .warning-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  font-size: 1.55rem;
+  flex-shrink: 0;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+body[data-theme='light'] .warning-hud-card .warning-icon-wrap {
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+}
+
+.warning-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  text-align: left;
+}
+
+.warning-label {
+  font-size: 0.94rem;
+  color: #ffffff;
+  opacity: 0.88;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 500;
+}
+
+body[data-theme='light'] .warning-label {
+  color: #dc2626;
+  opacity: 1;
+}
+
+.warning-main-text {
+  font-size: 1.25rem;
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+body[data-theme='light'] .warning-main-text {
+  color: #0f172a;
+}
+
+.warning-hud-card .hud-kbd {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.55);
+  padding: 2px 10px;
+  margin: 0 4px;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+body[data-theme='light'] .warning-hud-card .hud-kbd {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-bottom: 2px solid #94a3b8;
+  color: #0f172a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes capsPopupBounce {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+/* Keyboard Warning Keys (Muted Low-Brightness Red, Theme-Aligned, No Glow) */
+.key.key-caps-warning,
+.key.key-backspace-warning {
+  background: #6e2424 !important;
+  color: #fce7e7 !important;
+  border-color: #8c3232 !important;
+  border-bottom: 3px solid #4a1515 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4) !important;
+  animation: none !important;
+}
+
+body[data-theme='light'] .key.key-caps-warning,
+body[data-theme='light'] .key.key-backspace-warning {
+  background: #fecaca !important;
+  color: #7f1d1d !important;
+  border-color: #f87171 !important;
+  border-bottom: 3px solid #ef4444 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  animation: none !important;
+}
 
 /* --- Luxury Progressive Sub-Lesson List UI --- */
 
@@ -2929,13 +3198,13 @@ body[data-theme="light"] .back-btn:hover {
   opacity: 1;
 }
 
-[data-theme='light'] .text-display.practice-mode .char-box.correct .bn-char {
+[data-theme='light'] .text-display.sentence-mode .char-box.correct .bn-char {
   color: #15803d;
 }
 
-[data-theme='light'] .text-display.practice-mode .char-box.error-box .bn-char,
-[data-theme='light'] .text-display.practice-mode .char-box.wrong .bn-char {
-  color: #ffffff;
+[data-theme='light'] .text-display.sentence-mode .char-box.error-box .bn-char,
+[data-theme='light'] .text-display.sentence-mode .char-box.wrong .bn-char {
+  color: #dc2626;
 }
 
 /* Light mode overrides for completion modal */
@@ -3644,43 +3913,43 @@ body[data-theme="light"] .practice-retry-btn:hover {
 }
 
 /* Light Theme Typing Continuous Text Display & Char Boxes */
-body[data-theme="light"] .text-display.practice-mode {
+body[data-theme="light"] .text-display.sentence-mode {
   background: #ffffff !important;
   border: 1.5px solid #cbd5e1 !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
 }
 
-body[data-theme="light"] .practice-mode .bn-char {
+body[data-theme="light"] .sentence-mode .bn-char {
   color: #64748b;
 }
 
-body[data-theme="light"] .practice-mode .char-box.active {
+body[data-theme="light"] .char-box.sentence-char.active {
   background: transparent !important;
   border: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
 }
 
-body[data-theme="light"] .practice-mode .char-box.active::before {
+body[data-theme="light"] .char-box.sentence-char.active::before {
   background: #0284c7;
   box-shadow: none;
 }
 
-body[data-theme="light"] .practice-mode .char-box.active .bn-char {
+body[data-theme="light"] .char-box.sentence-char.active .bn-char {
   color: var(--text-muted) !important;
   font-weight: 500 !important;
 }
 
-body[data-theme="light"] .practice-mode .char-box.correct .bn-char {
+body[data-theme="light"] .char-box.sentence-char.correct .bn-char {
   color: #059669 !important;
 }
 
-body[data-theme="light"] .practice-mode .char-box.error-box {
+body[data-theme="light"] .char-box.sentence-char.error-box {
   background: #fee2e2 !important;
   border-bottom: 3px solid #dc2626 !important;
 }
 
-body[data-theme="light"] .practice-mode .char-box.error-box .bn-char {
+body[data-theme="light"] .char-box.sentence-char.error-box .bn-char {
   color: #dc2626 !important;
 }
 
