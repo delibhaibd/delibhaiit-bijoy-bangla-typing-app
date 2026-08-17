@@ -281,11 +281,13 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
         setTimeLeft(60);
     }, [currentSubLessonId, user, rawLessonData.length]);
 
-    // Rule: First lesson (index 0) is Free Trial for non-subscribed users. 
-    // Premium Subscription access is granted to bkctg540@gmail.com and delibhaiitbd@gmail.com.
+    // Premium Subscription access is granted to admin, subscribed/purchased users, or delibhaiitbd@gmail.com
     const userEmail = user?.email?.trim()?.toLowerCase();
     const isPremiumUser = Boolean(
         user?.isAdmin ||
+        user?.isPremium ||
+        user?.hasPurchased ||
+        (Array.isArray(user?.purchasedCourses) && user.purchasedCourses.some(c => c === 'typingcourse' || c?.id === 'typingcourse' || c?.slug === 'typingcourse')) ||
         userEmail === 'delibhaiitbd@gmail.com' ||
         userEmail === 'bkctg540@gmail.com'
     );
@@ -1501,7 +1503,14 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
             <PremiumCourseModal 
                 isOpen={isPremiumModalOpen}
                 onClose={() => setIsPremiumModalOpen(false)}
-                onOpenLogin={() => setIsLoginModalOpen(true)}
+                onOpenLogin={() => {
+                    const url = 'https://www.delibhaiit.com/about?modal=login';
+                    const width = 540;
+                    const height = 740;
+                    const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
+                    const top = window.screen.height ? (window.screen.height - height) / 2 : 100;
+                    window.open(url, 'deliBhaiLoginPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+                }}
                 user={user}
                 lessonTitle={lockedLessonTargetTitle}
             />
