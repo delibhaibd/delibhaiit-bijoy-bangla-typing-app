@@ -1459,6 +1459,22 @@ body[data-theme='light'] .char-box.sentence-char .bn-char {
   min-width: 18px !important;
 }
 
+/* Whole Word Preservation Container (No Splitting Words Across Lines) */
+.sentence-word {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+.sentence-space-wrap {
+  display: inline-flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
 .char-box.sentence-char.correct .bn-char {
   color: #10b981 !important;
   font-weight: 400;
@@ -1473,6 +1489,24 @@ body[data-theme='light'] .char-box.sentence-char.correct .bn-char {
   50% { opacity: 0; }
 }
 
+/* Smooth Sliding Caret (Slides seamlessly between letters) */
+.smooth-sliding-caret {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  background: #0284c7;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 15;
+  transition: transform 0.12s cubic-bezier(0.2, 0.9, 0.3, 1), height 0.1s ease, opacity 0.15s ease;
+  animation: cursorBlink 0.85s ease-in-out infinite;
+}
+
+body[data-theme='light'] .smooth-sliding-caret {
+  background: #0284c7;
+}
+
 .char-box.sentence-char.active {
   background: transparent !important;
   border: none !important;
@@ -1482,17 +1516,7 @@ body[data-theme='light'] .char-box.sentence-char.correct .bn-char {
 }
 
 .char-box.sentence-char.active::before {
-  content: '';
-  position: absolute;
-  left: -2px;
-  top: 15%;
-  bottom: 15%;
-  width: 2.5px;
-  background: var(--primary, #0284c7);
-  border-radius: 2px;
-  animation: cursorBlink 0.9s ease-in-out infinite;
-  box-shadow: none;
-  z-index: 2;
+  display: none !important;
 }
 
 .char-box.sentence-char.active .bn-char {

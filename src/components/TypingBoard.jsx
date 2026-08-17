@@ -78,6 +78,50 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
     const [timeLeft, setTimeLeft] = useState(60);
     const [isCapsLockOn, setIsCapsLockOn] = useState(false);
 
+    const textDisplayRef = React.useRef(null);
+    const [caretStyle, setCaretStyle] = useState({ opacity: 0, transform: 'translate3d(0, 0, 0)', height: 0 });
+
+    React.useLayoutEffect(() => {
+        if (!textDisplayRef.current) return;
+        const activeEl = textDisplayRef.current.querySelector('.char-box.active');
+        if (!activeEl) {
+            setCaretStyle(prev => ({ ...prev, opacity: 0 }));
+            return;
+        }
+        const containerRect = textDisplayRef.current.getBoundingClientRect();
+        const activeRect = activeEl.getBoundingClientRect();
+        const isRtl = typingMode === 'ar';
+        const x = isRtl ? (activeRect.right - containerRect.left) : (activeRect.left - containerRect.left - 1.5);
+        const y = activeRect.top - containerRect.top + (activeRect.height * 0.12);
+        const h = Math.max(22, activeRect.height * 0.76);
+        setCaretStyle({
+            opacity: 1,
+            transform: `translate3d(${x}px, ${y}px, 0)`,
+            height: `${h}px`
+        });
+    }, [currentIndex, subIndex, hasError, errorIndex, typingMode, currentSubLessonId, currentCategoryId]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (!textDisplayRef.current) return;
+            const activeEl = textDisplayRef.current.querySelector('.char-box.active');
+            if (!activeEl) return;
+            const containerRect = textDisplayRef.current.getBoundingClientRect();
+            const activeRect = activeEl.getBoundingClientRect();
+            const isRtl = typingMode === 'ar';
+            const x = isRtl ? (activeRect.right - containerRect.left) : (activeRect.left - containerRect.left - 1.5);
+            const y = activeRect.top - containerRect.top + (activeRect.height * 0.12);
+            const h = Math.max(22, activeRect.height * 0.76);
+            setCaretStyle({
+                opacity: 1,
+                transform: `translate3d(${x}px, ${y}px, 0)`,
+                height: `${h}px`
+            });
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [typingMode]);
+
     useEffect(() => {
         const checkCaps = (e) => {
             if (e && typeof e.getModifierState === 'function') {
@@ -1133,78 +1177,127 @@ export default function TypingBoard({ isDarkMode = true, onPracticeStateChange }
 
                             return (
                                 <div 
+                                    ref={textDisplayRef}
                                     className={`text-display text-display-premium lang-${typingMode} ${isSentenceMode ? 'sentence-mode' : 'drill-mode'} ${isNumpadLesson ? 'numpad-text-mode' : ''}`}
                                     dir={typingMode === 'ar' ? 'rtl' : 'ltr'}
                                 >
-                                    {lessonData.slice(startIndex, endIndex).map((item, i) => {
-                                        const actualIndex = startIndex + i;
-                                        const char = item.char || item.bn;
-                                        const isSpace = char === ' ';
-                                        const displayChar = isSpace ? '\u00A0' : char;
-                                        
-                                        let className = 'char-box ';
-                                        if (isSentenceMode) {
-                                            className += 'sentence-char ';
-                                        } else {
-                                            className += 'drill-box ';
-                                        }
-                                        if (isSpace) className += 'char-space ';
-                                        
-                                        if (actualIndex < currentIndex && !(hasError && actualIndex === errorIndex)) {
-                                            className += 'correct';
-                                        } else if (actualIndex === currentIndex) {
-                                            className += 'active';
-                                        }
-                                        
-                                        if (actualIndex === errorIndex && hasError) {
-                                            className += ' error-box wrong';
-                                        }
-                                        if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
+                                    <div 
+                                        className="smooth-sliding-caret"
+                                        style={{
+                                            transform: caretStyle.transform,
+                                            height: caretStyle.height,
+                                            opacity: caretStyle.opacity
+                                        }}
+                                    />
+                                    {(() => {
+                                        const slice = lessonData.slice(startIndex, endIndex);
 
-                                        const expectedKeys = item.keys || [item.key];
-                                        const isConjunct = currentCategoryId === 'conjuncts';
-                                        
-                                        let boxStyle = {};
-                                        let charStyle = {};
-                                        if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
-                                            if (!hasError) {
-                                                const pct = (subIndex / expectedKeys.length) * 100;
-                                                const gradientDir = typingMode === 'ar' ? 'to left' : 'to right';
-                                                charStyle = {
-                                                    backgroundImage: `linear-gradient(${gradientDir}, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
-                                                    WebkitBackgroundClip: 'text',
-                                                    WebkitTextFillColor: 'transparent',
-                                                    backgroundClip: 'text',
-                                                    color: 'transparent'
-                                                };
-                                            }
-                                        }
-
-                                        const displayHint = expectedKeys.map((k, idx) => {
-                                            const isPressed = actualIndex === currentIndex && idx < subIndex;
-                                            let hintText = '';
-                                            if (typingMode === 'ar' && ['arabic-words', 'arabic-sentences', 'arabic-surahs', 'arabic-harakat'].includes(currentCategoryId)) {
-                                                hintText = getArHint(k);
+                                        const renderCharItem = (item, actualIndex) => {
+                                            const char = item.char || item.bn;
+                                            const isSpace = char === ' ';
+                                            const displayChar = isSpace ? '\u00A0' : char;
+                                            
+                                            let className = 'char-box ';
+                                            if (isSentenceMode) {
+                                                className += 'sentence-char ';
                                             } else {
-                                                hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                                className += 'drill-box ';
                                             }
+                                            if (isSpace) className += 'char-space ';
+                                            
+                                            if (actualIndex < currentIndex && !(hasError && actualIndex === errorIndex)) {
+                                                className += 'correct';
+                                            } else if (actualIndex === currentIndex) {
+                                                className += 'active';
+                                            }
+                                            
+                                            if (actualIndex === errorIndex && hasError) {
+                                                className += ' error-box wrong';
+                                            }
+                                            if (actualIndex === currentIndex && subIndex > 0) className += ' typing-active';
+
+                                            const expectedKeys = item.keys || [item.key];
+                                            const isConjunct = currentCategoryId === 'conjuncts';
+                                            
+                                            let boxStyle = {};
+                                            let charStyle = {};
+                                            if (actualIndex === currentIndex && subIndex > 0 && expectedKeys.length > 1) {
+                                                if (!hasError) {
+                                                    const pct = (subIndex / expectedKeys.length) * 100;
+                                                    const gradientDir = typingMode === 'ar' ? 'to left' : 'to right';
+                                                    charStyle = {
+                                                        backgroundImage: `linear-gradient(${gradientDir}, #10b981 ${pct}%, var(--text-main) ${pct}%)`,
+                                                        WebkitBackgroundClip: 'text',
+                                                        WebkitTextFillColor: 'transparent',
+                                                        backgroundClip: 'text',
+                                                        color: 'transparent'
+                                                    };
+                                                }
+                                            }
+
+                                            const displayHint = expectedKeys.map((k, idx) => {
+                                                const isPressed = actualIndex === currentIndex && idx < subIndex;
+                                                let hintText = '';
+                                                if (typingMode === 'ar' && ['arabic-words', 'arabic-sentences', 'arabic-surahs', 'arabic-harakat'].includes(currentCategoryId)) {
+                                                    hintText = getArHint(k);
+                                                } else {
+                                                    hintText = isConjunct ? getBnHint(k) : getHint(k);
+                                                }
+                                                return (
+                                                    <React.Fragment key={idx}>
+                                                        <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
+                                                        {idx < expectedKeys.length - 1 && (isConjunct ? ' ' : ' + ')}
+                                                    </React.Fragment>
+                                                );
+                                            });
+
                                             return (
-                                                <React.Fragment key={idx}>
-                                                    <span className={isPressed ? 'pressed-key' : ''}>{hintText}</span>
-                                                    {idx < expectedKeys.length - 1 && (isConjunct ? ' ' : ' + ')}
-                                                </React.Fragment>
+                                                <div key={actualIndex} className={className} style={boxStyle}>
+                                                    <span className="bn-char" style={charStyle}>{displayChar}</span>
+                                                    {!item.isRandom && !isSentenceMode && typingMode !== 'en' && currentCategoryId !== 'arabic-sentences' && currentCategoryId !== 'arabic-surahs' && (
+                                                        <span className="qwerty-hint">{displayHint}</span>
+                                                    )}
+                                                </div>
                                             );
+                                        };
+
+                                        if (!isSentenceMode) {
+                                            return slice.map((item, i) => renderCharItem(item, startIndex + i));
+                                        }
+
+                                        // In sentence mode, group letters into whole words so lines wrap naturally without breaking words
+                                        const wordGroups = [];
+                                        let currentWord = [];
+
+                                        slice.forEach((item, i) => {
+                                            const actualIndex = startIndex + i;
+                                            const char = item.char || item.bn;
+                                            const isSpace = char === ' ';
+
+                                            if (isSpace) {
+                                                if (currentWord.length > 0) {
+                                                    wordGroups.push({ type: 'word', items: currentWord });
+                                                    currentWord = [];
+                                                }
+                                                wordGroups.push({ type: 'space', items: [{ item, actualIndex }] });
+                                            } else {
+                                                currentWord.push({ item, actualIndex });
+                                            }
                                         });
 
-                                        return (
-                                            <div key={actualIndex} className={className} style={boxStyle}>
-                                                <span className="bn-char" style={charStyle}>{displayChar}</span>
-                                                {!item.isRandom && !isSentenceMode && typingMode !== 'en' && currentCategoryId !== 'arabic-sentences' && currentCategoryId !== 'arabic-surahs' && (
-                                                    <span className="qwerty-hint">{displayHint}</span>
-                                                )}
-                                            </div>
-                                        );
-                                    })}
+                                        if (currentWord.length > 0) {
+                                            wordGroups.push({ type: 'word', items: currentWord });
+                                        }
+
+                                        return wordGroups.map((group, gIdx) => (
+                                            <span 
+                                                key={gIdx} 
+                                                className={group.type === 'word' ? 'sentence-word' : 'sentence-space-wrap'}
+                                            >
+                                                {group.items.map(({ item, actualIndex }) => renderCharItem(item, actualIndex))}
+                                            </span>
+                                        ));
+                                    })()}
                                 </div>
                             );
                         })()}

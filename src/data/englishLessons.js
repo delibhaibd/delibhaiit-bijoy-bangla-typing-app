@@ -525,7 +525,7 @@ export const englishCategories = [
                     { title: "Screen 5", text: "Model 7x comes with 8gb ram and 9th generation fast core cpu.", isSentence: true },
                     { title: "Screen 6", text: "Room 101 has 12 computers, 3 printers, and 4 high speed routers.", isSentence: true }
                 ],
-                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+                get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             },
             { 
                 id: 'en-adv-2', 
@@ -538,7 +538,7 @@ export const englishCategories = [
                     { title: "Screen 4", text: "Consistent daily practice builds effortless and lasting muscle memory.", isSentence: true },
                     { title: "Screen 5", text: "Keep wrists relaxed slightly above the desk for the best ergonomic posture.", isSentence: true }
                 ],
-                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+                get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             },
             { 
                 id: 'en-adv-3', 
@@ -551,7 +551,7 @@ export const englishCategories = [
                     { title: "Screen 4", text: "Code tags: #typing_champion #speed+accuracy #keyboard_master!", isSentence: true },
                     { title: "Screen 5", text: "Command: /usr/local/bin/run_app --verbose --timeout=30 --retry=3", isSentence: true }
                 ],
-                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+                get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             },
             { 
                 id: 'en-adv-4', 
@@ -650,7 +650,7 @@ export const englishCategories = [
                     { title: "Screen 4", text: "How vexingly quick daft zebras jump! [Trial #99 Passed].", isSentence: true },
                     { title: "Screen 5", text: "Jackdaws love my big sphinx of quartz ~ 24/7 Mastery.", isSentence: true }
                 ],
-                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+                get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             },
             { 
                 id: 'en-adv-7', 
@@ -663,7 +663,7 @@ export const englishCategories = [
                     { title: "Screen 4", text: "You have mastered English touch typing from basics to advanced levels!", isSentence: true },
                     { title: "Screen 5", text: "Congratulations on completing the entire advanced typing syllabus!", isSentence: true }
                 ],
-                get sequence() { return this.screens.map(s => s.text).join(' ').split('').map(c => ({ keys: [c], char: c })); }
+                get sequence() { return this.screens.map(s => s.text).join('').split('').map(c => ({ keys: [c], char: c })); }
             }
         ]
     }
