@@ -41,6 +41,15 @@ function App() {
     window.open(url, 'deliBhaiRegisterPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
   };
 
+  const handleOpenLogin = () => {
+    const url = 'https://www.delibhaiit.com/about?modal=login';
+    const width = 540;
+    const height = 740;
+    const left = window.screen.width ? (window.screen.width - width) / 2 : 100;
+    const top = window.screen.height ? (window.screen.height - height) / 2 : 100;
+    window.open(url, 'deliBhaiLoginPopup', `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`);
+  };
+
   return (
     <div className="app-container">
       {/* Exact deliBhai IT Top Header Navbar */}
@@ -51,7 +60,7 @@ function App() {
         toggleTheme={toggleTheme}
         currentView={currentView}
         onNavigateToTyping={() => setCurrentView('typing')}
-        onOpenLogin={() => setIsLoginModalOpen(true)}
+        onOpenLogin={handleOpenLogin}
         onOpenRegister={handleOpenRegister}
         onOpenAdminPanel={() => {
           if (user?.isAdmin) {
